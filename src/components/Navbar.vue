@@ -51,7 +51,7 @@
         </div>
 
         <div
-          class="m-1  flex-row items-center  cursor-pointer hidden md:inline-flex"
+          class="m-1 flex-row items-center cursor-pointer hidden md:inline-flex"
         >
           <div>
             <svg
@@ -285,7 +285,11 @@
             </div>
           </div>
 
-          <div class="hover:bg-gray-200" v-if="$store.state.user != null">
+          <div
+            v-on:click="logoutUser()"
+            class="hover:bg-gray-200"
+            v-if="$store.state.user != null"
+          >
             <div class="flex flex-row justify-between mx-4 my-2 items-center">
               <div class="flex flex-row items-center">
                 <svg
@@ -392,11 +396,19 @@
 
 <script>
 import { ref } from "vue";
+import Logout from "@/composables/Logout";
+import { useRouter } from "vue-router";
 export default {
   setup() {
-    var showSmallMenu = ref(false);
+    const showSmallMenu = ref(false);
+    const { logout } = Logout;
+    const router = useRouter();
+    const logoutUser = () => {
+      logout();
+      router.push({ name: "Home" });
+    };
 
-    return { showSmallMenu };
+    return { showSmallMenu, logoutUser };
   },
 };
 </script>
