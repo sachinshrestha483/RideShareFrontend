@@ -3,6 +3,27 @@ import Home from '../views/Home.vue'
 import Dashboard from "@/views/Dashboard.vue"
 import Login from "@/views/Login.vue"
 import Register from "@/views/Register.vue"
+import Store from "../store/index"
+import MemberVerification from "@/views/MemberVerification.vue"
+
+
+const requireAuth =(to,from,next)=>{
+  let user= Store.state.user;
+
+
+
+  console.log("Current User in Auth Guard is:"+user)
+  if(user==null){
+    next({name:'Home'})// check if user there 
+  
+  }
+   
+  next() 
+  
+  }
+  
+
+
 
 const routes = [
   {
@@ -13,7 +34,9 @@ const routes = [
   {
     path: '/Dashboard',
     name: 'Dashboard',
-    component: Dashboard
+    component: Dashboard,
+    beforeEnter:requireAuth
+
   }
   ,
   {
@@ -26,6 +49,11 @@ const routes = [
     path: '/Register',
     name: 'Register',
     component: Register
+  },
+  {
+    path: '/MemberVerification',
+    name: 'MemberVerification',
+    component: MemberVerification
   }
 ]
 

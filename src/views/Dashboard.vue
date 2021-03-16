@@ -37,7 +37,7 @@
 
         <router-link
           class="hover:bg-gray-300 hover:shadow-2xl p-8 bg-white shadow-md"
-          :to="{ name: 'Home' }"
+          :to="{ name: 'MemberVerification' }"
         >
           <div class="flex flex-col">
             <div class="text-2xl">Member&nbsp;Verification</div>

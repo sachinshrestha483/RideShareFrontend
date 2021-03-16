@@ -618,6 +618,22 @@ video {
   width: 100%;
 }
 
+.primaryHeading{
+  font-weight: 700;
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+  margin-bottom: 0.5rem;
+  text-align: center;
+  --tw-text-opacity: 1;
+  color: rgba(75, 85, 99, var(--tw-text-opacity))
+}
+
+@media (min-width: 768px) {
+  .primaryHeading {
+    text-align: left;
+  }
+}
+
 .primaryButton{
   --tw-bg-opacity: 1;
   background-color: rgba(59, 130, 246, var(--tw-bg-opacity));
@@ -641,6 +657,30 @@ video {
 }
 
 .primaryButton {
+  padding: 0.875rem;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  --tw-text-opacity: 1;
+  color: rgba(255, 255, 255, var(--tw-text-opacity));
+}
+
+.primaryDisabledButton{
+  --tw-bg-opacity: 1;
+  background-color: rgba(96, 165, 250, var(--tw-bg-opacity));
+  border-radius: 9999px;
+  font-weight: 600;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.primaryDisabledButton:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+.primaryDisabledButton {
   padding: 0.875rem;
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;

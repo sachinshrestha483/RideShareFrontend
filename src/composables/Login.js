@@ -1,7 +1,18 @@
-const login = async () => {
+import axios from "axios";
+import Urls from "@/utility/IdentitySection/Urls";
+import HttpResponseObject from "@/utility/objects/HttpResponseObject";
+
+
+import store from "../store/index"
+
+
+const login = async (email,password) => {
+
+  const httpResponseObject = new HttpResponseObject();
+
   const post = {
-    name: id.value,
-    password: password.value,
+    email: email,
+    password: password,
   };
 await   axios
     .post(Urls.Authenticate, post)
@@ -13,10 +24,20 @@ await   axios
         console.log("Error Occured");
       }
       console.log(response.data);
+     store.state.user=response.data;
+
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("refreshToken", response.data.refreshToken);
     })
     .catch(function(error) {
       console.log(error);
+  httpResponseObject.haveError = true;
+      httpResponseObject.errorMessage ="Email Or Password Not Correct";
+
     });
+
+    return httpResponseObject
 };
+
+
+export default login;

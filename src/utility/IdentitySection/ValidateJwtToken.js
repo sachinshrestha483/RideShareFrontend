@@ -1,6 +1,9 @@
 import jwt_decode from "jwt-decode";
 import axios from "axios";
 import Urls from "@/utility/IdentitySection/Urls";
+import store from "@/store/index"
+
+
 const ValidateJwtToken = () => {
   const validateEncryption = async () => {
     await axios
@@ -26,7 +29,7 @@ const ValidateJwtToken = () => {
       console.log("timestamp here");
 
       let Currentseconds = parseInt(Math.floor(Date.now() / 1000));
-      if (decoded.exp < Currentseconds) {
+     // if (decoded.exp > Currentseconds) {//changin < to >
         console.log("Token expired");
         console.log("Step 2");
         await axios
@@ -36,7 +39,10 @@ const ValidateJwtToken = () => {
           })
           .then(function(response) {
             console.log("Refresh Token  Done");
+          
             console.log(response);
+            store.state.user=response.data;
+
             localStorage.setItem("token", response.data.token);
 
             localStorage.setItem("refreshToken", response.data.refreshToken);
@@ -48,9 +54,9 @@ const ValidateJwtToken = () => {
           });
 
         console.log("Step 3");
-      } else {
-        console.log("Token Not Expired");
-      }
+     // } else {
+       // console.log("Token Not Expired");
+     // }
     } catch {
       console.log("Wrong Jwt token Logout the user");
     }
