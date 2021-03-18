@@ -5,6 +5,10 @@ import Login from "@/views/Login.vue"
 import Register from "@/views/Register.vue"
 import Store from "../store/index"
 import MemberVerification from "@/views/MemberVerification.vue"
+import VerifyEmail from "@/views/Identity/VerifyEmail.vue"
+import VerifyPhone from "@/views/Identity/VerifyPhone.vue"
+import PublicProfile from "@/views/PublicProfile.vue"
+import AddProfilePicture from "@/views/Identity/AddProfilePicture.vue"
 
 
 const requireAuth =(to,from,next)=>{
@@ -51,10 +55,32 @@ const routes = [
     component: Register
   },
   {
-    path: '/MemberVerification',
+    path: '/Dashboard/MemberVerification',
     name: 'MemberVerification',
     component: MemberVerification
+  },
+  {
+    path: '/Dashboard/VerifyEmail',
+    name: 'VerifyEmail',
+    component: VerifyEmail
+  },
+  {
+    path: '/Dashboard/VerifyPhone',
+    name: 'VerifyPhone',
+    component: VerifyPhone
+  },
+  {
+    path: '/user/show',
+    name: 'PublicProfile',
+    component: PublicProfile
   }
+  ,
+  {
+    path: '/dashboard/profile/picture',
+    name: 'ProfilePicture',
+    component: AddProfilePicture
+  }
+  
 ]
 
 const router = createRouter({
