@@ -9,6 +9,9 @@ import VerifyEmail from "@/views/Identity/VerifyEmail.vue"
 import VerifyPhone from "@/views/Identity/VerifyPhone.vue"
 import PublicProfile from "@/views/PublicProfile.vue"
 import AddProfilePicture from "@/views/Identity/AddProfilePicture.vue"
+import CarSharePrefrence from "@/views/CarSharePrefrence.vue"
+import CarSharePrefrenceSettings from "@/views/Admin/CarSharePrefrenceSettings.vue"
+import Admin from "@/views/Admin/Admin.vue"
 
 
 const requireAuth =(to,from,next)=>{
@@ -80,8 +83,26 @@ const routes = [
     name: 'ProfilePicture',
     component: AddProfilePicture
   }
+  ,
+  {
+    path: '/user/CarSharePrefrence',
+    name: 'CarSharePrefrence',
+    component: CarSharePrefrence
+  },
+{
+  path: '/Admin/',
+    name: 'Admin',
+    component: Admin
+},
+
+  {
+    path: '/Admin/CarSharePrefrenceSettings',
+    name: 'CarSharePrefrenceSettings',
+    component: CarSharePrefrenceSettings
+  }
+
   
-]
+] 
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),

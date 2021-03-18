@@ -118,10 +118,9 @@ const Identity = () => {
   };
 
    const UpdateProfilePicture=async (file)=>{
-const userPhotoObject={
-  userPhoto:file
-}
-const formData = new FormData();
+
+let isUploaded=false;
+    const formData = new FormData();
 formData.append('userPhoto', file, file.name);
 
 
@@ -129,6 +128,7 @@ formData.append('userPhoto', file, file.name);
 
 await axios.post(Urls.UserProfilePhoto,formData)
 .then(function (response) {
+  isUploaded=true;
   console.log(response);
   console.log("----------Photo Uploaded-----------")
 })
@@ -136,7 +136,7 @@ await axios.post(Urls.UserProfilePhoto,formData)
   console.log(error);
 });
 
-
+return isUploaded
 
    }
 

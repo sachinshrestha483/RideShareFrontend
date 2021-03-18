@@ -14,6 +14,18 @@ class Urls {
     static VerifyEmailCode="/User/VerifyEmail";
     static VerifySmsCode="/User/VerifyPhone";
     static UserProfilePhoto="/User/UploadUserPhoto";
+    
+    static GetTravelPrefrences="/TravelPrefrence/GetTravelPrefrences";
+    //https://localhost:44388/api/SubTravelPrefrence/GetSubTravelPrefrence?id=1
+
+    static GetSubtravelPrefrencesById="/SubTravelPrefrence/GetSubTravelPrefrence?id=";
+    
+    static AddTravelPrefrences="/TravelPrefrence/AddTravelPrefrence";
+    static UpdateAddTravelPrefrences="/TravelPrefrence/EditTravelPrefrence";
+    static AddSubTravelPrefrences="/SubTravelPrefrence/AddSubTravelPrefrence";
+    static UpdateSubTravelPrefrences="/SubTravelPrefrence/UpdateSubTravelPrefrence";
+
+
 
 
 

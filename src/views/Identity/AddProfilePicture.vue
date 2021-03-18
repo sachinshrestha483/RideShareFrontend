@@ -16,7 +16,7 @@
             Don't wear sunglasses, look straight ahead and make sure you're
             alone.
           </div>
-          <div class="error">{{ fileError }}</div>
+          <div class="text-red-600 text-bold">{{ fileError }}</div>
 
           <div class="primaryButton mt-4 text-xl font-normal px-4">
             <div class="text-center flex flex-col">
@@ -40,9 +40,12 @@
 <script>
 import { ref } from "vue";
 import Identity from "@/composables/Identity";
+import { useRouter } from 'vue-router';
 export default {
   setup() {
     const { UpdateProfilePicture } = Identity();
+
+const router= useRouter();
 
     const file = ref(null);
     const fileError = ref(null);
@@ -50,7 +53,9 @@ export default {
     const isuploading = ref(false);
 
     const handleChange = (e) => {
-      const selected = e.target.files[0];
+  fileError.value="";
+
+const selected = e.target.files[0];
       console.log(selected);
     const types = ["image/png", "image/jpeg"];
 
@@ -64,16 +69,23 @@ export default {
     };
 
     const handleSubmit = async () => {
-      if (file.value) {
+
+if (file.value) {
         isuploading.value = true;
-        await UpdateProfilePicture(file.value);
+       let isUploaded= await UpdateProfilePicture(file.value);
         // await uploadImage(file.value);
         isuploading.value = false;
 
+        if(isUploaded==false){
+  fileError.value="Not Able To Upload Image";
+        }
+        else{
+          router.push({name:'home'})
+        }
+        file.value=null;
+
         
-      } else {
-        fileError.value = "File Not Selected";
-      }
+      } 
     };
 
     return { handleChange, fileError, isuploading };

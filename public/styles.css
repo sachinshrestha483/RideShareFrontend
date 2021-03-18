@@ -1,4 +1,4 @@
-/*! tailwindcss v2.0.3 | MIT License | https://tailwindcss.com */
+/*! tailwindcss v2.0.4 | MIT License | https://tailwindcss.com */
 
 /*! modern-normalize v1.0.0 | MIT License | https://github.com/sindresorhus/modern-normalize */
 
@@ -618,14 +618,14 @@ video {
   width: 100%;
 }
 
-.primaryHeading{
+.primaryHeading {
   font-weight: 700;
   font-size: 1.875rem;
   line-height: 2.25rem;
   margin-bottom: 0.5rem;
   text-align: center;
   --tw-text-opacity: 1;
-  color: rgba(75, 85, 99, var(--tw-text-opacity))
+  color: rgba(75, 85, 99, var(--tw-text-opacity));
 }
 
 @media (min-width: 768px) {
@@ -634,7 +634,23 @@ video {
   }
 }
 
-.primaryButton{
+.secondaryText {
+  font-weight: 700;
+  font-size: 1.5rem;
+  line-height: 2rem;
+  margin-bottom: 0.5rem;
+  text-align: center;
+  --tw-text-opacity: 1;
+  color: rgba(75, 85, 99, var(--tw-text-opacity));
+}
+
+@media (min-width: 768px) {
+  .secondaryText {
+    text-align: left;
+  }
+}
+
+.primaryButton {
   --tw-bg-opacity: 1;
   background-color: rgba(59, 130, 246, var(--tw-bg-opacity));
 }
@@ -666,7 +682,7 @@ video {
   color: rgba(255, 255, 255, var(--tw-text-opacity));
 }
 
-.primaryDisabledButton{
+.primaryDisabledButton {
   --tw-bg-opacity: 1;
   background-color: rgba(96, 165, 250, var(--tw-bg-opacity));
   border-radius: 9999px;
@@ -699,7 +715,7 @@ video {
   }
 }
 
-.pageMargin2{
+.pageMargin2 {
   margin-left: 2rem;
   margin-right: 2rem;
   padding-left: 1rem;
