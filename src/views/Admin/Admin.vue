@@ -9,6 +9,14 @@
       class="shadow-md p-8 w-full  hover:bg-gray-200  secondaryText">
         Ride Prefrence Settings
       </router-link>
+
+
+        <router-link 
+      
+      :to="{name:'SubCarSharePrefrenceSettings'}"
+      class="shadow-md p-8 w-full  hover:bg-gray-200  secondaryText">
+       Sub Ride Prefrence Settings
+      </router-link>
     </div>
   </div>
 </template>

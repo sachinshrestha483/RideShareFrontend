@@ -12,6 +12,7 @@ import AddProfilePicture from "@/views/Identity/AddProfilePicture.vue"
 import CarSharePrefrence from "@/views/CarSharePrefrence.vue"
 import CarSharePrefrenceSettings from "@/views/Admin/CarSharePrefrenceSettings.vue"
 import Admin from "@/views/Admin/Admin.vue"
+import SubCarSharePrefrenceSettings from "@/views/Admin/SubCarSharePrefrenceSettings.vue"
 
 
 const requireAuth =(to,from,next)=>{
@@ -99,6 +100,11 @@ const routes = [
     path: '/Admin/CarSharePrefrenceSettings',
     name: 'CarSharePrefrenceSettings',
     component: CarSharePrefrenceSettings
+  },
+  {
+    path: '/Admin/SubCarSharePrefrenceSettings',
+    name: 'SubCarSharePrefrenceSettings',
+    component: SubCarSharePrefrenceSettings
   }
 
   

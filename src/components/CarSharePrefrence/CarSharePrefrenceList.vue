@@ -1,11 +1,17 @@
 <template>
-  <div v-if="carSharePrefrences">
+
+
+
+
+  <div >
     <div
-      v-for="carSharePrefrence in carSharePrefrences"
+      v-for="carSharePrefrence in carSharePrefrencesList"
       :key="carSharePrefrence"
     >
       <!-- {{carSharePrefrence}} -->
-      <IndividualCarSharePrefrence  :carSharePrefrenceObject="carSharePrefrence"  />
+      <IndividualCarSharePrefrence
+        :carSharePrefrenceObject="carSharePrefrence"
+      />
     </div>
   </div>
 
@@ -20,17 +26,17 @@ export default {
   components: {
     IndividualCarSharePrefrence,
   },
+props:['carSharePrefrencesList'],
+  setup(props) {
+  //  const { getCarSharePrefrence } = CarSharePrefrenceFunctions();
+    //const carSharePrefrences = ref(null);
+    //const loadData = async () => {
+      //carSharePrefrences.value = await getCarSharePrefrence();
+    //};
 
-  setup() {
-    const { getCarSharePrefrence } = CarSharePrefrenceFunctions();
-    const carSharePrefrences = ref(null);
-    const loadData = async () => {
-      carSharePrefrences.value = await getCarSharePrefrence();
-    };
+    //loadData();
 
-    loadData();
-
-    return { carSharePrefrences };
+    return {  };
   },
 };
 </script>

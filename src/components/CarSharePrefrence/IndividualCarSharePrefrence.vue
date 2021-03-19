@@ -1,5 +1,5 @@
 <template>
-  <div class="shadow-md p-8  hover:bg-gray-200 secondaryText">
+  <div class="shadow-md p-8 overflow-x-auto hover:bg-gray-200 secondaryText">
     <div class="flex flex-row items-center justify-between">
       <div>{{ carSharePrefrenceObject.name }}</div>
 
@@ -21,29 +21,59 @@
     </div>
   </div>
 
-  <div v-if="editCarSharePrefrence" class="p-4 shadow-md ">
+  <div v-if="editCarSharePrefrence" class="p-4 shadow-md">
     <div class="flex flex-col">
-      <input class="inputBox" v-model="carSharePrefrenceObject.name" />
-      <button class="primaryButton">Update</button>
+      <form @submit.prevent="updateCarSharePrefrence">
+        <input class="inputBox" v-model="carSharePrefrenceObject.name" />
+<div class="flex flex-row items-center">
+<input type="checkbox"   class="mb-2" v-model="carSharePrefrenceObject.show" >
+<label class="ml-2  py-0 secondaryText text-lg">Show/Hide</label>
+</div>
+
+
+<div class="flex flex-row">
+        <button type="submit" class="primaryButton text-center">Update</button>
+
+</div>
+      </form>
     </div>
   </div>
 </template>
 
 <script>
 import { ref } from "vue";
-
+import CarSharePrefrenceFunctions from "@/composables/CarSharePrefrenceFunctions";
 export default {
   props: ["carSharePrefrenceObject"],
 
   setup(props) {
+    const {
+      UpdateCarSharePrefrence,
+      getTravelPrefrenceById,
+      
+    } = CarSharePrefrenceFunctions();
     const carSharePrefrence = props.carSharePrefrenceObject;
     console.log("-----------Car Share Prefrence----------");
     console.log(carSharePrefrence);
     const editCarSharePrefrence = ref(false);
 
-    const updateCarSharePrefrence = () => {};
+    const updateCarSharePrefrence = async () => {
+      let res = await UpdateCarSharePrefrence(
+        props.carSharePrefrenceObject.id,
+        props.carSharePrefrenceObject.name,
+        true
+      );
+      let updatedObj = await getTravelPrefrenceById(
+        props.carSharePrefrenceObject.id
+      );
+      if (updatedObj != null) {
+        props.carSharePrefrenceObject = updatedObj;
+      }
 
-    return { editCarSharePrefrence };
+      console.log("Update it");
+    };
+
+    return { editCarSharePrefrence, updateCarSharePrefrence };
   },
 };
 </script>
