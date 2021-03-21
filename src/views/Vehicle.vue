@@ -44,7 +44,7 @@
             id="cars"
           >
             <option value="">Select The Vehicle Type</option>
-            <option v-for="item in vehicleTypes" :key="item" :value="item.id">
+            <option v-for="item in filteredVehicleTypes" :key="item" :value="item.id">
               {{ item.name }}
             </option>
           </select>
@@ -69,7 +69,7 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import VehicleTypeFunctions from "@/composables/VehicleTypeFunctions";
 import VehicleFunctions from "@/composables/VehicleFunctions";
 
@@ -93,6 +93,18 @@ export default {
     };
 
     load();
+
+
+
+const filteredVehicleTypes = computed({
+      get() {
+        if (vehicleTypes.value != null) {
+          return vehicleTypes.value.filter((n) => n.show == true);
+        }
+      },
+    });
+
+
 
     const handleFileChange = (e) => {
       fileError.value = "";
@@ -136,6 +148,7 @@ export default {
       fileError,
       vehicleTypes,
       selectedVehicleTypeId,
+      filteredVehicleTypes
     };
   },
 };

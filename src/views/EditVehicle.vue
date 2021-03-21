@@ -3,7 +3,7 @@
     <div class="text-center primaryHeading">User Vehicles</div>
     <!-- {{ userVehicles }} -->
 
-<UserVehicleList  :userVehiclesList="userVehicles" :vehicleTypes="vehicleTypes"  />
+<UserVehicleList  :userVehiclesList="userVehicles" :vehicleTypes="filteredVehicleTypes"  />
 
 
 
@@ -15,7 +15,7 @@ import VehicleFunctions from "@/composables/VehicleFunctions";
 import VehicleTypeFunctions from "@/composables/VehicleTypeFunctions";
 
 import UserVehicleList from "@/components/UserVehicles/UserVehicleList"
-import { ref } from "vue";
+import { computed, ref } from "vue";
 export default {
     components:{
 UserVehicleList
@@ -34,10 +34,17 @@ UserVehicleList
 
     loadData();
 
-  
+  const filteredVehicleTypes = computed({
+      get() {
+        if (vehicleTypes.value != null) {
+          return vehicleTypes.value.filter((n) => n.show == true);
+        }
+      },
+    });
 
 
-return { userVehicles ,vehicleTypes};
+
+return { userVehicles ,vehicleTypes,filteredVehicleTypes};
   },
 };
 </script>

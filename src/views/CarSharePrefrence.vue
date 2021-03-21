@@ -1,6 +1,6 @@
 <template>
   <!-- //Modal -->
-{{filteredCarsharePrefrecne}}
+  <!-- {{ filteredCarsharePrefrecne }} -->
 
   <div v-if="showModal">
     <div
@@ -27,7 +27,7 @@
       <div class="flex flex-col secondaryText">
         <div
           class="flex flex-row items-center my-4"
-          v-for="item in subCarSharePrefrences"
+          v-for="item in filteredSubCarSharePrefrences"
           :key="item"
         >
           <input
@@ -53,10 +53,10 @@
   <div class="pageMargin2">
     <p class="primaryHeading text-center mb-8">Car Share Prefrence</p>
 
-    <div class="flex flex-col" v-if="carSharePrefrences != null">
+    <div class="flex flex-col" v-if="filteredCarsharePrefrecne != null">
       <div
         class="p-4 text-start font-medium my-2 text-gray-600 hover:bg-gray-200 text-lg"
-        v-for="item in carSharePrefrences"
+        v-for="item in filteredCarsharePrefrecne"
         :key="item"
         v-on:click="showModalFun(item.id)"
       >
@@ -86,18 +86,21 @@ export default {
       carSharePrefrences.value = await getCarSharePrefrence();
     };
 
-    const filteredCarsharePrefrecne=computed({
-get(){
-if(carSharePrefrences.value!=null){
-  return carSharePrefrences.value.filter(n=>n.show==true)
-}
-},
-set(){
+    const filteredCarsharePrefrecne = computed({
+      get() {
+        if (carSharePrefrences.value != null) {
+          return carSharePrefrences.value.filter((n) => n.show == true);
+        }
+      },
+    });
 
-}
-    })
-
-
+    const filteredSubCarSharePrefrences = computed({
+      get() {
+        if (subCarSharePrefrences.value != null) {
+          return subCarSharePrefrences.value.filter((n) => n.show == true);
+        }
+      },
+    });
 
     const loadSubCarSharePrefrences = async (id) => {
       subCarSharePrefrences.value = await getSubCarSharePrefrenceById(id);
@@ -138,7 +141,8 @@ set(){
       selectedSubCarSharePrefrenceId,
       hideModal,
       AddTheSubCarSharePrefrence,
-      filteredCarsharePrefrecne
+      filteredCarsharePrefrecne,
+      filteredSubCarSharePrefrences,
     };
   },
 };
