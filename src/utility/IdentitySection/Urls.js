@@ -32,8 +32,20 @@ class Urls {
     "/SubTravelPrefrence/GetIndiSubTravelPrefrenceById?id=";
 
   static AddUserTravelPrefrence = "/UserTravelPrefrence/AddUserTravelPrefrence";
-  static GetUserTravelPrefrencyByTravelPrefrenceId= "/UserTravelPrefrence/GetUserTravelPrefrencyByTravelPrefrenceId?id=";
+  static GetUserTravelPrefrencyByTravelPrefrenceId =
+    "/UserTravelPrefrence/GetUserTravelPrefrencyByTravelPrefrenceId?id=";
 
+
+
+  static UserVehicles = "/Vehicle/GetUserVehicles";
+  static GetVehicleTypes = "/VehicleType/GetAllVehicleType";
+  static AddVehicle = "/Vehicle/AddVehicle";
+  static UpdateVehicle = "/Vehicle/UpdateVehicle";
+  static AddVehicleType = "/VehicleType/AddVehicleType";
+  static UpdateVehicleType = "/VehicleType/UpdateVehicleType";
+  static UserVehicleById="/Vehicle/GetUserVehiclesById?id=";
+static VehicleTypeById="/VehicleType/GetVehicleTypeById?id="
+static UserTravelPrefrences="/UserTravelPrefrence/GetUserTravelPrefrences"
 
 }
 

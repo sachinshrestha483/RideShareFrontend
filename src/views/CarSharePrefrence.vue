@@ -1,5 +1,7 @@
 <template>
   <!-- //Modal -->
+{{filteredCarsharePrefrecne}}
+
   <div v-if="showModal">
     <div
       class="w-screen mb-4 overflow-auto p-12 container ml-8 mr-8 text-center rounded fixed bg-gray-100"
@@ -66,7 +68,7 @@
 
 <script>
 import CarSharePrefrenceFunctions from "@/composables/CarSharePrefrenceFunctions";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 export default {
   setup() {
     const {
@@ -83,6 +85,20 @@ export default {
     const load = async () => {
       carSharePrefrences.value = await getCarSharePrefrence();
     };
+
+    const filteredCarsharePrefrecne=computed({
+get(){
+if(carSharePrefrences.value!=null){
+  return carSharePrefrences.value.filter(n=>n.show==true)
+}
+},
+set(){
+
+}
+    })
+
+
+
     const loadSubCarSharePrefrences = async (id) => {
       subCarSharePrefrences.value = await getSubCarSharePrefrenceById(id);
       //  selectedSubCarSharePrefrenceId=
@@ -122,6 +138,7 @@ export default {
       selectedSubCarSharePrefrenceId,
       hideModal,
       AddTheSubCarSharePrefrence,
+      filteredCarsharePrefrecne
     };
   },
 };

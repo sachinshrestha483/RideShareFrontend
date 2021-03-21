@@ -238,6 +238,27 @@ const AddUserCareSharePrefrence=async(subTravelPrefrenceId)=>{
 }
 
 
+const GetUserTravelPrefrences =async()=>{
+//UserTravelPrefrences
+let res=null;
+await axios.get(Urls.UserTravelPrefrences)
+  .then(function (response) {
+    // handle success
+    console.log(response);
+res=response.data;
+  })
+  .catch(function (error) {
+    // handle error
+    console.log(error);
+  })
+  .then(function () {
+    // always executed
+  });
+return res;
+}
+
+
+
   return {
     getCarSharePrefrence,
     getSubCarSharePrefrenceById,
@@ -249,7 +270,9 @@ const AddUserCareSharePrefrence=async(subTravelPrefrenceId)=>{
     UpdateSubCarSharePrefrences,
     getIndiSubCarSharePrefrenceById,
     AddUserCareSharePrefrence,
-    GetSubTravelPrefrenceofUserofTravelPrefrence
+    GetSubTravelPrefrenceofUserofTravelPrefrence,
+    GetUserTravelPrefrences
+  
   };
 };
 

@@ -29,7 +29,7 @@ const ValidateJwtToken = () => {
       console.log("timestamp here");
 
       let Currentseconds = parseInt(Math.floor(Date.now() / 1000));
-     // if (decoded.exp > Currentseconds) {//changin < to >
+     if (decoded.exp < Currentseconds) {//changin < to >
         console.log("Token expired");
         console.log("Step 2");
         await axios
@@ -54,9 +54,9 @@ const ValidateJwtToken = () => {
           });
 
         console.log("Step 3");
-     // } else {
-       // console.log("Token Not Expired");
-     // }
+      } else {
+       console.log("Token Not Expired");
+      }
     } catch {
       console.log("Wrong Jwt token Logout the user");
     }

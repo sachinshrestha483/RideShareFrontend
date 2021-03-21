@@ -17,6 +17,14 @@
       class="shadow-md p-8 w-full  hover:bg-gray-200  secondaryText">
        Sub Ride Prefrence Settings
       </router-link>
+
+
+      <router-link 
+      
+      :to="{name:'VehicleTypeSettings'}"
+      class="shadow-md p-8 w-full  hover:bg-gray-200  secondaryText">
+       Vehicle Type Settings
+      </router-link>
     </div>
   </div>
 </template>

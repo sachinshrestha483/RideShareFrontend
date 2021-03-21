@@ -13,8 +13,9 @@ import CarSharePrefrence from "@/views/CarSharePrefrence.vue"
 import CarSharePrefrenceSettings from "@/views/Admin/CarSharePrefrenceSettings.vue"
 import Admin from "@/views/Admin/Admin.vue"
 import SubCarSharePrefrenceSettings from "@/views/Admin/SubCarSharePrefrenceSettings.vue"
-
-
+import VehicleType from "@/views/Admin/VehicleType.vue"
+import Vehicle from "@/views/Vehicle"
+import EditVehicle from "@/views/EditVehicle"
 const requireAuth =(to,from,next)=>{
   let user= Store.state.user;
 
@@ -105,6 +106,21 @@ const routes = [
     path: '/Admin/SubCarSharePrefrenceSettings',
     name: 'SubCarSharePrefrenceSettings',
     component: SubCarSharePrefrenceSettings
+  },
+  {
+    path: '/Admin/VehicleType',
+    name: 'VehicleTypeSettings',
+    component: VehicleType
+  },
+  {
+    path: '/user/Vehicle',
+    name: 'UserVehicle',
+    component: Vehicle
+  },
+  {
+    path: '/user/EditVehicle',
+    name: 'UserEditVehicle',
+    component: EditVehicle
   }
 
   
