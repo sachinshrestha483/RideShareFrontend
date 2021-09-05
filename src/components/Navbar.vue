@@ -32,7 +32,8 @@
       </div>
 
       <div class="text-lg text-blue-400 flex flex-row items-center">
-        <div
+        
+        <router-link :to="{name:'FindRide'}"
           class="m-1 flex flex-row items-center hidden cursor-pointer md:inline-flex"
         >
           <div>
@@ -45,12 +46,19 @@
               <path
                 d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"
               />
+
             </svg>
+
           </div>
           <div class="text-sm font-extrabold">Find&nbsp;A&nbsp;Ride</div>
-        </div>
+        
+        
+        </router-link>
 
-        <div
+
+
+
+        <router-link :to="{name:'OfferRide'}"
           class="m-1 flex-row items-center cursor-pointer hidden md:inline-flex"
         >
           <div>
@@ -70,7 +78,7 @@
           </div>
 
           <div class="text-sm font-extrabold">Offer&nbsp;A&nbsp;Ride</div>
-        </div>
+        </router-link>
 
         <div
           v-if="$store.state.user != null"
@@ -188,11 +196,11 @@
               </div>
             </div>
           </router-link>
-
-           <router-link
+<div v-if="$store.state.user != null" class="hover:bg-gray-200" >
+   <router-link
             v-if="$store.state.user.role == 0"
             :to="{ name: 'Admin' }"
-            class="hover:bg-gray-200"
+            
           >
             <div class="flex flex-row justify-between mx-4 my-2 items-center">
               <div class="flex flex-row items-center">
@@ -231,6 +239,8 @@
               </div>
             </div>
           </router-link>
+</div>
+        
 
 
           <div class="hover:bg-gray-200" v-if="$store.state.user != null">
@@ -312,7 +322,10 @@
             </div>
           </div>
 
-          <div class="hover:bg-gray-200" v-if="$store.state.user != null">
+          <router-link 
+          
+          :to="{name:'UserPublicProfileWithId',params:{'id':$store.state.user.id}}"
+          class="hover:bg-gray-200" v-if="$store.state.user != null">
             <div class="flex flex-row justify-between mx-4 my-2 items-center">
               <div class="flex flex-row items-center">
                 <svg
@@ -350,7 +363,7 @@
                 </svg>
               </div>
             </div>
-          </div>
+          </router-link>
 
           <div
             v-on:click="logoutUser()"

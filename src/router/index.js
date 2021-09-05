@@ -16,12 +16,15 @@ import SubCarSharePrefrenceSettings from "@/views/Admin/SubCarSharePrefrenceSett
 import VehicleType from "@/views/Admin/VehicleType.vue"
 import Vehicle from "@/views/Vehicle"
 import EditVehicle from "@/views/EditVehicle"
+import UserPublicProfileWithId from "@/views/UserPublicProfileWithId"
+import OfferRide from "@/views/Rides/OfferRide"
+import PublishRide from "@/views/Rides/PublishRide"
+import FindRide from "@/views/Rides/FindRide"
+
 const requireAuth =(to,from,next)=>{
   let user= Store.state.user;
-
-
-
   console.log("Current User in Auth Guard is:"+user)
+
   if(user==null){
     next({name:'Home'})// check if user there 
   
@@ -30,7 +33,6 @@ const requireAuth =(to,from,next)=>{
   next() 
   
   }
-  
 
 
 
@@ -45,7 +47,6 @@ const routes = [
     name: 'Dashboard',
     component: Dashboard,
     beforeEnter:requireAuth
-
   }
   ,
   {
@@ -91,12 +92,11 @@ const routes = [
     name: 'CarSharePrefrence',
     component: CarSharePrefrence
   },
-{
-  path: '/Admin/',
-    name: 'Admin',
-    component: Admin
-},
-
+  {
+    path: '/Admin/',
+      name: 'Admin',
+      component: Admin
+  },
   {
     path: '/Admin/CarSharePrefrenceSettings',
     name: 'CarSharePrefrenceSettings',
@@ -122,8 +122,28 @@ const routes = [
     name: 'UserEditVehicle',
     component: EditVehicle
   }
+  ,
+  {
+    path: '/public/UserProfile/:id',
+    name: 'UserPublicProfileWithId',
+    component: UserPublicProfileWithId
+  },
+  {
+    path:"/OfferRide",
+    name:"OfferRide",
+    component:OfferRide
+  },
+  {
+  path:"/PublishRide",
+  name:"PublishRide",
+  component:PublishRide
+  },
+  {
+  path:"/FindRide",
+  name:"FindRide",
+  component:FindRide
+  }
 
-  
 ] 
 
 const router = createRouter({

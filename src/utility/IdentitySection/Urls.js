@@ -44,8 +44,11 @@ class Urls {
   static AddVehicleType = "/VehicleType/AddVehicleType";
   static UpdateVehicleType = "/VehicleType/UpdateVehicleType";
   static UserVehicleById="/Vehicle/GetUserVehiclesById?id=";
-static VehicleTypeById="/VehicleType/GetVehicleTypeById?id="
-static UserTravelPrefrences="/UserTravelPrefrence/GetUserTravelPrefrences"
+  static VehicleTypeById="/VehicleType/GetVehicleTypeById?id="
+  static UserTravelPrefrences="/UserTravelPrefrence/GetUserTravelPrefrences"
+  static UserPublicProfile="/User/UserPublicProfile?id="
+  static AddRide="/Ride/CreateRide"
+
 
 }
 

@@ -141,7 +141,26 @@ return isUploaded
    }
 
 
+const UserPublicProfile=async(id)=>{
+  let res=null;
+ await  axios.get(Urls.UserPublicProfile+id)
+  .then(function (response) {
+    // handle success
+    console.log(response);
+  res=response.data;
+  
+  })
+  .catch(function (error) {
+    // handle error
+    console.log(error);
+  })
+  .then(function () {
+    // always executed
+  });
 
+return res;
+
+}
 
 
 
@@ -153,7 +172,8 @@ return isUploaded
     SendVerificationSMS,
     VerifyEmailCode,
     VerifySMSCode,
-    UpdateProfilePicture
+    UpdateProfilePicture,
+    UserPublicProfile
   };
 };
 
