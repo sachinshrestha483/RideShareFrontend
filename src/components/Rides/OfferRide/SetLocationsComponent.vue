@@ -190,6 +190,7 @@ import VehicleFunctions from "@/composables/VehicleFunctions";
 import { computed, ref } from "vue";
 import { Ride } from "@/Models/Ride";
 import { PublishRide } from "@/composables/RideFunctions";
+import Store from "@/store/index";
 
 export default {
   components: {
@@ -504,12 +505,19 @@ export default {
     props.getCalculateRouteFun(calcuteRoute);
 
     const publishRoute = async () => {
+      let user = Store.state.user;
+
+      if (user == null) {
+        console.log("User Is Null  Cant Save The Ride");
+        return;
+      }
+
       console.log("Publish Route");
       console.log(selectedRouteIndex.value);
       console.log(resultRoutes.value[selectedRouteIndex.value]);
 
       const rideObject = new Ride();
-      rideObject.UserId = "1";
+      rideObject.UserId = parseInt(user.id);
       rideObject.RidePath =
         resultRoutes.value[selectedRouteIndex.value].geoJson;
       rideObject.StartPosition = initialPosition.value;
@@ -539,19 +547,6 @@ export default {
       console.log("-----Ride Object-------");
       console.log("-----Ride Object-------");
       console.log("-----Ride Object-------");
-
-      console.log("Ride is Here ");
-      console.log(rideObject);
-      console.log(rideObject.StartPosition);
-      console.log(
-        "Start Position Lat Type: " + typeof rideObject.StartPosition.lat
-      );
-      console.log(
-        "Start Position  Lon Type: " + typeof rideObject.StartPosition.lon
-      );
-      console.log("Path :" + typeof rideObject.RidePath[0]);
-      console.log("Path :" + typeof rideObject.RidePath);
-      console.log("Path :" + typeof rideObject.RidePath[0][1]);
 
       let response = await PublishRide(rideObject);
       //    console.log(response);

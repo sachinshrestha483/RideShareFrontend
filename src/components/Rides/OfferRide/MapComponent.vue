@@ -1,4 +1,5 @@
 <template>
+{{props}}
   <div id="mapid" ref="map"></div>
 </template>
 
@@ -171,9 +172,9 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #mapid {
   height: 100vh;
-  width: 890px;
+   width: 1200px;
 }
 </style>

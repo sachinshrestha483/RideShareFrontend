@@ -1,7 +1,16 @@
 <template>
   <div>
     <div
-      class="bg-white w-auto m-1 h-16 flex flex-row md:grid-cols-4 justify-between p-4"
+      class="
+        bg-white
+        w-auto
+        m-1
+        h-16
+        flex flex-row
+        md:grid-cols-4
+        justify-between
+        p-4
+      "
     >
       <div>
         <router-link :to="{ name: 'Home' }">
@@ -32,9 +41,16 @@
       </div>
 
       <div class="text-lg text-blue-400 flex flex-row items-center">
-        
-        <router-link :to="{name:'FindRide'}"
-          class="m-1 flex flex-row items-center hidden cursor-pointer md:inline-flex"
+        <router-link
+          :to="{ name: 'FindRide' }"
+          class="
+            m-1
+            flex flex-row
+            items-center
+            hidden
+            cursor-pointer
+            md:inline-flex
+          "
         >
           <div>
             <svg
@@ -46,19 +62,13 @@
               <path
                 d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"
               />
-
             </svg>
-
           </div>
           <div class="text-sm font-extrabold">Find&nbsp;A&nbsp;Ride</div>
-        
-        
         </router-link>
 
-
-
-
-        <router-link :to="{name:'OfferRide'}"
+        <router-link
+          :to="{ name: 'OfferRide' }"
           class="m-1 flex-row items-center cursor-pointer hidden md:inline-flex"
         >
           <div>
@@ -100,7 +110,14 @@
               v-else
               xmlns="http://www.w3.org/2000/svg"
               fill="currentColor"
-              class="bi bi-person-circle w-10 h-10 mr-3 text-gray-500 cursor-pointer"
+              class="
+                bi bi-person-circle
+                w-10
+                h-10
+                mr-3
+                text-gray-500
+                cursor-pointer
+              "
               viewBox="0 0 16 16"
             >
               <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
@@ -115,7 +132,14 @@
             v-else
             xmlns="http://www.w3.org/2000/svg"
             fill="currentColor"
-            class="bi bi-person-circle w-10 h-10 mr-3 text-gray-500 cursor-pointer"
+            class="
+              bi bi-person-circle
+              w-10
+              h-10
+              mr-3
+              text-gray-500
+              cursor-pointer
+            "
             viewBox="0 0 16 16"
           >
             <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
@@ -196,54 +220,57 @@
               </div>
             </div>
           </router-link>
-<div v-if="$store.state.user != null" class="hover:bg-gray-200" >
-   <router-link
-            v-if="$store.state.user.role == 0"
-            :to="{ name: 'Admin' }"
-            
+          <div v-if="$store.state.user != null" class="hover:bg-gray-200">
+            <router-link
+              v-if="$store.state.user.role == 0"
+              :to="{ name: 'Admin' }"
+            >
+              <div class="flex flex-row justify-between mx-4 my-2 items-center">
+                <div class="flex flex-row items-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    class="bi bi-person-badge text-gray-500"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      d="M6.5 2a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1h-3zM11 8a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"
+                    />
+                    <path
+                      d="M4.5 0A2.5 2.5 0 0 0 2 2.5V14a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2.5A2.5 2.5 0 0 0 11.5 0h-7zM3 2.5A1.5 1.5 0 0 1 4.5 1h7A1.5 1.5 0 0 1 13 2.5v10.795a4.2 4.2 0 0 0-.776-.492C11.392 12.387 10.063 12 8 12s-3.392.387-4.224.803a4.2 4.2 0 0 0-.776.492V2.5z"
+                    />
+                  </svg>
+                  <p class="text-md font-bold m-2 text-xl text-gray-500">
+                    Admin
+                  </p>
+                </div>
+
+                <div>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    class="bi bi-arrow-right m-2"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </router-link>
+          </div>
+
+          <router-link
+            class="hover:bg-gray-200"
+            v-if="$store.state.user != null"
+            :to="{ name: 'YourRide' }"
           >
-            <div class="flex flex-row justify-between mx-4 my-2 items-center">
-              <div class="flex flex-row items-center">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  fill="currentColor"
-                  class="bi bi-person-badge text-gray-500"
-                  viewBox="0 0 16 16"
-                >
-                  <path
-                    d="M6.5 2a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1h-3zM11 8a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"
-                  />
-                  <path
-                    d="M4.5 0A2.5 2.5 0 0 0 2 2.5V14a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2.5A2.5 2.5 0 0 0 11.5 0h-7zM3 2.5A1.5 1.5 0 0 1 4.5 1h7A1.5 1.5 0 0 1 13 2.5v10.795a4.2 4.2 0 0 0-.776-.492C11.392 12.387 10.063 12 8 12s-3.392.387-4.224.803a4.2 4.2 0 0 0-.776.492V2.5z"
-                  />
-                </svg>
-                <p class="text-md font-bold m-2 text-xl text-gray-500">Admin</p>
-              </div>
-
-              <div>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  fill="currentColor"
-                  class="bi bi-arrow-right m-2"
-                  viewBox="0 0 16 16"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"
-                  />
-                </svg>
-              </div>
-            </div>
-          </router-link>
-</div>
-        
-
-
-          <div class="hover:bg-gray-200" v-if="$store.state.user != null">
             <div class="flex flex-row justify-between mx-4 my-2 items-center">
               <div class="flex flex-row items-center">
                 <svg
@@ -279,7 +306,7 @@
                 </svg>
               </div>
             </div>
-          </div>
+          </router-link>
 
           <div class="hover:bg-gray-200" v-if="$store.state.user != null">
             <div class="flex flex-row justify-between mx-4 my-2 items-center">
@@ -322,10 +349,14 @@
             </div>
           </div>
 
-          <router-link 
-          
-          :to="{name:'UserPublicProfileWithId',params:{'id':$store.state.user.id}}"
-          class="hover:bg-gray-200" v-if="$store.state.user != null">
+          <router-link
+            :to="{
+              name: 'UserPublicProfileWithId',
+              params: { id: $store.state.user.id },
+            }"
+            class="hover:bg-gray-200"
+            v-if="$store.state.user != null"
+          >
             <div class="flex flex-row justify-between mx-4 my-2 items-center">
               <div class="flex flex-row items-center">
                 <svg
@@ -438,7 +469,6 @@
             </div>
           </router-link>
 
-         
           <router-link
             v-if="$store.state.user == null"
             :to="{ name: 'Register' }"

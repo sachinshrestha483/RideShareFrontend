@@ -47,7 +47,12 @@ class Urls {
   static VehicleTypeById="/VehicleType/GetVehicleTypeById?id="
   static UserTravelPrefrences="/UserTravelPrefrence/GetUserTravelPrefrences"
   static UserPublicProfile="/User/UserPublicProfile?id="
-  static AddRide="/Ride/CreateRide"
+  static AddRide="/Ride/CreateRide";
+  static FindRide="/Ride/FindRide";
+  static myRides= "/Ride/GetMyRides";
+  static myRidesRide= "/Ride/GetMyRide";
+
+
 
 
 }

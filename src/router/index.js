@@ -20,7 +20,9 @@ import UserPublicProfileWithId from "@/views/UserPublicProfileWithId"
 import OfferRide from "@/views/Rides/OfferRide"
 import PublishRide from "@/views/Rides/PublishRide"
 import FindRide from "@/views/Rides/FindRide"
-
+import YourRide from "@/views/Rides/YourRide"
+import YourRidesRide from "@/views/Rides/YourRides/Ride"
+ import YourRidePath from "@/views/Rides/YourRides/RideRoute"
 const requireAuth =(to,from,next)=>{
   let user= Store.state.user;
   console.log("Current User in Auth Guard is:"+user)
@@ -33,8 +35,6 @@ const requireAuth =(to,from,next)=>{
   next() 
   
   }
-
-
 
 const routes = [
   {
@@ -142,8 +142,23 @@ const routes = [
   path:"/FindRide",
   name:"FindRide",
   component:FindRide
+  },
+  {
+    path:"/YourRides",
+    name:"YourRide",
+    component:YourRide
+  },
+  {
+    path:"/YourRides/Ride/:id",
+    name:"YourRidesRide",
+    component:YourRidesRide
+  },
+  {
+    path:"/YourRides/RidePath/:id/:zoomlat/:zoomlon",
+    name:"YourRidepath",
+    props: true,
+    component:YourRidePath,
   }
-
 ] 
 
 const router = createRouter({
