@@ -10,15 +10,15 @@ const Identity = () => {
     let res = null;
     await axios
       .get(Urls.VerifyEmail)
-      .then(function(response) {
+      .then(function (response) {
         console.log(response);
         res = response;
       })
-      .catch(function(error) {
+      .catch(function (error) {
         // handle error
         console.log(error);
       })
-      .then(function() {
+      .then(function () {
         console.log("Returning res");
         console.log(res);
       });
@@ -30,11 +30,11 @@ const Identity = () => {
     let res = null;
     await axios
       .get(Urls.VerifyPhone)
-      .then(function(response) {
+      .then(function (response) {
         console.log(response);
         res = response;
       })
-      .catch(function(error) {
+      .catch(function (error) {
         // handle error
         console.log(error);
       });
@@ -47,15 +47,15 @@ const Identity = () => {
 
     await axios
       .get(Urls.SendVerificationEmail)
-      .then(function(response) {
+      .then(function (response) {
         res = true;
 
         console.log(response);
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.log(error);
       })
-      .then(function() {
+      .then(function () {
         // always executed
       });
 
@@ -68,12 +68,12 @@ const Identity = () => {
       .post(Urls.VerifyEmailCode, {
         code: code,
       })
-      .then(function(response) {
+      .then(function (response) {
         console.log(response);
         Store.state.user.isEmailVerified = true;
         res = true;
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.log(error);
       });
     return res;
@@ -87,13 +87,13 @@ const Identity = () => {
       .post(Urls.VerifySmsCode, {
         code: code,
       })
-      .then(function(response) {
+      .then(function (response) {
         res = true;
         Store.state.user.isPhoneNumberVerified = true;
 
         console.log(response);
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.log(error);
       });
     return res;
@@ -103,64 +103,60 @@ const Identity = () => {
     let res = false;
     await axios
       .get(Urls.SendVerificationSms)
-      .then(function(response) {
+      .then(function (response) {
         res = true;
 
         console.log(response);
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.log(error);
       })
-      .then(function() {
+      .then(function () {
         // always executed
       });
     return res;
   };
 
-   const UpdateProfilePicture=async (file)=>{
+  const UpdateProfilePicture = async (file) => {
 
-let isUploaded=false;
+    let isUploaded = false;
     const formData = new FormData();
-formData.append('userPhoto', file, file.name);
+    formData.append('userPhoto', file, file.name);
+    await axios.post(Urls.UserProfilePhoto, formData)
+      .then(function (response) {
+        isUploaded = true;
+        console.log(response);
+        console.log("----------Photo Uploaded-----------")
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
+    return isUploaded
+
+  }
 
 
+  const UserPublicProfile = async (id) => {
+    let res = null;
+    await axios.get(Urls.UserPublicProfile + id)
+      .then(function (response) {
+        // handle success
+        console.log(response);
+        res = response.data;
 
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
+      })
+      .then(function () {
+        // always executed
+      });
 
-await axios.post(Urls.UserProfilePhoto,formData)
-.then(function (response) {
-  isUploaded=true;
-  console.log(response);
-  console.log("----------Photo Uploaded-----------")
-})
-.catch(function (error) {
-  console.log(error);
-});
+    return res;
 
-return isUploaded
-
-   }
-
-
-const UserPublicProfile=async(id)=>{
-  let res=null;
- await  axios.get(Urls.UserPublicProfile+id)
-  .then(function (response) {
-    // handle success
-    console.log(response);
-  res=response.data;
-  
-  })
-  .catch(function (error) {
-    // handle error
-    console.log(error);
-  })
-  .then(function () {
-    // always executed
-  });
-
-return res;
-
-}
+  }
 
 
 

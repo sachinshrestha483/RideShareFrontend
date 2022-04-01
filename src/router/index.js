@@ -144,7 +144,7 @@ const routes = [
   component:FindRide
   },
   {
-    path:"/YourRides",
+    path:"/YourRides", 
     name:"YourRide",
     component:YourRide
   },

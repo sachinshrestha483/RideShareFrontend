@@ -1,4 +1,5 @@
 <template>
+<findRideSearchForm></findRideSearchForm>
   <div class="mx-4">
     <div class="primaryHeading mb-8 text-center">Find a Ride</div>
     <br />
@@ -141,10 +142,12 @@ import { FindRide } from "@/composables/RideFunctions";
 import { FindRideDto } from "@/utility/Dtos/FindRideDto";
 import GeoCordinatesFunction from "@/composables/GeoCordinatesFunctions";
 import Store from "@/store/index";
+import FindRideSearchForm from "@/components/Rides/FindRide/FindRideSearchForm"
 
 export default {
   components: {
     VueBootstrapTypeahead,
+    FindRideSearchForm
   },
   setup() {
     const numberOfPassengers = ref(1);

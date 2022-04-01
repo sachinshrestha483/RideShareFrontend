@@ -15,7 +15,7 @@ const getMyRide = async (id) => {
     })
     .catch(function (error) {
       console.log(error);
-      httpResponseObject.errorMessage = "Cant Load Vehicles";
+      httpResponseObject.errorMessage = "Cant Load Ride";
     })
   console.log(httpResponseObject);
   return httpResponseObject;
@@ -72,6 +72,7 @@ const FindRide = async (ride) => {
 }
 
 const PublishRide = async (ride) => {
+  const httpResponseObject = new HttpResponseObject();
   await axios
     .post(Urls.AddRide, ride)
     .then(function (response) {
@@ -79,7 +80,7 @@ const PublishRide = async (ride) => {
       console.log("data");
     })
     .catch(function (error) {
-      objSubmitted = false;
+      httpResponseObject.objSubmitted = false;
       console.log("Error is Here");
       console.log(error.response);
       try {
@@ -91,6 +92,7 @@ const PublishRide = async (ride) => {
     });
   httpResponseObject.haveError = !objSubmitted;
   httpResponseObject.responseObject;
+
   return httpResponseObject;
 }
 export { PublishRide, FindRide, getMyRides, getMyRide };

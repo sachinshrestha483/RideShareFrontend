@@ -64,7 +64,7 @@ const selected = e.target.files[0];
         handleSubmit();
       } else {
         file.value = null;
-        fileError.value = "Please Selet an Image File (png/jpg)";
+        fileError.value = "Please Select an Image File (png/jpg)";
       }
     };
 
