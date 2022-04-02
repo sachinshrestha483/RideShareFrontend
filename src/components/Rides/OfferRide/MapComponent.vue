@@ -1,5 +1,4 @@
 <template>
-{{props}}
   <div id="mapid" ref="map"></div>
 </template>
 
@@ -15,6 +14,7 @@ export default {
     "getIntermediatePositionsMarkerFun",
     "getCreateRouteFun",
     "calculateRouteFun",
+    "getDrawRouteFun",
   ],
 
   setup(props) {
@@ -135,6 +135,22 @@ export default {
         marker.addTo(mymap);
       });
     };
+    
+    const  DrawRoute=(path)=>{
+
+      if (previousRoute != null) {
+        mymap.removeLayer(previousRoute);
+      }
+      console.log("Path here ");
+      console.log(path);
+      let r = path;
+      var polyline = L.polyline(r, { color: "red" }).addTo(mymap);
+      previousRoute = polyline;
+      mymap.fitBounds(polyline.getBounds());
+    }
+
+
+
 
     const CreateRoute = (p, pathNum = 0) => {
       let possiblePaths = p;
@@ -147,6 +163,20 @@ export default {
       console.log("Path here ");
       console.log(p);
       let r = possiblePaths[pathNum].geoJson;
+
+ console.log("This is Draw Route ");
+     console.log("This is Draw Route ");
+     console.log("This is Draw Route ");
+     console.log("This is Draw Route ");
+     console.log( r);
+     console.log( r);
+     console.log("This is Draw Route ");
+     console.log("This is Draw Route ");
+     console.log("This is Draw Route ");
+     console.log("This is Draw Route ");
+     console.log("This is Draw Route ");
+
+
       selectedGeojson = possiblePaths[pathNum].geoJson;
       console.log("SelectedGeoJson");
       console.log(selectedGeojson);
@@ -154,11 +184,17 @@ export default {
       previousRoute = polyline;
       mymap.fitBounds(polyline.getBounds());
     };
-
+    try{
     props.getCreateRouteFun(CreateRoute);
     props.getInitialPositionMarkerFun(setInitialPosMarker);
     props.getFinalPositionMarkerFun(setFinalPosMarker);
     props.getIntermediatePositionsMarkerFun(SetIntermediatePosMarker);
+    props.getDrawRouteFun(DrawRoute);
+    }
+    catch(e)
+    {
+      console.log("dd")
+    }
     //props.getRouteFun();
 
     return {
@@ -167,6 +203,8 @@ export default {
       setFinalPosMarker,
       SetIntermediatePosMarker,
       CreateRoute,
+      DrawRoute
+
     };
   },
 };
@@ -175,6 +213,6 @@ export default {
 <style scoped>
 #mapid {
   height: 100vh;
-   width: 1200px;
+   width: 100%;
 }
 </style>

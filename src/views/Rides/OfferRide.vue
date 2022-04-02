@@ -19,7 +19,7 @@
           :createRouteFun="createRouteFun"
         />
       </div>
-      <div>
+      <div class="w-full ">
         <MapComponent
           :initialPosition="initialPosition"
           :finalPosition="finalPosition"

@@ -300,6 +300,26 @@ export default {
       props.initialPosition.name = val;
       var nameObject = mainresult.value.find((e) => e.display_name == val);
       console.log(nameObject);
+      console.log("----------------------------");
+      console.log("----------------------------");
+      console.log("----------------------------");
+      console.log("----------------------------");
+      console.log("----------------------------");
+      console.log("----------------------------");
+      console.log("----------------------------");
+
+
+      console.log("the Type of Latitude is :"+ typeof(nameObject.lat));
+      console.log("the Type of Longitude is :"+ typeof(nameObject.lon));
+      console.log("----------------------------");
+      console.log("----------------------------");
+      console.log("----------------------------");
+      console.log("----------------------------");
+      console.log("----------------------------");
+      console.log("----------------------------");
+
+
+
       props.initialPosition.lat = nameObject.lat;
       props.initialPosition.lon = nameObject.lon;
       // props.setInitialPosMarker(
