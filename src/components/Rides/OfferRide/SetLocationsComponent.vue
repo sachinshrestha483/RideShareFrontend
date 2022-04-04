@@ -65,9 +65,10 @@
         @hit="SelectFinalPosition($event)"
       />
 
-      <label class="secondaryText">Select Vehicle</label>
+      <label class="secondaryText" v-if="isEditView==false">Select Vehicle</label>
 
       <select
+      v-if="isEditView==false"
         v-model="selectedVehicleId"
         required
         class="
@@ -92,25 +93,26 @@
         </option>
       </select>
 
-      <label class="secondaryText">Number of Passengers</label>
+      <label class="secondaryText" v-if="isEditView==false">Number of Passengers</label>
 
-      <input type="number" class="inputBox mb-8" v-model="numberOfPassengers" />
+      <input type="number" required class="inputBox mb-8" v-if="isEditView==false"  v-model="numberOfPassengers" />
 
       <br />
-      <label class="secondaryText">Ride Date Time</label>
+      <label class="secondaryText" v-if="isEditView==false" >Ride Date Time</label>
       <input
+      v-if="isEditView==false"
         type="datetime-local"
         class="inputBox mb-8"
         v-model="rideDateTime"
       />
 
-      <label class="secondaryText">Price</label>
+      <label class="secondaryText" v-if="isEditView==false">Price</label>
 
-      <input type="number" class="inputBox mb-8" v-model="price" />
+      <input type="number" class="inputBox mb-8" v-if="isEditView==false" v-model="price" />
 
-      <label class="secondaryText">Notes</label>
+      <label class="secondaryText" v-if="isEditView==false">Notes</label>
 
-      <textarea type="text" class="inputBox mb-8" v-model="note" />
+      <textarea type="text" class="inputBox mb-8" v-if="isEditView==false" v-model="note" />
     </div>
 
     <div class="container" v-if="resultRoutes.length > 0">
@@ -172,11 +174,18 @@
         <p>Route Intermediate Posotion :{{ intermediatePositions }}</p>
         <p>Selected Route Index : {{ selectedRouteIndex }}</p>
 
-        <div class="flex flex-row justify-center mb-4 mt-2">
+
+        <div class="flex flex-row justify-center mb-4 mt-2" v-if="isEditView==false"  >
           <button class="primaryButton" v-on:click="publishRoute">
             Publish Ride
           </button>
         </div>
+         <div class="flex flex-row justify-center mb-4 mt-2" v-else>
+          <button class="primaryButton" v-on:click="EditRoute">
+            Edit Ride
+          </button>
+        </div>
+
       </div>
     </div>
   </div>
@@ -189,8 +198,9 @@ import { useStore } from "vuex";
 import VehicleFunctions from "@/composables/VehicleFunctions";
 import { computed, ref } from "vue";
 import { Ride } from "@/Models/Ride";
-import { PublishRide } from "@/composables/RideFunctions";
+import { PublishRide, EditRide ,AdvanceEditRide} from "@/composables/RideFunctions";
 import Store from "@/store/index";
+import UtilityFunctions from "@/utility/UtilityFunctions.js";
 
 export default {
   components: {
@@ -205,6 +215,9 @@ export default {
     "intermediatePositionMarkerFun",
     "getCalculateRouteFun",
     "createRouteFun",
+    "isEditView",
+    "EditViewSavedRideId",
+    "getSetIntermediatePosFun"
   ],
 
   setup(props) {
@@ -357,6 +370,32 @@ export default {
       finalPosition.value.lon = nameObject.lon;
     };
 
+
+const setIntermediatePositionValue=async (name,lat,lon)=>{
+  props.intermediatePoints.push({
+        name: name,
+        lat: lat,
+        lon: lon,
+      });
+      console.log(props.intermediatePoints);
+
+      props.intermediatePositionMarkerFun();
+      // props.SetIntermediatePosMarker();
+      intermediatePositions.value.push({
+        name: name,
+        lat: nameObject.lat,
+        lon: nameObject.lon,
+      });
+
+      await calcuteRoute();
+}
+
+try{
+props.getSetIntermediatePosFun(setIntermediatePositionValue);
+}
+catch(e){
+
+}
     const setIntermediatePosition = async (index, val) => {
       console.log("Index" + index);
       console.log("Val" + val);
@@ -526,6 +565,7 @@ export default {
 
     const publishRoute = async () => {
       let user = Store.state.user;
+      const { GetUtcDateTime } = UtilityFunctions();
 
       if (user == null) {
         console.log("User Is Null  Cant Save The Ride");
@@ -545,7 +585,7 @@ export default {
       rideObject.IntermediatePositions = intermediatePositions.value;
       rideObject.RideDistance =
         resultRoutes.value[selectedRouteIndex.value].distance;
-      rideObject.RideDatetime = rideDateTime.value;
+      rideObject.RideDatetime =  GetUtcDateTime(rideDateTime.value);
       rideObject.VehicleId = parseInt(selectedVehicleId.value);
       rideObject.NumberofPassenger = parseInt(numberOfPassengers.value);
       rideObject.Price = parseInt(price.value);
@@ -571,6 +611,63 @@ export default {
       let response = await PublishRide(rideObject);
       //    console.log(response);
     };
+
+
+   const EditRoute = async () => {
+      let user = Store.state.user;
+
+      if (user == null) {
+        console.log("User Is Null  Cant Save The Ride");
+        return;
+      }
+
+      console.log("Publish Route");
+      console.log(selectedRouteIndex.value);
+      console.log(resultRoutes.value[selectedRouteIndex.value]);
+
+      const rideObject = new Ride();
+      rideObject.Id=props.EditViewSavedRideId
+      rideObject.RidePath =
+        resultRoutes.value[selectedRouteIndex.value].geoJson;
+      rideObject.StartPosition = initialPosition.value;
+      rideObject.EndPosition = finalPosition.value;
+      rideObject.IntermediatePositions = intermediatePositions.value;
+      rideObject.RideDistance =
+        resultRoutes.value[selectedRouteIndex.value].distance;
+      let routeViaString =
+        resultRoutes.value[selectedRouteIndex.value].via.join();
+      rideObject.RideVia = routeViaString;
+      console.log("Resoult Routes");
+      console.log("Resoult Routes");
+      console.log("Resoult Routes");
+
+      console.log(resultRoutes.value[selectedRouteIndex.value]);
+      console.log(resultRoutes.value[selectedRouteIndex.value].via);
+      console.log(resultRoutes.value[selectedRouteIndex.value].via.join());
+
+      // rideObject.RouteVia=
+
+      console.log("-----Ride Object-------");
+      console.log("-----Ride Object-------");
+      console.log("-----Ride Object-------");
+      console.log("-----Ride Object-------");
+
+      let response = await AdvanceEditRide(rideObject);
+      //   console.log(response);
+    };
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     return {
       initialPSearchBox,
@@ -598,6 +695,7 @@ export default {
       numberOfPassengers,
       price,
       note,
+      EditRoute
     };
   },
 };

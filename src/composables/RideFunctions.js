@@ -71,6 +71,59 @@ const FindRide = async (ride) => {
   return httpResponseObject;
 }
 
+
+
+const EditRide= async(ride)=>{
+  const httpResponseObject = new HttpResponseObject();
+  await axios
+    .post(Urls.EditRide, ride)
+    .then(function (response) {
+      console.log(response);
+      console.log("data");
+    })
+    .catch(function (error) {
+      httpResponseObject.objSubmitted = false;
+      console.log("Error is Here");
+      console.log(error.response);
+      try {
+        httpResponseObject.errorMessage = error.response.data.message;
+      }
+      catch {
+        httpResponseObject.errorMessage = null;
+      }
+    });
+  httpResponseObject.haveError = ! httpResponseObject.objSubmitted ;
+  httpResponseObject.responseObject;
+
+  return httpResponseObject;
+}
+
+
+const AdvanceEditRide= async(ride)=>{
+  const httpResponseObject = new HttpResponseObject();
+  await axios
+    .post(Urls.EditAdvanceRideInfo, ride)
+    .then(function (response) {
+      console.log(response);
+      console.log("data");
+    })
+    .catch(function (error) {
+      httpResponseObject.objSubmitted = false;
+      console.log("Error is Here");
+      console.log(error.response);
+      try {
+        httpResponseObject.errorMessage = error.response.data.message;
+      }
+      catch {
+        httpResponseObject.errorMessage = null;
+      }
+    });
+  httpResponseObject.haveError = ! httpResponseObject.objSubmitted ;
+  httpResponseObject.responseObject;
+
+  return httpResponseObject;
+}
+
 const PublishRide = async (ride) => {
   const httpResponseObject = new HttpResponseObject();
   await axios
@@ -90,9 +143,9 @@ const PublishRide = async (ride) => {
         httpResponseObject.errorMessage = null;
       }
     });
-  httpResponseObject.haveError = !objSubmitted;
+  httpResponseObject.haveError = !httpResponseObject.objSubmitted;
   httpResponseObject.responseObject;
 
   return httpResponseObject;
 }
-export { PublishRide, FindRide, getMyRides, getMyRide };
+export { PublishRide, FindRide, getMyRides, getMyRide,EditRide,AdvanceEditRide };

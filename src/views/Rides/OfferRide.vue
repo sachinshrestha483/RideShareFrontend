@@ -17,6 +17,8 @@
           :intermediatePositionMarkerFun="intermediatePositionMarkerFun"
           :getCalculateRouteFun="getCalculateRouteFun"
           :createRouteFun="createRouteFun"
+          :isEditView="false"
+          :EditViewSavedRideId="0"
         />
       </div>
       <div class="w-full ">

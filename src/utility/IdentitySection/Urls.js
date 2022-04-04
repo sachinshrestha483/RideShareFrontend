@@ -51,8 +51,8 @@ class Urls {
   static FindRide="/Ride/FindRide";
   static myRides= "/Ride/GetMyRides";
   static myRidesRide= "/Ride/GetMyRide";
-
-
+  static EditRide="/Ride/EditRide";
+ static  EditAdvanceRideInfo= "/Ride/EditAdvanceRideInfo"
 
 
 }

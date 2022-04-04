@@ -11,10 +11,13 @@ class Ride {
       this.NumberofPassenger,
       this.Price,
       this.Note
-      this.RideVia
+      this.RideVia,
+      this.Id
 
     }
 }
+
+
 
 
 export {Ride} ;
