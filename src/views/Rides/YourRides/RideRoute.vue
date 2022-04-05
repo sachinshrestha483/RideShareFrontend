@@ -2,6 +2,7 @@
   <div class="mx-4">
     <div class="primaryHeading mb-8 text-center">Ride Route</div>
 
+
     <!-- {{   ride.responseObjectintermediatePositions.map((e) => ({
           name: e.positionName,
           lat: e.positionLatitude,
@@ -84,13 +85,15 @@
           </div>
 
           <div
-            :class="
-              `flex flex-col
-              ${ride.responseObject.intermediatePositions.length==0?' h-12	 ':' min-h-40'}
+            :class="`flex flex-col
+              ${
+                ride.responseObject.intermediatePositions.length == 0
+                  ? ' h-12	 '
+                  : ' min-h-40'
+              }
               border-l-4 border-gray-600
               ml-2
-              text-left`
-            "
+              text-left`"
           >
             <!-- <div class="h-12 border-l-4 border-gray-600 ml-2"></div> -->
             <div
@@ -266,14 +269,15 @@
           <!-- <div class="h-max border-l-4 border-gray-600 ml-2"></div> -->
 
           <div
-            :class="
-              `flex flex-col
-              ${ride.responseObject.intermediatePositions.length==0?' h-12	 ':' min-h-40'}
+            :class="`flex flex-col
+              ${
+                ride.responseObject.intermediatePositions.length == 0
+                  ? ' h-12	 '
+                  : ' min-h-40'
+              }
               border-l-4 border-gray-600
               ml-2
-              text-left`
-              "
-            
+              text-left`"
           >
             <div
               v-for="item in ride.responseObject.intermediatePositions"
@@ -498,6 +502,10 @@
               d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"
             />
           </svg>
+          <div>
+    <button v-on:click="freeMarkerFun" class="primaryButton"  >Get Free Marker</button>
+
+          </div>
         </div>
         <MapComponent
           :initialPosition="initialPosition"
@@ -510,6 +518,7 @@
           :calculateRouteFun="calculateRouteFun"
           :drawRouteFun="drawRouteFun"
           :getDrawRouteFun="getDrawRouteFun"
+          :getFreeMarkerFun="getFreeMarkerFun"
         />
       </div>
     </div>
@@ -729,11 +738,14 @@ export default {
           lat: element.positionLatitude,
           lon: element.positionLongitude,
         });
-         IntermediatePosFun.value(element.positionName, element.positionLatitude,element.positionLongitude);
-
+        IntermediatePosFun.value(
+          element.positionName,
+          element.positionLatitude,
+          element.positionLongitude
+        );
       });
-// intermediatePoints.value= intps;
-// intermediatePositionMarkerFun.value();
+      // intermediatePoints.value= intps;
+      // intermediatePositionMarkerFun.value();
       console.log("-------------------@@@@@@@@@@@@@@@@@@-------------------");
       console.log("-------------------@@@@@@@@@@@@@@@@@@-------------------");
       console.log("-------------------@@@@@@@@@@@@@@@@@@-------------------");
@@ -848,24 +860,35 @@ export default {
     const finalPositionMarkerFun = ref(null);
     const intermediatePositionMarkerFun = ref(null);
     const drawRouteFun = ref(null);
-    
-    
-    
-const IntermediatePosFun= ref(null);
+    const freeMarkerFun = ref(null);
 
+    console.log("Free Marker Fun");
+    console.log("Free Marker Fun");
+    console.log("Free Marker Fun");
+    console.log("Free Marker Fun");
+    console.log("Free Marker Fun");
+    console.log("Free Marker Fun");
+    console.log(freeMarkerFun.value);
+    console.log("Free Marker Fun");
+    console.log("Free Marker Fun");
+    console.log("Free Marker Fun");
+    console.log("Free Marker Fun");
+    console.log("Free Marker Fun");
+    console.log("Free Marker Fun");
 
-
-
+    const IntermediatePosFun = ref(null);
 
     const calculateRouteFun = ref(null);
     const createRouteFun = ref(null);
 
-    const getSetIntermediatePosFun=(fun)=>{
-      IntermediatePosFun.value=fun;
-    }
+    const getSetIntermediatePosFun = (fun) => {
+      IntermediatePosFun.value = fun;
+    };
 
-
-
+    const getFreeMarkerFun = (fun) => {
+      freeMarkerFun.value = fun;
+    //  freeMarkerFun.value();
+    };
 
     const getDrawRouteFun = (fun) => {
       drawRouteFun.value = fun;
@@ -951,7 +974,9 @@ const IntermediatePosFun= ref(null);
       editedride,
       userVehicles,
       postEditRide,
-      getSetIntermediatePosFun
+      getSetIntermediatePosFun,
+      getFreeMarkerFun,
+      freeMarkerFun
     };
   },
 };

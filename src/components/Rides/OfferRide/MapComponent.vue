@@ -15,6 +15,7 @@ export default {
     "getCreateRouteFun",
     "calculateRouteFun",
     "getDrawRouteFun",
+    "getFreeMarkerFun",
   ],
 
   setup(props) {
@@ -46,7 +47,18 @@ export default {
         title: "Initial Position marker",
         clickable: true,
         draggable: true,
+        icon: L.icon({
+          iconUrl:
+            "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png",
+          shadowUrl:
+            "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
+          iconSize: [25, 41],
+          iconAnchor: [12, 41],
+          popupAnchor: [1, -34],
+          shadowSize: [41, 41],
+        }),
       };
+      // https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png
       console.log("Add Marker");
       var marker = L.marker([lat, lon], markerOptions);
 
@@ -68,6 +80,60 @@ export default {
 
       marker.addTo(mymap);
     };
+
+    const setFreeMarker = () => {
+      var markerOptions = {
+        title: "Free Position Marker",
+        clickable: true,
+        draggable: true,
+      };
+      var marker = L.marker([23.3315, 75.0367], markerOptions);
+      marker.on("moveend", function (e) {
+        console.log("marker drag event");
+        console.log(e.target._latlng);
+        var obj = e.target._latlng;
+        console.log("Object Lat :" + obj.lat);
+        console.log("Object Lat :" + obj.lng);
+      });
+      marker.addTo(mymap);
+    };
+
+    try {
+      console.log("Setting Free Marker Fun");
+      console.log("Setting Free Marker Fun");
+      console.log("Setting Free Marker Fun");
+
+      console.log("Setting Free Marker Fun");
+      console.log("Setting Free Marker Fun");
+      console.log("Setting Free Marker Fun");
+      console.log("Setting Free Marker Fun");
+      console.log("Setting Free Marker Fun");
+      console.log("Setting Free Marker Fun");
+      console.log("Setting Free Marker Fun");
+      console.log("Setting Free Marker Fun");
+      console.log("Setting Free Marker Fun");
+
+      console.log(setFreeMarker);
+
+      props.getFreeMarkerFun(setFreeMarker);
+
+      console.log("Setting Free Marker Fun");
+      console.log("Setting Free Marker Fun");
+      console.log("Setting Free Marker Fun");
+      console.log("Setting Free Marker Fun");
+      console.log("Setting Free Marker Fun");
+      console.log("Setting Free Marker Fun");
+      console.log("Setting Free Marker Fun");
+      console.log("Setting Free Marker Fun");
+      console.log("Setting Free Marker Fun");
+      console.log("Setting Free Marker Fun");
+      console.log("Setting Free Marker Fun");
+      console.log("Setting Free Marker Fun");
+      console.log("Setting Free Marker Fun");
+      console.log("Setting Free Marker Fun");
+      console.log("Setting Free Marker Fun");
+    } catch (e) {}
+
     const setFinalPosMarker = (lat, lon) => {
       if (prevFinalPositionPointer != null) {
         mymap.removeLayer(prevFinalPositionPointer);
@@ -77,6 +143,16 @@ export default {
         title: "Final Position Marker",
         clickable: true,
         draggable: true,
+        icon: L.icon({
+          iconUrl:
+            "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",
+          shadowUrl:
+            "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
+          iconSize: [25, 41],
+          iconAnschor: [12, 41],
+          popupAnchor: [1, -34],
+          shadowSize: [41, 41],
+        }),
       };
       console.log("Add Marker");
       var marker = L.marker([lat, lon], markerOptions);
@@ -95,7 +171,6 @@ export default {
         // }
         // console.log("new Lat lng:"+e.latlng)
         props.calculateRouteFun();
-
       });
 
       marker.addTo(mymap);
@@ -115,7 +190,18 @@ export default {
           title: "sdsd",
           clickable: true,
           draggable: true,
+          icon: L.icon({
+            iconUrl:
+              "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-gold.png",
+            shadowUrl:
+              "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+            shadowSize: [41, 41],
+          }),
         };
+        // https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-gold.png
         let marker = L.marker([e.lat, e.lon], markerOptions);
         previousIntermediatePointer.push(marker);
         console.log("Adding Marker");
@@ -129,15 +215,13 @@ export default {
           // if (routeFun.value != null) {
           //   routeFun.value();
           // }
-        props.calculateRouteFun();
-
+          props.calculateRouteFun();
         });
         marker.addTo(mymap);
       });
     };
-    
-    const  DrawRoute=(path)=>{
 
+    const DrawRoute = (path) => {
       if (previousRoute != null) {
         mymap.removeLayer(previousRoute);
       }
@@ -147,10 +231,7 @@ export default {
       var polyline = L.polyline(r, { color: "red" }).addTo(mymap);
       previousRoute = polyline;
       mymap.fitBounds(polyline.getBounds());
-    }
-
-
-
+    };
 
     const CreateRoute = (p, pathNum = 0) => {
       let possiblePaths = p;
@@ -164,18 +245,17 @@ export default {
       console.log(p);
       let r = possiblePaths[pathNum].geoJson;
 
- console.log("This is Draw Route ");
-     console.log("This is Draw Route ");
-     console.log("This is Draw Route ");
-     console.log("This is Draw Route ");
-     console.log( r);
-     console.log( r);
-     console.log("This is Draw Route ");
-     console.log("This is Draw Route ");
-     console.log("This is Draw Route ");
-     console.log("This is Draw Route ");
-     console.log("This is Draw Route ");
-
+      console.log("This is Draw Route ");
+      console.log("This is Draw Route ");
+      console.log("This is Draw Route ");
+      console.log("This is Draw Route ");
+      console.log(r);
+      console.log(r);
+      console.log("This is Draw Route ");
+      console.log("This is Draw Route ");
+      console.log("This is Draw Route ");
+      console.log("This is Draw Route ");
+      console.log("This is Draw Route ");
 
       selectedGeojson = possiblePaths[pathNum].geoJson;
       console.log("SelectedGeoJson");
@@ -184,17 +264,18 @@ export default {
       previousRoute = polyline;
       mymap.fitBounds(polyline.getBounds());
     };
-    try{
-    props.getCreateRouteFun(CreateRoute);
-    props.getInitialPositionMarkerFun(setInitialPosMarker);
-    props.getFinalPositionMarkerFun(setFinalPosMarker);
-    props.getIntermediatePositionsMarkerFun(SetIntermediatePosMarker);
-    props.getDrawRouteFun(DrawRoute);
+    try {
+      props.getCreateRouteFun(CreateRoute);
+      props.getInitialPositionMarkerFun(setInitialPosMarker);
+      props.getFinalPositionMarkerFun(setFinalPosMarker);
+      props.getIntermediatePositionsMarkerFun(SetIntermediatePosMarker);
+      props.getDrawRouteFun(DrawRoute);
+    } catch (e) {
+      console.log("dd");
     }
-    catch(e)
-    {
-      console.log("dd")
-    }
+
+    //setFreeMarker();
+
     //props.getRouteFun();
 
     return {
@@ -203,8 +284,7 @@ export default {
       setFinalPosMarker,
       SetIntermediatePosMarker,
       CreateRoute,
-      DrawRoute
-
+      DrawRoute,
     };
   },
 };
@@ -213,6 +293,6 @@ export default {
 <style scoped>
 #mapid {
   height: 100vh;
-   width: 100%;
+  width: 100%;
 }
 </style>

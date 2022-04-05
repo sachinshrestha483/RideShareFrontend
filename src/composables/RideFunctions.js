@@ -51,7 +51,7 @@ const FindRide = async (ride) => {
       console.log("Returning the object");
     })
     .catch(function (error) {
-      objSubmitted = false;
+      httpResponseObject.objSubmitted = false;
       console.log("Error is Here");
       console.log(error.response);
       try {

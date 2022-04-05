@@ -1,5 +1,5 @@
 <template>
-    <div class="mx-4">
+  <div class="mx-4">
     <div class="primaryHeading mb-8 text-center">Find a Ride</div>
     <br />
 
@@ -49,7 +49,7 @@
         <div class="flex flex-row justify-between">
           <div class="w-10/12">
             <input
-              v-model="rideDateTime"
+              v-model="rideLocalDateTime"
               type="datetime-local"
               class="inputBox mb-8"
             />
@@ -107,6 +107,36 @@
       </div>
     </div>
 
+    <div class="flex flex-row w-full justify-center">
+      <div class="flex flex-col">
+        <div class="mb-4"></div>
+        <div class="flex flex-row justify-between">
+          <div class="w-5/12">
+            <input
+              type="number"
+              class="inputBox mx-2"
+              style="text-align: center"
+              placeholder="Max Distance From Initial Point "
+              v-model="maxdistanceFromInitialPoint"
+            />
+          </div>
+
+          <div class="w-5/12">
+            <input
+              type="number"
+              class="inputBox mx-2"
+              style="text-align: center"
+              placeholder="Max Distance From Final Point "
+              v-model="maxdistanceFromFinalPoint"
+            />
+          </div>
+        </div>
+        <div class="mb-4"></div>
+
+        <div class="border-t-4 border-gray-200 w-full"></div>
+      </div>
+    </div>
+
     <div class="flex flex-row justify-center mb-4 mt-4">
       <button class="primaryButton" v-on:click="findRide">Search Ride</button>
     </div>
@@ -114,9 +144,16 @@
 
   {{ initialPosition }}
   {{ finalPosition }}
-  {{ rideDateTime }}
+  {{ rideLocalDateTime }}
   {{ numberOfPassengers }}
+  <!-- {{reverseGeoCodeobj}} -->
+  <!-- {{ findRideResponse }} -->
 
+  <!-- <div v-if="findRideResponse != null">
+    <div v-for="rideDto in findRideResponse.responseObject" :key="rideDto">
+      {{ rideDto.rideId }}
+    </div>
+  </div> -->
 </template>
 
 <script>
@@ -126,12 +163,20 @@ import VueBootstrapTypeahead from "vue-bootstrap-typeahead";
 import { FindRide } from "@/composables/RideFunctions";
 import { FindRideDto } from "@/utility/Dtos/FindRideDto";
 import GeoCordinatesFunction from "@/composables/GeoCordinatesFunctions";
+import UtilityFunctions from "@/utility/UtilityFunctions.js";
 import Store from "@/store/index";
 export default {
   components: {
     VueBootstrapTypeahead,
   },
-   setup() {
+  props: [
+    "setQueryResponse",
+    "setSearchedInitialPosition",
+    "setSearchedFinalPosition",
+    "setInitialPositioInForm",
+    "setFinalPositioInForm",
+  ],
+  setup(props) {
     const numberOfPassengers = ref(1);
     const { getNames } = OpenStreetMapFunctions();
     const { reverseGeoCode } = GeoCordinatesFunction();
@@ -142,20 +187,22 @@ export default {
     const initialPosition = ref({ name: null, lat: null, lon: null });
     const finalPosition = ref({ name: null, lat: null, lon: null });
     const findRideResponse = ref(null);
+    const reverseGeoCodeobj = ref(null);
+    const maxdistanceFromInitialPoint = ref(50);
+    const maxdistanceFromFinalPoint = ref(50);
 
-    reverseGeoCode(23.3315, 75.0367);
+    const { GetDateTimeString, GetUtcDateTime } = UtilityFunctions();
+
+    var ddd = reverseGeoCode(23.3315, 75.0367);
+    reverseGeoCodeobj.value = ddd;
 
     const swapLocations = () => {
       let tempInitialPosition = initialPosition.value;
       let tempFinalPosition = finalPosition.value;
-      initialPosition.value = finalPosition.value;
+      initialPosition.value = tempFinalPosition;
       finalPosition.value = tempInitialPosition;
-      console.log(initialPSearchBox);
-      console.log("----------------------------------");
-      console.log(initialPSearchBox.value.inputValue);
-      console.log("----------------------------------");
-      initialPSearchBox.value.inputValue = tempInitialPosition.name;
-      finalPSearchBox.value.inputValue = tempFinalPosition.name;
+      initialPSearchBox.value.inputValue = tempFinalPosition.name;
+      finalPSearchBox.value.inputValue = tempInitialPosition.name;
     };
     const increaseNumberofPassenger = () => {
       if (numberOfPassengers.value == 6) {
@@ -201,56 +248,78 @@ export default {
     };
     const SelectInitialPosition = (val) => {
       console.log(val);
-      // console.log(props);
-      //  props.initialPosition.name = val;
       var nameObject = mainresult.value.find((e) => e.display_name == val);
       console.log(nameObject);
-      //props.initialPosition.lat = nameObject.lat;
-      //props.initialPosition.lon = nameObject.lon;
-      // props.setInitialPosMarker(
-      //   props.initialPosition.lat,
-      //   props.initialPosition.lon
-      // );
-      console.log("-------Creating The Marker--------");
-      console.log("-------Creating The Marker--------");
-      // console.log(props.initialPositionMarkerFun);
-      console.log("-------Creating The Marker--------");
-      console.log("-------Creating The Marker--------");
-
-      //  props.initialPositionMarkerFun(nameObject.lat, nameObject.lon);
-
       initialPosition.value.name = val;
       initialPosition.value.lat = nameObject.lat;
       initialPosition.value.lon = nameObject.lon;
+      props.setSearchedInitialPosition({
+        name: val,
+        lat: nameObject.lat,
+        lon: nameObject.lon,
+      });
     };
     const SelectFinalPosition = (val) => {
       console.log(val);
-      // props.finalPosition.name = val;
       var nameObject = mainresult.value.find((e) => e.display_name == val);
       console.log(nameObject);
-
-      // props.finalPosition.lat = nameObject.lat;
-      //props.finalPosition.lon = nameObject.lon;
-      // props.finalPositionMarkerFun(
-      // props.finalPosition.lat,
-      // props.finalPosition.lon
-      // );
-
       finalPosition.value.name = val;
       finalPosition.value.lat = nameObject.lat;
       finalPosition.value.lon = nameObject.lon;
+      props.setSearchedFinalPosition({
+        name: val,
+        lat: nameObject.lat,
+        lon: nameObject.lon,
+      });
     };
-    let rideLocalDateTime = ref(null);
 
-    const rideDateTime = computed({
-      get() {
-        return new Date(rideLocalDateTime.value);
-      },
-      set(val) {
-        console.log("Setting The Values of Local Date Time:" + val);
-        rideLocalDateTime.value = val;
-      },
-    });
+    const setInitialPositioInForm = (val) => {
+      console.log("Changinh the Value of the form");
+      console.log("Changinh the Value of the form");
+      console.log("Changinh the Value of the form");
+      console.log("Changinh the Value of the form");
+      console.log("Changinh the Value of the form");
+      console.log("Changinh the Value of the form");
+      console.log("Changinh the Value of the form");
+
+      if (val.name != null) {
+        initialPosition.value.name = val;
+      }
+      initialPosition.value.lat = val.lat;
+      initialPosition.value.lon = val.lon;
+
+      console.log("Changinh the Value of the form");
+      console.log("Changinh the Value of the form");
+      console.log("Changinh the Value of the form");
+      console.log("Changinh the Value of the form");
+      console.log("Changinh the Value of the form");
+      console.log("Changinh the Value of the form");
+    };
+
+    const setFinalPositioInForm = (val) => {
+      console.log("Changinh the Value of the form");
+      console.log("Changinh the Value of the form");
+      console.log("Changinh the Value of the form");
+      console.log("Changinh the Value of the form");
+      console.log("Changinh the Value of the form");
+      console.log("Changinh the Value of the form");
+
+      if (val.name != null) {
+        finalPosition.value.name = val.name;
+      }
+      finalPosition.value.lat = val.lat;
+      finalPosition.value.lon = val.lon;
+      console.log("Changinh the Value of the form");
+      console.log("Changinh the Value of the form");
+      console.log("Changinh the Value of the form");
+      console.log("Changinh the Value of the form");
+      console.log("Changinh the Value of the form");
+    };
+
+    props.setInitialPositioInForm = setInitialPositioInForm;
+    props.setFinalPositioInForm = setFinalPositioInForm;
+
+    let rideLocalDateTime = ref(null);
 
     const findRide = async () => {
       console.log("Findig the Ride");
@@ -266,7 +335,35 @@ export default {
       findRideDto.UserId = user.id;
       findRideDto.StartPosition = initialPosition.value;
       findRideDto.EndPosition = finalPosition.value;
-      findRideDto.RideDateTime = rideDateTime.value;
+      findRideDto.RideDateTime = GetUtcDateTime(
+        new Date(rideLocalDateTime.value)
+      );
+
+      console.log("Here is the Value");
+      console.log("Here is the Value");
+      console.log("Here is the Value");
+      console.log("Here is the Value");
+      console.log("Here is the Value");
+      console.log("Here is the Value");
+
+      console.log(maxdistanceFromInitialPoint.value);
+      console.log(maxdistanceFromFinalPoint.value);
+
+      console.log("Here is the Value");
+      console.log("Here is the Value");
+      console.log("Here is the Value");
+      console.log("Here is the Value");
+      console.log("Here is the Value");
+      console.log("Here is the Value");
+      console.log("Here is the Value");
+
+      findRideDto.MaxRouteDistanceFromStartingPoint = parseInt(
+        maxdistanceFromInitialPoint.value
+      );
+      findRideDto.maxRouteDistanceFromEndingPoint = parseInt(
+        maxdistanceFromFinalPoint.value
+      );
+
       findRideDto.NumberofPassenger = numberOfPassengers.value;
       console.log(findRideDto);
       console.log("Call The Find Ride Function");
@@ -284,6 +381,45 @@ export default {
       console.log(response);
       console.log("Find Ride response");
       console.log(findRideResponse);
+      console.log("Setting Query Response");
+      console.log("Setting Query Response");
+      console.log("Setting Query Response");
+      console.log("Setting Query Response");
+      console.log("Setting Query Response");
+      console.log("Setting Query Response");
+      console.log("Setting Query Response");
+      console.log("Setting Query Response");
+      console.log(props);
+      console.log(props);
+      console.log(props);
+
+      console.log(props);
+      props.setQueryResponse(findRideResponse.value);
+      // props.queryResponse= findRideResponse.value;
+      console.log("Value Putted in it");
+      console.log(props);
+      console.log(props);
+      console.log(props);
+      console.log(props);
+      console.log("Value Putted in it");
+
+      console.log(props.queryResponse);
+      console.log(props.queryResponse);
+      console.log(props.queryResponse);
+      console.log(props.queryResponse);
+      console.log(props.queryResponse);
+      console.log(props.queryResponse);
+      console.log(props.queryResponse);
+
+      console.log("Setting Query Response");
+      console.log("Setting Query Response");
+      console.log("Setting Query Response");
+      console.log("Setting Query Response");
+      console.log("Setting Query Response");
+      console.log("Setting Query Response");
+      console.log("Setting Query Response");
+      console.log("Setting Query Response");
+
       console.log("Find Ride response");
     };
 
@@ -300,15 +436,17 @@ export default {
       SelectFinalPosition,
       initialPosition,
       finalPosition,
-      rideDateTime,
       swapLocations,
       findRide,
       findRideResponse,
+      reverseGeoCodeobj,
+      rideLocalDateTime,
+      maxdistanceFromInitialPoint,
+      maxdistanceFromFinalPoint,
     };
   },
-}
+};
 </script>
 
 <style>
-
 </style>
