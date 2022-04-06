@@ -5,24 +5,71 @@
 
     <div class="flex flex-row w-full justify-center items-center">
       <div class="flex flex-col md:w-4/12 w-10/12">
-        <div class="flex flex-row justify-center">
-          <vue-bootstrap-typeahead
-            class="w-full"
-            ref="initialPSearchBox"
-            v-on:keyup="InitialPchange"
-            :data="filteredNames"
-            @hit="SelectInitialPosition($event)"
-          />
+        <div class="flex flex-row items-center">
+          <div v-on:click="toogleShowMap" class="w-1/12">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-8 w-8"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+              />
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+              />
+            </svg>
+          </div>
+          <div class="flex flex-row justify-center w-11/12">
+            <vue-bootstrap-typeahead
+              class="w-full"
+              ref="initialPSearchBox"
+              v-on:keyup="InitialPchange"
+              :data="filteredNames"
+              @hit="SelectInitialPosition($event)"
+            />
+          </div>
         </div>
 
-        <div class="flex flex-row justify-center">
-          <vue-bootstrap-typeahead
-            class="w-full"
-            v-on:keyup="FinalPchange"
-            :data="filteredNames"
-            ref="finalPSearchBox"
-            @hit="SelectFinalPosition($event)"
-          />
+        <div class="flex flex-row items-center">
+          <div v-on:click="toogleShowMap" class="w-1/12">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-8 w-8"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+              />
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+              />
+            </svg>
+          </div>
+
+          <div class="flex flex-row justify-center w-11/12">
+            <vue-bootstrap-typeahead
+              class="w-full"
+              v-on:keyup="FinalPchange"
+              :data="filteredNames"
+              ref="finalPSearchBox"
+              @hit="SelectFinalPosition($event)"
+            />
+          </div>
         </div>
       </div>
       <div class="flex flex-col">
@@ -147,7 +194,7 @@
   {{ rideLocalDateTime }}
   {{ numberOfPassengers }}
   <!-- {{reverseGeoCodeobj}} -->
-  <!-- {{ findRideResponse }} -->
+   <!-- {{ findRideResponse }}  -->
 
   <!-- <div v-if="findRideResponse != null">
     <div v-for="rideDto in findRideResponse.responseObject" :key="rideDto">
@@ -175,6 +222,11 @@ export default {
     "setSearchedFinalPosition",
     "setInitialPositioInForm",
     "setFinalPositioInForm",
+    "drawinitialposMarkerFun",
+    "drawfinalposMarkerFun",
+    "initialposmapfun",
+    "finalposmapfun",
+    "toogleShowMap",
   ],
   setup(props) {
     const numberOfPassengers = ref(1);
@@ -258,6 +310,16 @@ export default {
         lat: nameObject.lat,
         lon: nameObject.lon,
       });
+      props.initialposmapfun({
+        name: val,
+        lat: nameObject.lat,
+        lon: nameObject.lon,
+      });
+
+      console.log("Prop Value");
+      console.log(props);
+      console.log(props.drawinitialposMarkerFun(true));
+      //props.drawinitialposMarkerFun.value();
     };
     const SelectFinalPosition = (val) => {
       console.log(val);
@@ -271,6 +333,14 @@ export default {
         lat: nameObject.lat,
         lon: nameObject.lon,
       });
+      props.finalposmapfun({
+        name: val,
+        lat: nameObject.lat,
+        lon: nameObject.lon,
+      });
+      console.log("Prop Value");
+      console.log(props.drawfinalposMarkerFun(true));
+      //  props.drawfinalposMarkerFun.value();
     };
 
     const setInitialPositioInForm = (val) => {
@@ -282,11 +352,20 @@ export default {
       console.log("Changinh the Value of the form");
       console.log("Changinh the Value of the form");
 
-      if (val.name != null) {
-        initialPosition.value.name = val;
+      console.log(val);
+
+      if (val != undefined) {
+        if (val.name != null) {
+          initialPosition.value.name = val;
+        }
+        initialPosition.value.lat = val.lat;
+        initialPosition.value.lon = val.lon;
+        props.setSearchedInitialPosition({
+          name: val,
+          lat: val.lat,
+          lon: val.lon,
+        });
       }
-      initialPosition.value.lat = val.lat;
-      initialPosition.value.lon = val.lon;
 
       console.log("Changinh the Value of the form");
       console.log("Changinh the Value of the form");
@@ -304,11 +383,26 @@ export default {
       console.log("Changinh the Value of the form");
       console.log("Changinh the Value of the form");
 
-      if (val.name != null) {
-        finalPosition.value.name = val.name;
+      console.log(val);
+
+      if (val != undefined) {
+        if (val.name != null) {
+          finalPosition.value.name = val.name;
+        }
+        finalPosition.value.lat = val.lat;
+        finalPosition.value.lon = val.lon;
+        props.setSearchedFinalPosition({
+          name: val,
+          lat: val.lat,
+          lon: val.lon,
+        });
+        props.initialposmapfun({
+          name: val,
+          lat: val.lat,
+          lon: val.lon,
+        });
       }
-      finalPosition.value.lat = val.lat;
-      finalPosition.value.lon = val.lon;
+
       console.log("Changinh the Value of the form");
       console.log("Changinh the Value of the form");
       console.log("Changinh the Value of the form");
@@ -316,8 +410,8 @@ export default {
       console.log("Changinh the Value of the form");
     };
 
-    props.setInitialPositioInForm = setInitialPositioInForm;
-    props.setFinalPositioInForm = setFinalPositioInForm;
+    props.setInitialPositioInForm(setInitialPositioInForm);
+    props.setFinalPositioInForm(setFinalPositioInForm);
 
     let rideLocalDateTime = ref(null);
 
@@ -333,6 +427,9 @@ export default {
         return;
       }
       findRideDto.UserId = user.id;
+      initialPosition.value.lat = String(initialPosition.value.lat);
+      initialPosition.value.lon = String(initialPosition.value.lon);
+
       findRideDto.StartPosition = initialPosition.value;
       findRideDto.EndPosition = finalPosition.value;
       findRideDto.RideDateTime = GetUtcDateTime(

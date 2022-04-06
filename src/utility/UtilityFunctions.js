@@ -13,7 +13,14 @@ const UtilityFunctions = () => {
     const GetUtcDateTime = (dateTime) => {
         return dateTime.toISOString();
     }
-    return { GetDateString, GetDateTimeString,GetUtcDateTime };
+
+    const GetDistanceinKmfromMeter=(val)=>{
+        return (val/1000);
+    }
+
+
+
+    return { GetDateString, GetDateTimeString,GetUtcDateTime,GetDistanceinKmfromMeter };
 };
 
 // 2018-06-12T19:30

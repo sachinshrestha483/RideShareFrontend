@@ -41,6 +41,7 @@ const getMyRides = async () => {
 const FindRide = async (ride) => {
   const httpResponseObject = new HttpResponseObject();
   console.log("Finding The Ride inside The Function");
+  ride
   await axios
     .post(Urls.FindRide, ride)
     .then(function (response) {

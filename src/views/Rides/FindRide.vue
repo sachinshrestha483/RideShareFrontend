@@ -1,44 +1,61 @@
 <template>
-  <div class="h-screen w-screen">
-    <h2>Map Should Be Shown Here</h2>
-    <div class="p-8">
-      <ChooseInitialAndFinalPositionMap
-        :getSearchedFinalPosition="getSearchedFinalPosition"
-        :getSearchedInitialPosition="getSearchedInitialPosition"
+  <div class="flex flex-col">
+    <div class="h-screen bg-white w-screen absolute" v-show="showMap">
+      <!-- <h2>Map Should Be Shown Here</h2> -->
+
+      <div class="p-8">
+        <ChooseInitialAndFinalPositionMap
+          :getSearchedFinalPosition="getSearchedFinalPosition"
+          :getSearchedInitialPosition="getSearchedInitialPosition"
+          :setSearchedInitialPosition="setSearchedInitialPosition"
+          :setSearchedFinalPosition="setSearchedFinalPosition"
+          :setInitialPositioInForm="initialposFun"
+          :setFinalPositioInForm="finalposFun"
+          :getDrawInitialPositionMarkerFun="getDrawInitialPositionMarkerFun"
+          :getDrawFinalPositionMarkerFun="getDrawFinalPositionMarkerFun"
+          :getSetInitialPositionInMapValue="getSetInitialPositionInMapValue"
+          :getSetFinalPositionInMapValue="getSetFinalPositionInMapValue"
+          :toogleShowMap="toogleShowMap"
+        />
+      </div>
+    </div>
+    <div v-show="!showMap">
+      <FindRideSearchForm
+        :setQueryResponse="setQueryResponse"
         :setSearchedInitialPosition="setSearchedInitialPosition"
         :setSearchedFinalPosition="setSearchedFinalPosition"
-           :setInitialPositioInForm="setInitialPositioInForm"
-    :setFinalPositioInForm="setFinalPositioInForm"
+        :setInitialPositioInForm="setInitialPositioInForm"
+        :setFinalPositioInForm="setFinalPositioInForm"
+        :drawinitialposMarkerFun="drawinitialposMarkerFun"
+        :drawfinalposMarkerFun="drawfinalposMarkerFun"
+        :initialposmapfun="initialposmapfun"
+        :finalposmapfun="finalposmapfun"
+        :toogleShowMap="toogleShowMap"
       />
     </div>
-  </div>
 
+    <div v-show="!showMap">
+      {{ searchedInitialPosition }}
+      {{ searchedFinalPosition }}
+    </div>
+    <!-- Response -  {{queryResponse}} -->
+    <div v-if="!showMap">
+      <div v-if="queryResponse != null">
+        <!-- Response -  {{queryResponse}}  -->
+        <div v-for="rideDto in queryResponse.responseObject" :key="rideDto">
+          <!-- {{rideDto.rideId}} -->
 
-  <FindRideSearchForm
-    :setQueryResponse="setQueryResponse"
-    :setSearchedInitialPosition="setSearchedInitialPosition"
-    :setSearchedFinalPosition="setSearchedFinalPosition"
-    :setInitialPositioInForm="setInitialPositioInForm"
-    :setFinalPositioInForm="setFinalPositioInForm"
-  />
-value from main
-{{searchedInitialPosition}}
-{{searchedFinalPosition}}
-value from main
-  <!-- Response -  {{queryResponse}} -->
-
-  <div v-if="queryResponse != null">
-    <!-- Response -  {{queryResponse}}  -->
-    <div v-for="rideDto in queryResponse.responseObject" :key="rideDto">
-      <!-- {{rideDto.rideId}} -->
-
-      <RideDetails
-        :rideId="rideDto.rideId"
-        :overLappingPath="rideDto.overLappingPath"
-        :searchedinitialPosition="searchedInitialPosition"
-        :searchedFinalPosition="searchedFinalPosition"
-        class="mb-4"
-      />
+          <RideDetails
+            :rideId="rideDto.rideId"
+            :overLappingPath="rideDto.overLappingPath"
+            :searchedinitialPosition="searchedInitialPosition"
+            :searchedFinalPosition="searchedFinalPosition"
+            class="mb-4"
+            :distanceFromInitialPosition="rideDto.distanceFromInitialPosition"
+            :distanceFromFinalPosition="rideDto.distanceFromFinalPosition"
+          />
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -65,15 +82,46 @@ export default {
     const searchedInitialPosition = ref(null);
     const searchedFinalPosition = ref(null);
 
-const setInitialPositioInForm= ()=>{
+    const initialposFun = ref(null);
+    const finalposFun = ref(null);
+    const drawinitialposMarkerFun = ref(null);
+    const drawfinalposMarkerFun = ref(null);
+    const initialposmapfun = ref(null);
+    const finalposmapfun = ref(null);
 
-}
+    const showMap = ref(false);
 
+    const toogleShowMap = () => {
+      showMap.value = !showMap.value;
 
-const setFinalPositioInForm= ()=>{
+      // drawinitialposMarkerFun.value(true);
+      // drawfinalposMarkerFun.value(true)
+      
+    };
 
-}
+    const getSetInitialPositionInMapValue = (fun) => {
+      initialposmapfun.value = fun;
+    };
 
+    const getSetFinalPositionInMapValue = (fun) => {
+      finalposmapfun.value = fun;
+    };
+
+    const getDrawInitialPositionMarkerFun = (fun) => {
+      drawinitialposMarkerFun.value = fun;
+    };
+
+    const getDrawFinalPositionMarkerFun = (fun) => {
+      drawfinalposMarkerFun.value = fun;
+    };
+
+    const setInitialPositioInForm = (fun) => {
+      initialposFun.value = fun;
+    };
+
+    const setFinalPositioInForm = (fun) => {
+      finalposFun.value = fun;
+    };
 
     const setSearchedInitialPosition = (val) => {
       searchedInitialPosition.value = val;
@@ -129,7 +177,19 @@ const setFinalPositioInForm= ()=>{
       getSearchedInitialPosition,
       getSearchedFinalPosition,
       setInitialPositioInForm,
-      setFinalPositioInForm
+      setFinalPositioInForm,
+      initialposFun,
+      finalposFun,
+      getDrawInitialPositionMarkerFun,
+      getDrawFinalPositionMarkerFun,
+      drawinitialposMarkerFun,
+      drawfinalposMarkerFun,
+      getSetInitialPositionInMapValue,
+      getSetFinalPositionInMapValue,
+      initialposmapfun,
+      finalposmapfun,
+      showMap,
+      toogleShowMap,
     };
   },
 };

@@ -93,7 +93,7 @@ export default {
         console.log(e.target._latlng);
         var obj = e.target._latlng;
         console.log("Object Lat :" + obj.lat);
-        console.log("Object Lat :" + obj.lng);
+        console.log("Object Lon :" + obj.lng);
       });
       marker.addTo(mymap);
     };

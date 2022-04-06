@@ -4,7 +4,6 @@
   <!-- <div id="mapid" ref="map"></div> -->
 
   <div v-if="ride != null">
-
     <!-- 
     {{ride.responseObject}}
 
@@ -26,6 +25,7 @@
             shadow-xl
           "
         >
+        
           <div class="text-2xl mb-4 ml-1">
             <div class="flex justify-between">
               <div>
@@ -193,6 +193,65 @@
           </div>
 
           <div
+            class="
+              mt-2
+              text-center
+              flex
+              justify-center
+              items-center
+              gap-x-2
+              items-center
+            "
+          >
+            <div class="flex flex-row items-center">
+              <div>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  title="Distance From Expected Initial Point"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  class="bi bi-pin-map-fill"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M3.1 11.2a.5.5 0 0 1 .4-.2H6a.5.5 0 0 1 0 1H3.75L1.5 15h13l-2.25-3H10a.5.5 0 0 1 0-1h2.5a.5.5 0 0 1 .4.2l3 4a.5.5 0 0 1-.4.8H.5a.5.5 0 0 1-.4-.8l3-4z"
+                  />
+                  <path
+                    fill-rule="evenodd"
+                    d="M4 4a4 4 0 1 1 4.5 3.969V13.5a.5.5 0 0 1-1 0V7.97A4 4 0 0 1 4 3.999z"
+                  />
+                </svg>
+              </div>
+              <div>{{   GetDistanceinKmfromMeter(distanceFromInitialPosition) }} km</div>
+            </div>
+            <div class="flex flex-row items-center">
+              <div>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  title="Distance From Expected Initial Point"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  class="bi bi-pin-map-fill"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M3.1 11.2a.5.5 0 0 1 .4-.2H6a.5.5 0 0 1 0 1H3.75L1.5 15h13l-2.25-3H10a.5.5 0 0 1 0-1h2.5a.5.5 0 0 1 .4.2l3 4a.5.5 0 0 1-.4.8H.5a.5.5 0 0 1-.4-.8l3-4z"
+                  />
+                  <path
+                    fill-rule="evenodd"
+                    d="M4 4a4 4 0 1 1 4.5 3.969V13.5a.5.5 0 0 1-1 0V7.97A4 4 0 0 1 4 3.999z"
+                  />
+                </svg>
+              </div>
+              <div>{{ GetDistanceinKmfromMeter(distanceFromFinalPosition) }} km</div>
+            </div>
+          </div>
+
+          <div
             class="mt-2 text-center flex justify-center items-center"
             v-if="ride.responseObject.vehicle != null"
           >
@@ -239,7 +298,7 @@ import { Ride } from "@/Models/Ride";
 import VehicleFunctions from "@/composables/VehicleFunctions";
 import { useRoute, useRouter } from "vue-router";
 import { getMyRide } from "@/composables/RideFunctions.js";
-
+import UtilityFunctions from "@/utility/UtilityFunctions.js";
 export default {
   props: [
     "rideId",
@@ -247,6 +306,8 @@ export default {
     "overLappingPath",
     "searchedinitialPosition",
     "searchedFinalPosition",
+    "distanceFromInitialPosition",
+    "distanceFromFinalPosition",
   ],
   setup(props) {
     const map = ref(null);
@@ -335,7 +396,7 @@ export default {
       };
 
       var searchedInitialPositionmarker = L.marker(
-        [props.searchedinitialPosition.lat,props.searchedinitialPosition.lon ],
+        [props.searchedinitialPosition.lat, props.searchedinitialPosition.lon],
         searchedInitialMarkerPositionOptions
       );
 
@@ -345,30 +406,26 @@ export default {
         title: "Searched Final Position Marker",
       };
       var searchedfinalPositionmarker = L.marker(
-        [props.searchedFinalPosition.lat,props.searchedFinalPosition.lon ],
+        [props.searchedFinalPosition.lat, props.searchedFinalPosition.lon],
         searchedFinalMarkerPositionOptions
       );
 
       searchedfinalPositionmarker.addTo(mymap);
     };
- 
- const DrawRoute = (path, mymap) => {
+
+    const DrawRoute = (path, mymap) => {
       let r = path;
       var polyline = L.polyline(r, { color: "red" }).addTo(mymap);
       mymap.fitBounds(polyline.getBounds());
     };
- 
- 
- const DrawOverlappingRoute = (path, mymap) => {
+
+    const DrawOverlappingRoute = (path, mymap) => {
       let r = path;
-      if(r.length>0)
-      {
-  var polyline = L.polyline(r, { color: "blue" }).addTo(mymap);
-      mymap.fitBounds(polyline.getBounds());
+      if (r.length > 0) {
+        var polyline = L.polyline(r, { color: "blue" }).addTo(mymap);
+        mymap.fitBounds(polyline.getBounds());
       }
     };
-
- 
 
     onMounted(async () => {
       await loadData();
@@ -427,8 +484,9 @@ export default {
       "November",
       "December",
     ];
+    const { GetDistanceinKmfromMeter } = UtilityFunctions();
 
-    return { ride, days, months, map };
+    return { ride, days, months, map, GetDistanceinKmfromMeter };
   },
 };
 </script>
