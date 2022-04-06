@@ -194,7 +194,7 @@
   {{ rideLocalDateTime }}
   {{ numberOfPassengers }}
   <!-- {{reverseGeoCodeobj}} -->
-   <!-- {{ findRideResponse }}  -->
+  <!-- {{ findRideResponse }}  -->
 
   <!-- <div v-if="findRideResponse != null">
     <div v-for="rideDto in findRideResponse.responseObject" :key="rideDto">
@@ -227,6 +227,8 @@ export default {
     "initialposmapfun",
     "finalposmapfun",
     "toogleShowMap",
+    "setGetInitialLocationFromFun",
+    "setGetFinalLocationFromFun",
   ],
   setup(props) {
     const numberOfPassengers = ref(1);
@@ -310,15 +312,17 @@ export default {
         lat: nameObject.lat,
         lon: nameObject.lon,
       });
-      props.initialposmapfun({
-        name: val,
-        lat: nameObject.lat,
-        lon: nameObject.lon,
-      });
+      // props.initialposmapfun({
+      //   name: val,
+      //   lat: nameObject.lat,
+      //   lon: nameObject.lon,
+      // });
 
       console.log("Prop Value");
       console.log(props);
-      console.log(props.drawinitialposMarkerFun(true));
+
+      //console.log(props.drawinitialposMarkerFun(true));
+
       //props.drawinitialposMarkerFun.value();
     };
     const SelectFinalPosition = (val) => {
@@ -333,13 +337,15 @@ export default {
         lat: nameObject.lat,
         lon: nameObject.lon,
       });
-      props.finalposmapfun({
-        name: val,
-        lat: nameObject.lat,
-        lon: nameObject.lon,
-      });
+      // props.finalposmapfun({
+      //   name: val,
+      //   lat: nameObject.lat,
+      //   lon: nameObject.lon,
+      // });
       console.log("Prop Value");
-      console.log(props.drawfinalposMarkerFun(true));
+
+      //console.log(props.drawfinalposMarkerFun(true));
+
       //  props.drawfinalposMarkerFun.value();
     };
 
@@ -462,6 +468,9 @@ export default {
       );
 
       findRideDto.NumberofPassenger = numberOfPassengers.value;
+      findRideDto.StartPosition.name="";
+      findRideDto.EndPosition.name="";
+
       console.log(findRideDto);
       console.log("Call The Find Ride Function");
       console.log("Call The Find Ride Function");
@@ -519,6 +528,16 @@ export default {
 
       console.log("Find Ride response");
     };
+
+    const getInitialPositionFun = () => {
+      return initialPosition.value;
+    };
+    const getFinalPositionFun = () => {
+      return finalPosition.value;
+    };
+
+    props.setGetInitialLocationFromFun(getInitialPositionFun);
+    props.setGetFinalLocationFromFun(getFinalPositionFun);
 
     return {
       decreaseNumberofPassenger,

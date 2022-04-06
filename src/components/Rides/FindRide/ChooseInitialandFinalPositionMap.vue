@@ -1,10 +1,20 @@
 <template>
-<div class="flex flex-row-reverse	">
-<svg xmlns="http://www.w3.org/2000/svg"  v-on:click="toogleShowMap()"  class="h-5 w-5 mb-1" viewBox="0 0 20 20" fill="currentColor">
-  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
-</svg>
-</div>
- {{ initialPosition }}
+  <div class="flex flex-row-reverse">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      v-on:click="toogleShowMap()"
+      class="h-5 w-5 mb-1"
+      viewBox="0 0 20 20"
+      fill="currentColor"
+    >
+      <path
+        fill-rule="evenodd"
+        d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+        clip-rule="evenodd"
+      />
+    </svg>
+  </div>
+  {{ initialPosition }}
   {{ finalPosition }}
   <div class="flex flex-row">
     <div class="flex flex-col w-4/12 p-4 pr-8">
@@ -27,7 +37,7 @@
             focus:outline-none
             dark:focus:ring-blue-800
           "
-           v-on:click="drawInitialPositionMarker(false)"
+          v-on:click="drawInitialPositionMarker(false)"
         >
           Draw Initial Position
         </button>
@@ -52,8 +62,7 @@
           "
           v-on:click="drawFinalPositionMarker(false)"
         >
-                  Draw Final Position
-
+          Draw Final Position
         </button>
 
         <!-- <button
@@ -122,6 +131,8 @@ export default {
     "getSetInitialPositionInMapValue",
     "getSetFinalPositionInMapValue",
     "toogleShowMap",
+    "getInitialLocationFromFun",
+    "getfinalLocationFromFun",
   ],
 
   setup(props) {
@@ -202,6 +213,10 @@ export default {
         initialPositionmarkerOptions
       );
 
+        props.setInitialPositioInForm(initialPosition.value);
+
+
+
       initialPositionmarker.on("moveend", function (e) {
         console.log("marker drag event");
         console.log(e.target._latlng);
@@ -240,6 +255,8 @@ export default {
         [finalPosition.value.lat, finalPosition.value.lon],
         finalmarkerOptions
       );
+        console.log(props.setFinalPositioInForm(finalPosition.value));
+
       finalPositionmarker.on("moveend", function (e) {
         console.log("marker drag event");
         console.log(e.target._latlng);
@@ -284,6 +301,41 @@ export default {
 
       tileLayer = L.tileLayer(tileUrl, { attribution });
       tileLayer.addTo(mymap);
+      console.log("@@@@@@@@##########@@@@@@@@@@@@###########@@@@@@@");
+      console.log("@@@@@@@@##########@@@@@@@@@@@@###########@@@@@@@");
+      console.log("@@@@@@@@##########@@@@@@@@@@@@###########@@@@@@@");
+      console.log("@@@@@@@@##########@@@@@@@@@@@@###########@@@@@@@");
+      console.log("@@@@@@@@##########@@@@@@@@@@@@###########@@@@@@@");
+
+      console.log(props.getSearchedInitialPosition);
+      console.log(props.getSearchedFinalPosition);
+
+      var csd = props.getSearchedInitialPosition();
+      var grfd = props.getSearchedFinalPosition();
+      console.log(csd);
+      console.log(grfd);
+
+      if (
+        !(
+          csd == null ||
+          csd == undefined ||
+          csd.lat == undefined ||
+          csd.lon == undefined
+        )
+      ) {
+        initialPosition.value.lat = csd.lat;
+        initialPosition.value.lon = csd.lon;
+        finalPosition.value.lat = grfd.lat;
+        finalPosition.value.lon = grfd.lon;
+        drawInitialPositionMarker(true);
+        drawFinalPositionMarker(true);
+      }
+
+      console.log("@@@@@@@@##########@@@@@@@@@@@@###########@@@@@@@");
+      console.log("@@@@@@@@##########@@@@@@@@@@@@###########@@@@@@@");
+      console.log("@@@@@@@@##########@@@@@@@@@@@@###########@@@@@@@");
+      console.log("@@@@@@@@##########@@@@@@@@@@@@###########@@@@@@@");
+      console.log("@@@@@@@@##########@@@@@@@@@@@@###########@@@@@@@");
     });
     return {
       map,

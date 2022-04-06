@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col">
-    <div class="h-screen bg-white w-screen absolute" v-show="showMap">
+    <div class="h-screen bg-white w-screen absolute" v-if="showMap">
       <!-- <h2>Map Should Be Shown Here</h2> -->
 
       <div class="p-8">
@@ -16,6 +16,9 @@
           :getSetInitialPositionInMapValue="getSetInitialPositionInMapValue"
           :getSetFinalPositionInMapValue="getSetFinalPositionInMapValue"
           :toogleShowMap="toogleShowMap"
+          :getInitialLocationFromFun="getInitialLocationFromFun"
+          :getfinalLocationFromFun="getfinalLocationFromFun"
+
         />
       </div>
     </div>
@@ -31,6 +34,8 @@
         :initialposmapfun="initialposmapfun"
         :finalposmapfun="finalposmapfun"
         :toogleShowMap="toogleShowMap"
+        :setGetInitialLocationFromFun="setGetInitialLocationFromFun"
+        :setGetFinalLocationFromFun="setGetFinalLocationFromFun"
       />
     </div>
 
@@ -88,6 +93,19 @@ export default {
     const drawfinalposMarkerFun = ref(null);
     const initialposmapfun = ref(null);
     const finalposmapfun = ref(null);
+    const getInitialLocationFromFun= ref(null);
+    const getfinalLocationFromFun= ref(null);
+
+
+const setGetInitialLocationFromFun=(val)=>{
+getInitialLocationFromFun.value=val;
+}
+
+
+const setGetFinalLocationFromFun=(val)=>{
+getfinalLocationFromFun.value=val;
+}
+
 
     const showMap = ref(false);
 
@@ -190,6 +208,10 @@ export default {
       finalposmapfun,
       showMap,
       toogleShowMap,
+      setGetInitialLocationFromFun,
+      setGetFinalLocationFromFun,
+      getInitialLocationFromFun,
+      getfinalLocationFromFun
     };
   },
 };
