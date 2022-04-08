@@ -53,8 +53,8 @@ class Urls {
   static myRidesRide= "/Ride/GetMyRide";
   static EditRide="/Ride/EditRide";
  static  EditAdvanceRideInfo= "/Ride/EditAdvanceRideInfo"
-
-
+ static  FindRideDetailOverlappingInfo= "/Ride/GetOverlappingIndexes"
+ static  SaveRideShareOffer= "/RideShareOffer/Create"
 }
 
 export default Urls;

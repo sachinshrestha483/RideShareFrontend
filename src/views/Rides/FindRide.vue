@@ -18,7 +18,6 @@
           :toogleShowMap="toogleShowMap"
           :getInitialLocationFromFun="getInitialLocationFromFun"
           :getfinalLocationFromFun="getfinalLocationFromFun"
-
         />
       </div>
     </div>
@@ -47,18 +46,35 @@
     <div v-if="!showMap">
       <div v-if="queryResponse != null">
         <!-- Response -  {{queryResponse}}  -->
-        <div v-for="rideDto in queryResponse.responseObject" :key="rideDto">
+        <div
+          v-for="rideDto in queryResponse.responseObject"
+          :key="rideDto.rideId"
+        >
           <!-- {{rideDto.rideId}} -->
-
-          <RideDetails
-            :rideId="rideDto.rideId"
-            :overLappingPath="rideDto.overLappingPath"
-            :searchedinitialPosition="searchedInitialPosition"
-            :searchedFinalPosition="searchedFinalPosition"
-            class="mb-4"
-            :distanceFromInitialPosition="rideDto.distanceFromInitialPosition"
-            :distanceFromFinalPosition="rideDto.distanceFromFinalPosition"
-          />
+          <router-link
+            :to="{
+              name: 'YourRidepath',
+              params: {
+                id: rideDto.rideId,
+                startLocationName: searchedInitialPosition.name,
+                startLat: searchedInitialPosition.lat,
+                startLon: searchedInitialPosition.lon,
+                endLocationName: searchedFinalPosition.name,
+                endLat: searchedFinalPosition.lat,
+                endLon: searchedFinalPosition.lon,
+              },
+            }"
+          >
+            <RideDetails
+              :rideId="rideDto.rideId"
+              :overLappingPath="rideDto.overLappingPath"
+              :searchedinitialPosition="searchedInitialPosition"
+              :searchedFinalPosition="searchedFinalPosition"
+              class="mb-4"
+              :distanceFromInitialPosition="rideDto.distanceFromInitialPosition"
+              :distanceFromFinalPosition="rideDto.distanceFromFinalPosition"
+            />
+          </router-link>
         </div>
       </div>
     </div>
@@ -93,19 +109,16 @@ export default {
     const drawfinalposMarkerFun = ref(null);
     const initialposmapfun = ref(null);
     const finalposmapfun = ref(null);
-    const getInitialLocationFromFun= ref(null);
-    const getfinalLocationFromFun= ref(null);
+    const getInitialLocationFromFun = ref(null);
+    const getfinalLocationFromFun = ref(null);
 
+    const setGetInitialLocationFromFun = (val) => {
+      getInitialLocationFromFun.value = val;
+    };
 
-const setGetInitialLocationFromFun=(val)=>{
-getInitialLocationFromFun.value=val;
-}
-
-
-const setGetFinalLocationFromFun=(val)=>{
-getfinalLocationFromFun.value=val;
-}
-
+    const setGetFinalLocationFromFun = (val) => {
+      getfinalLocationFromFun.value = val;
+    };
 
     const showMap = ref(false);
 
@@ -114,7 +127,6 @@ getfinalLocationFromFun.value=val;
 
       // drawinitialposMarkerFun.value(true);
       // drawfinalposMarkerFun.value(true)
-      
     };
 
     const getSetInitialPositionInMapValue = (fun) => {
@@ -211,7 +223,7 @@ getfinalLocationFromFun.value=val;
       setGetInitialLocationFromFun,
       setGetFinalLocationFromFun,
       getInitialLocationFromFun,
-      getfinalLocationFromFun
+      getfinalLocationFromFun,
     };
   },
 };

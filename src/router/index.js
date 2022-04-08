@@ -22,7 +22,8 @@ import PublishRide from "@/views/Rides/PublishRide"
 import FindRide from "@/views/Rides/FindRide"
 import YourRide from "@/views/Rides/YourRide"
 import YourRidesRide from "@/views/Rides/YourRides/Ride"
- import YourRidePath from "@/views/Rides/YourRides/RideRoute"
+import YourRidePath from "@/views/Rides/YourRides/RideRoute"
+import FindRideInfo from "@/views/Rides/FindRideInfo.vue"
 const requireAuth =(to,from,next)=>{
   let user= Store.state.user;
   console.log("Current User in Auth Guard is:"+user)
@@ -158,6 +159,12 @@ const routes = [
     name:"YourRidepath",
     props: true,
     component:YourRidePath,
+  },
+  {
+    path:"/FindRides/:id/:startLocationName/:startLat/:startLon/:endLocationName/:endLat/:endLon",
+    name:"YourRidepath",
+    props: true,
+    component:FindRideInfo,
   }
 ] 
 
