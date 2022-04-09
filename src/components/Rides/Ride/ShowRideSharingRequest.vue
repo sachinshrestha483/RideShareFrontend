@@ -3,8 +3,7 @@
     <!-- {{savedRideShareOffer}}  -->
     <div class="flex flex-row justify-center items-center gap-4">
       <div class="text-center secondaryText mb-2">
-        {{ savedRideShareOffer == null ? "Create" : "Edit" }} Ride Sharing
-        Request
+      Ride Sharing Offer
       </div>
       <div
         v-if="savedRideShareOffer != null"
@@ -111,6 +110,7 @@ import {
   getRideShareOffer,
   DeleteRideShareOffer,
   getRideShareOfferStatusText,
+  getRideShareOfferById
 } from "@/composables/RideFunctions";
 import Store from "@/store/index";
 import GeoCordinatesFunction from "@/composables/GeoCordinatesFunctions.js";
@@ -149,7 +149,10 @@ export default {
     var mapObject = ref(null);
 
     const getSavedRideSharingRequestInfo = async () => {
-      savedRideShareOffer.value = props.rideSharerequest;
+     // savedRideShareOffer.value = props.rideSharerequest;
+ var response = await getRideShareOfferById(props.rideSharerequest.id);
+      savedRideShareOffer.value = response.responseObject;
+
       console.log("saved Ride Share Offer");
       console.log("saved Ride Share Offer");
       console.log("saved Ride Share Offer");

@@ -78,14 +78,16 @@
             :ride="currentRideShareOffer.ride"
             :rideSharerequest="currentRideShareOffer"
           />
-        </div>
-      </div>
-      <RideRequestResponse
+
+          <RideRequestResponse
         v-if="dataLoaded && currentRideShareOffer != null"
         :key="rideSharingRequestComponentkey"
         :RideShareRequest="currentRideShareOffer"
         :reRender="reRender"
       />
+        </div>
+      </div>
+      
       <!-- <div v-for="ridesharerequest in list" :key="ridesharerequest.id">
         <CreateRideSharingRequest
           :key="CreateRideSharingRequestComponentkey"

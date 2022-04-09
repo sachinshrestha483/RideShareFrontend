@@ -1,5 +1,8 @@
 <template>
-  <div class="flex flex-row justify-center w-full" v-if="RideShareRequest!=null" >
+  <div
+    class="flex flex-row justify-center w-full"
+    v-if="savedRideShareOffer != null"
+  >
     <div class="flex flex-col md:w-6/12 w-10/12">
       <div
         class="
@@ -119,6 +122,7 @@ import {
   getRideShareOfferStatusText,
   setRideSharerequestForReview,
   SetResponseToRideShareOffer,
+  getRideShareOfferById,
 } from "@/composables/RideFunctions";
 
 export default {
@@ -130,6 +134,7 @@ export default {
     const intersted = 3;
     const responseTypeId = ref(4);
     const message = ref("");
+    const savedRideShareOffer = ref(null);
     // const getAllRideShareOfferForUserRide
 
     const getRideShareOfferStatusTextFun = async (id) => {
@@ -145,11 +150,18 @@ export default {
     };
 
     onMounted(async () => {
-        console.log("Ride Share Request Id")
-      console.log(props.RideShareRequest)
+      console.log("Ride Share Request Id");
+      console.log(props.RideShareRequest);
+
       await setRideSharerequestForReview({
-            "rideId": props.RideShareRequest.id
-            });
+        rideId: props.RideShareRequest.id,
+      });
+
+      var response = await getRideShareOfferById(props.RideShareRequest.id);
+      savedRideShareOffer.value = response.responseObject;
+
+      responseTypeId.value = savedRideShareOffer.value.rideShareOfferStatus;
+      message.value=savedRideShareOffer.value.notesForOfferCreator
     });
 
     const UpdateRideShareOffer = async () => {
@@ -172,6 +184,7 @@ export default {
       updated,
       intersted,
       message,
+      savedRideShareOffer,
     };
   },
 };
