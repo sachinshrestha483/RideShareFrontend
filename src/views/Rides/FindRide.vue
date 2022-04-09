@@ -35,12 +35,14 @@
         :toogleShowMap="toogleShowMap"
         :setGetInitialLocationFromFun="setGetInitialLocationFromFun"
         :setGetFinalLocationFromFun="setGetFinalLocationFromFun"
+        :setGetNumOfPassengers="setGetNumOfPassengers"
       />
     </div>
 
     <div v-show="!showMap">
       {{ searchedInitialPosition }}
-      {{ searchedFinalPosition }}
+      <!-- djhfjh-   {{ searchedInitialPosition.name.name.name  }}
+     fdf-  {{ searchedFinalPosition.name.name.name }} -->
     </div>
     <!-- Response -  {{queryResponse}} -->
     <div v-if="!showMap">
@@ -62,6 +64,8 @@
                 endLocationName: searchedFinalPosition.name,
                 endLat: searchedFinalPosition.lat,
                 endLon: searchedFinalPosition.lon,
+                numofPassengers: getNumberofPassengersFromFun(),
+                price: 500,
               },
             }"
           >
@@ -111,6 +115,8 @@ export default {
     const finalposmapfun = ref(null);
     const getInitialLocationFromFun = ref(null);
     const getfinalLocationFromFun = ref(null);
+    const getNumberofPassengersFromFun = ref(null);
+    const getPriceFromFun = ref(null);
 
     const setGetInitialLocationFromFun = (val) => {
       getInitialLocationFromFun.value = val;
@@ -158,6 +164,10 @@ export default {
     };
     const setSearchedFinalPosition = (val) => {
       searchedFinalPosition.value = val;
+    };
+
+    const setGetNumOfPassengers = (val) => {
+      getNumberofPassengersFromFun.value = val;
     };
 
     const getSearchedInitialPosition = () => {
@@ -224,6 +234,8 @@ export default {
       setGetFinalLocationFromFun,
       getInitialLocationFromFun,
       getfinalLocationFromFun,
+      setGetNumOfPassengers,
+      getNumberofPassengersFromFun,
     };
   },
 };

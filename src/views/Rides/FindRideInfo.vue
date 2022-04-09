@@ -1,18 +1,25 @@
 <template>
   <div class="pageMargin1">
+    {{ $route.params }}
+
     <!-- {{$store.state.user }} -->
     <!-- {{ $route.params.id }}
     {{ $route.params }} -->
-     <!-- Store  {{ $store}} -->
-     <!-- {{$store.state.user}} -->
+    <!-- Store  {{ $store}} -->
+    <!-- {{$store.state.user}} -->
     <!-- {{ ride }} -->
     <!-- {{ ride }}
     {{ rideOverlappingData }} -->
+
+     <!-- {{ride}}  -->
   </div>
   <div>
     <div
       v-if="
-        ride != null && rideOverlappingData != null && overlappingPath != null &&$store.state.user!=null
+        ride != null &&
+        rideOverlappingData != null &&
+        overlappingPath != null &&
+        $store.state.user != null
       "
     >
       <!-- {{ride.responseObject.path}} -->
@@ -39,9 +46,11 @@
           rideOverlappingData.responseObject.distanceFromFinalPosition
         "
       />
+      <!-- v-if="ride.responseObject.userId!= $store.state.user.id " -->
 
       <CreateRideSharingRequest
-      v-if="ride.responseObject.rideId== $store.state.user.id "
+       :key="CreateRideSharingRequestComponentkey"
+        v-if="showCreateRideSharingRequestComponent"
         class="mb-4"
         :avaliableSeats="ride.responseObject.numberofPassenger"
         :rideId="$route.params.id"
@@ -51,6 +60,16 @@
         :endLon="$route.params.endLon"
         :startLocationName="$route.params.startLocationName"
         :endLocationName="$route.params.endLocationName"
+        :numOfPassengers="$route.params.numofPassengers"
+        :reRender="reRenderCreateRideSharingRequestComponent"
+          :distanceFromInitialPosition="
+          rideOverlappingData.responseObject.distanceFromInitialPosition
+        "
+        :distanceFromFinalPosition="
+          rideOverlappingData.responseObject.distanceFromFinalPosition
+        "
+        :overLappingPath="overlappingPath"
+        :ride="ride.responseObject"
       />
     </div>
   </div>
@@ -78,10 +97,34 @@ export default {
     // console.log(useRoute.arguments);
     const router = useRoute();
     let rideId = router.params.id;
+    const showCreateRideSharingRequestComponent = ref(true);
+    const CreateRideSharingRequestComponentkey= ref(0);
 
     const ride = ref(null);
     const rideOverlappingData = ref(null);
     const overlappingPath = ref(null);
+
+    const reRenderCreateRideSharingRequestComponent = () => {
+      console.log("Re Rendering Component");
+      console.log("Re Rendering Component");
+      console.log("Re Rendering Component");
+      console.log("Re Rendering Component");
+
+      CreateRideSharingRequestComponentkey.value++;
+
+      // showCreateRideSharingRequestComponent.value = false;
+      // showCreateRideSharingRequestComponent.value = true;
+
+      // // setTimeout(() => {      showCreateRideSharingRequestComponent.value=true; }, 1);
+
+      // showCreateRideSharingRequestComponent.value = false;
+      // showCreateRideSharingRequestComponent.value = true;
+
+      console.log("Re Rendering Component");
+      console.log("Re Rendering Component");
+      console.log("Re Rendering Component");
+      console.log("Re Rendering Component");
+    };
 
     const getRide = async () => {
       let response = await getMyRide(rideId);
@@ -148,7 +191,14 @@ export default {
       console.log(overlappingPath);
     });
 
-    return { rideOverlappingData, ride, overlappingPath };
+    return {
+      rideOverlappingData,
+      ride,
+      overlappingPath,
+      reRenderCreateRideSharingRequestComponent,
+      showCreateRideSharingRequestComponent,
+      CreateRideSharingRequestComponentkey
+    };
   },
 };
 </script>

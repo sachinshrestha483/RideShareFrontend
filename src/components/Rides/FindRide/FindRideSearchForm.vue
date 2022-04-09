@@ -229,6 +229,7 @@ export default {
     "toogleShowMap",
     "setGetInitialLocationFromFun",
     "setGetFinalLocationFromFun",
+    "setGetNumOfPassengers",
   ],
   setup(props) {
     const numberOfPassengers = ref(1);
@@ -263,6 +264,7 @@ export default {
         numberOfPassengers.value == 0;
       } else {
         numberOfPassengers.value++;
+        
       }
     };
     const decreaseNumberofPassenger = () => {
@@ -272,6 +274,16 @@ export default {
         numberOfPassengers.value--;
       }
     };
+
+const getNumOfPassengers= ()=>{
+  return numberOfPassengers.value;
+}
+   props.setGetNumOfPassengers(getNumOfPassengers);
+
+
+
+
+
     const getPlaceNames = async (name) => {
       let res = await getNames(name);
       console.log("-------res is here------");
@@ -367,7 +379,7 @@ export default {
         initialPosition.value.lat = val.lat;
         initialPosition.value.lon = val.lon;
         props.setSearchedInitialPosition({
-          name: val,
+          name: val.name,
           lat: val.lat,
           lon: val.lon,
         });
@@ -398,7 +410,7 @@ export default {
         finalPosition.value.lat = val.lat;
         finalPosition.value.lon = val.lon;
         props.setSearchedFinalPosition({
-          name: val,
+          name: val.name,
           lat: val.lat,
           lon: val.lon,
         });

@@ -38,10 +38,115 @@ const getMyRides = async () => {
   return httpResponseObject;
 }
 
+const getRideShareOfferStatusText=async (id)=>{
+  const httpResponseObject = new HttpResponseObject();
+  console.log("Finding The Ride inside The Function");
+  //ride
+  await axios
+    .post(Urls.GetRideShareOfferStatusText+"?id="+parseInt(id))
+    .then(function (response) {
+      console.log(response);
+      console.log("data inside  the Ride Functions");
+      httpResponseObject.responseObject = response.data;
+      console.log(httpResponseObject);
+      console.log("Returning the object");
+    })
+    .catch(function (error) {
+      httpResponseObject.objSubmitted = false;
+      console.log("Error is Here");
+      console.log(error.response);
+      try {
+        httpResponseObject.errorMessage = error.response.data.message;
+      }
+      catch {
+        httpResponseObject.errorMessage = null;
+      }
+      // error.response is where we got oir response
+    });
+  // httpResponseObject.haveError = !objSubmitted;
+  //shttpResponseObject.responseObject;
+  console.log("returning the response object from the function")
+  console.log("returning the response object from the function")
+  console.log("returning the response object from the function")
+  console.log("returning the response object from the function")
+  return httpResponseObject; 
+}
+
+
+const DeleteRideShareOffer= async(id)=>{
+  const httpResponseObject = new HttpResponseObject();
+  console.log("Finding The Ride inside The Function");
+  //ride
+  await axios
+    .post(Urls.DeleteRideShareOffer+"?id="+parseInt(id))
+    .then(function (response) {
+      console.log(response);
+      console.log("data inside  the Ride Functions");
+      httpResponseObject.responseObject = response.data;
+      console.log(httpResponseObject);
+      console.log("Returning the object");
+    })
+    .catch(function (error) {
+      httpResponseObject.objSubmitted = false;
+      console.log("Error is Here");
+      console.log(error.response);
+      try {
+        httpResponseObject.errorMessage = error.response.data.message;
+      }
+      catch {
+        httpResponseObject.errorMessage = null;
+      }
+      // error.response is where we got oir response
+    });
+  // httpResponseObject.haveError = !objSubmitted;
+  //shttpResponseObject.responseObject;
+  console.log("returning the response object from the function")
+  console.log("returning the response object from the function")
+  console.log("returning the response object from the function")
+  console.log("returning the response object from the function")
+  return httpResponseObject;
+}
+
+
+const getRideShareOffer= async(id)=>{
+  const httpResponseObject = new HttpResponseObject();
+  console.log("Finding The Ride inside The Function");
+  //ride
+  await axios
+    .post(Urls.GetRideShareOffer, {"rideId": parseInt(id) })
+    .then(function (response) {
+      console.log(response);
+      console.log("data inside  the Ride Functions");
+      httpResponseObject.responseObject = response.data;
+      console.log(httpResponseObject);
+      console.log("Returning the object");
+    })
+    .catch(function (error) {
+      httpResponseObject.objSubmitted = false;
+      console.log("Error is Here");
+      console.log(error.response);
+      try {
+        httpResponseObject.errorMessage = error.response.data.message;
+      }
+      catch {
+        httpResponseObject.errorMessage = null;
+      }
+      // error.response is where we got oir response
+    });
+  // httpResponseObject.haveError = !objSubmitted;
+  //shttpResponseObject.responseObject;
+  console.log("returning the response object from the function")
+  console.log("returning the response object from the function")
+  console.log("returning the response object from the function")
+  console.log("returning the response object from the function")
+  return httpResponseObject;
+}
+
+
 const FindRide = async (ride) => {
   const httpResponseObject = new HttpResponseObject();
   console.log("Finding The Ride inside The Function");
-  ride
+//  ride
   await axios
     .post(Urls.FindRide, ride)
     .then(function (response) {
@@ -222,4 +327,4 @@ const GetRideOverlappingDetails=async (ride)=>{
 }
 
 
-export { PublishRide, FindRide, getMyRides, getMyRide,EditRide,AdvanceEditRide,GetRideOverlappingDetails,SaveRideShareOffer };
+export { PublishRide, FindRide, getMyRides, getMyRide,EditRide,AdvanceEditRide,GetRideOverlappingDetails,SaveRideShareOffer,getRideShareOffer,DeleteRideShareOffer,getRideShareOfferStatusText };

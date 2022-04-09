@@ -161,7 +161,7 @@ const routes = [
     component:YourRidePath,
   },
   {
-    path:"/FindRides/:id/:startLocationName/:startLat/:startLon/:endLocationName/:endLat/:endLon",
+    path:"/FindRides/:id/:startLocationName/:startLat/:startLon/:endLocationName/:endLat/:endLon/:numofPassengers",
     name:"YourRidepath",
     props: true,
     component:FindRideInfo,
