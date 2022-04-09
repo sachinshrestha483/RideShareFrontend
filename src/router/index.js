@@ -24,6 +24,10 @@ import YourRide from "@/views/Rides/YourRide"
 import YourRidesRide from "@/views/Rides/YourRides/Ride"
 import YourRidePath from "@/views/Rides/YourRides/RideRoute"
 import FindRideInfo from "@/views/Rides/FindRideInfo.vue"
+import RideShareRequests from "@/views/Rides/RideShareRequests.vue"
+import RideShareOffers from "@/views/Rides/RideShareOffers.vue"
+
+
 const requireAuth =(to,from,next)=>{
   let user= Store.state.user;
   console.log("Current User in Auth Guard is:"+user)
@@ -152,7 +156,8 @@ const routes = [
   {
     path:"/YourRides/Ride/:id",
     name:"YourRidesRide",
-    component:YourRidesRide
+    props: true,
+    component:YourRidesRide,
   },
   {
     path:"/YourRides/RidePath/:id/:zoomlat/:zoomlon",
@@ -162,10 +167,23 @@ const routes = [
   },
   {
     path:"/FindRides/:id/:startLocationName/:startLat/:startLon/:endLocationName/:endLat/:endLon/:numofPassengers",
-    name:"YourRidepath",
+    name:"FindRides",
     props: true,
     component:FindRideInfo,
+  },
+  {
+    path:"/RideShareRequests",
+    name:"RideShareRequests",
+    props: true,
+    component:RideShareRequests,
+  },
+  {
+    path:"/RideShareOffer/GetAllOffers",
+    name:"RideShareOffers",
+    props: true,
+    component:RideShareOffers,
   }
+
 ] 
 
 const router = createRouter({

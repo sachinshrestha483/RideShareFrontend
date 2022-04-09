@@ -1,6 +1,7 @@
 <template>
   <div class="mx-4">
     <div class="primaryHeading mb-8 text-center">Ride Plan</div>
+
     <div class="flex flex-row justify-center w-full" v-if="ride != null">
       <div class="flex flex-col md:w-6/12 w-10/12">
         <div
@@ -21,6 +22,7 @@
             {{
               days[new Date(ride.dateTimeOfRide).getDay()].substring(0, 3)
             }},{{ new Date(ride.dateTimeOfRide).getDate() }}
+
             {{
               months[new Date(ride.dateTimeOfRide).getMonth()].substring(0, 3)
             }},{{ new Date(ride.dateTimeOfRide).getHours() }}:{{
@@ -28,7 +30,7 @@
             }}
           </div>
 
-          <router-link
+         <router-link
             :to="{
               name: 'YourRidepath',
               params: { id: ride.id , zoomlat:ride.startLocationLatitude, zoomlon:ride.startLocationLongitude },
@@ -45,16 +47,21 @@
             >
               <circle cx="8" cy="8" r="8" />
             </svg>
+
             &nbsp;{{ ride.startLocationName }}
+
             (
+
             {{
               days[new Date(ride.dateTimeOfRide).getDay()].substring(0, 3)
             }},{{ new Date(ride.dateTimeOfRide).getDate() }}
+
             {{
               months[new Date(ride.dateTimeOfRide).getMonth()].substring(0, 3)
             }},{{ new Date(ride.dateTimeOfRide).getHours() }}:{{
               new Date(ride.dateTimeOfRide).getMinutes()
             }}
+
             )
 
             <div class="grid grid-cols-3 gap-4 grid-row-reverse">
@@ -71,11 +78,11 @@
                 />
               </svg>
             </div>
-          </router-link>
+         </router-link>
 
           <div class="h-12 border-l-4 border-gray-600 ml-2"></div>
 
-          <router-link
+         <router-link
             :to="{
               name: 'YourRidepath',
               params: { id: ride.id , zoomlat:ride.endLocationLatitude, zoomlon:ride.endLocationLongitude},
@@ -92,15 +99,19 @@
             >
               <circle cx="8" cy="8" r="8" />
             </svg>
+
             &nbsp;
 
             {{ ride.endLocationName }}
+
             (
+
             {{
               days[
                 new Date(ride.destinationReachingDateTime).getDay()
               ].substring(0, 3)
             }},{{ new Date(ride.destinationReachingDateTime).getDate() }}
+
             {{
               months[
                 new Date(ride.destinationReachingDateTime).getMonth()
@@ -108,7 +119,9 @@
             }},{{ new Date(ride.destinationReachingDateTime).getHours() }}:{{
               new Date(ride.destinationReachingDateTime).getMinutes()
             }}
+
             )
+
             <svg
               xmlns="http://www.w3.org/2000/svg"
               class="h-5 w-5 text-right"
@@ -121,75 +134,110 @@
                 clip-rule="evenodd"
               />
             </svg>
-          </router-link>
+            </router-link>
         </div>
       </div>
     </div>
   </div>
 </template>
 
+  
+
 <script>
 import { ref } from "vue";
-import { getMyRides, getMyRide } from "@/composables/RideFunctions";
-import { useRoute, useRouter } from "vue-router";
-import UtilityData from "@/utility/UtilityData";
 
+import { getMyRides, getMyRide } from "@/composables/RideFunctions";
+
+import { useRoute, useRouter } from "vue-router";
+
+import UtilityData from "@/utility/UtilityData";
 export default {
-  components: {},
   setup() {
     const ride = ref(null);
-
     let days = [
       "Monday",
+
       "Tuesday",
+
       "Wednesday",
+
       "Thursday",
+
       "Friday",
+
       "Saturday",
     ];
+
     let months = [
       "january",
+
       "February",
+
       "March",
+
       "April",
+
       "May",
+
       "June",
+
       "July",
+
       "August",
+
       "September",
+
       "October",
+
       "November",
+
       "December",
     ];
 
     const router = useRoute();
+
     let rideId = router.params.id;
 
     getMyRide(rideId).then((responseObject) => {
       console.log("Response Object");
+
       console.log(responseObject);
+
       if (responseObject.haveError) {
         return;
       }
+
       /// Calculating Other Values
+
       ride.value = responseObject.responseObject;
       let speedinmpersec = UtilityData.averageSpeedinKmph / 3.6;
+
       let distanceinMeter = responseObject.responseObject.distanceinMeter;
+
       let localInitialDateTime = new Date(ride.value.dateTimeOfRide);
+
       console.log("local Initial Date time");
+
       console.log(localInitialDateTime);
+
       let timeinSeconds = Math.round(distanceinMeter / speedinmpersec);
+
       console.log("Time is Here ");
+
       console.log(timeinSeconds);
+
       let localFinalDateTime = localInitialDateTime;
+
       localFinalDateTime.setSeconds(
         localFinalDateTime.getSeconds() + timeinSeconds
       );
+
       console.log(localFinalDateTime);
 
       ride.value.destinationReachingDateTime = localFinalDateTime;
     });
-    return { days, months, ride };
+
+    return { ride, days, months };
   },
 };
 </script>

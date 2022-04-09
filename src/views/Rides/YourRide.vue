@@ -23,7 +23,9 @@
           <router-link
             :to="{
               name: 'YourRidesRide',
-              params: { id: ride.id },
+              params: {
+                id: ride.id,
+              },
             }"
           >
             <div class="text-2xl mb-4 ml-1">

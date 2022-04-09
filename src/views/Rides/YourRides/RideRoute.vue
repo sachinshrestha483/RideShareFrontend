@@ -177,7 +177,7 @@
                   ? Math.round(ride.responseObject.distanceinMeter / 1000)
                   : "0"
               }}
-              km7
+              km
               <!-- {{typeof(ride.responseObject.distanceinMeter)}} -->
             </div>
           </div>
@@ -665,8 +665,8 @@ export default {
 
     console.log("Ride ID" + rideId);
 
-    console.log("latitude:" + router.params.lat);
-    console.log("longitude:" + router.params.lon);
+    // console.log("latitude:" + router.params.lat);
+    // console.log("longitude:" + router.params.lon);
     zoomedLat.value = router.params.zoomlat;
     zoomedLon.value = router.params.zoomlon;
 

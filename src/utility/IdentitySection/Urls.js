@@ -43,22 +43,38 @@ class Urls {
   static UpdateVehicle = "/Vehicle/UpdateVehicle";
   static AddVehicleType = "/VehicleType/AddVehicleType";
   static UpdateVehicleType = "/VehicleType/UpdateVehicleType";
-  static UserVehicleById="/Vehicle/GetUserVehiclesById?id=";
-  static VehicleTypeById="/VehicleType/GetVehicleTypeById?id="
-  static UserTravelPrefrences="/UserTravelPrefrence/GetUserTravelPrefrences"
-  static UserPublicProfile="/User/UserPublicProfile?id="
-  static AddRide="/Ride/CreateRide";
-  static FindRide="/Ride/FindRide";
-  static myRides= "/Ride/GetMyRides";
-  static myRidesRide= "/Ride/GetMyRide";
-  static EditRide="/Ride/EditRide";
- static  EditAdvanceRideInfo= "/Ride/EditAdvanceRideInfo"
- static  FindRideDetailOverlappingInfo= "/Ride/GetOverlappingIndexes"
- static  SaveRideShareOffer= "/RideShareOffer/Create"
- static  GetRideShareOffer= "/RideShareOffer/Get"
- static  DeleteRideShareOffer= "/RideShareOffer/Delete"
+  static UserVehicleById = "/Vehicle/GetUserVehiclesById?id=";
+  static VehicleTypeById = "/VehicleType/GetVehicleTypeById?id="
+  static UserTravelPrefrences = "/UserTravelPrefrence/GetUserTravelPrefrences"
+  static UserPublicProfile = "/User/UserPublicProfile?id="
+  static AddRide = "/Ride/CreateRide";
+  static FindRide = "/Ride/FindRide";
+  static myRides = "/Ride/GetMyRides";
+  static myRidesRide = "/Ride/GetMyRide";
+  static EditRide = "/Ride/EditRide";
+  static EditAdvanceRideInfo = "/Ride/EditAdvanceRideInfo"
+  static FindRideDetailOverlappingInfo = "/Ride/GetOverlappingIndexes"
+  static SaveRideShareOffer = "/RideShareOffer/Create"
+  static GetRideShareOffer = "/RideShareOffer/Get"
+  static DeleteRideShareOffer = "/RideShareOffer/Delete"
 
- static  GetRideShareOfferStatusText = "/RideShareOffer/GetRideShareOfferStatusText"
+  static GetRideShareOfferStatusText = "/RideShareOffer/GetRideShareOfferStatusText"
+
+  static GetAllRideShareOffers = "/RideShareOffer/GetAll"
+
+  static GetAllRideShareOffersForUser = "/RideShareOffer/GetAllOffers"
+
+  static RideShareOfferForReview = "/RideShareOffer/LoadRideShareOfferForReview"
+
+  static SetResponseForRideShareOffer ="/RideShareOffer/SetResponseForRideShareOffer"
+
+
+
+
+
+
+
+
 
 }
 
