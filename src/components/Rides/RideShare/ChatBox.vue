@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-row justify-center w-full">
-    <div class="flex flex-col md:w-6/12 w-10/12">
+    <div class="flex flex-col w-full h-fit">
       <div
         class="
           shadow-md
@@ -18,7 +18,7 @@
           <div class="text-2xl mb-4 ml-1">Messages</div>
 
           <div
-            class="h-96 bg-gray-200 overflow-auto"
+            class="h-80 bg-gray-200 overflow-auto"
             ref="chatsArea"
             id="chatsArea"
           >
@@ -34,9 +34,9 @@
                   <div
                     :class="`${
                       $store.state.user.id == item.userId
-                        ? 'bg-blue-500  '
-                        : 'bg-white'
-                    } p-3 rounded-xl  text-left  rounded-tl-none  text-md font-normal w-80 text-clip overflow-hidden flex flex-col 	`"
+                        ? 'bg-blue-500 rounded-tr-none '
+                        : 'bg-white rounded-tl-none'
+                    } p-3 rounded-xl  text-left    text-md font-normal w-80 text-clip overflow-hidden flex flex-col 	`"
                   >
                     <div>
                       {{ item.message }}
@@ -50,16 +50,33 @@
             </div>
           </div>
 
-          <div>
-            <input
-              type="text"
-              class="inputBox"
-              placeholder="Message For Request Owner"
-              v-model="message"
-            />
-            <button class="primaryButton w-full" v-on:click="sendMessage">
-              Submit
-            </button>
+          <div class="flex flex-row items-center gap-4">
+            <div class="w-10/12">
+              <input
+                type="text"
+                class="inputBox"
+                placeholder="Message For Request Owner"
+                v-model="message"
+              />
+            </div>
+            <!-- <div class="  " v-on:click="sendMessage"> -->
+            <div class="w-2/12">
+              <svg
+               v-on:click="sendMessage"
+                xmlns="http://www.w3.org/2000/svg"
+                width="30"
+                height="30"
+                fill="currentColor"
+                class="bi bi-send-fill text-blue-500"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 3.178 4.995.002.002.26.41a.5.5 0 0 0 .886-.083l6-15Zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471-.47 1.178Z"
+                />
+              </svg>
+            </div>
+
+            <!-- </div> -->
           </div>
         </div>
       </div>
@@ -153,13 +170,9 @@ export default {
       //   sendMessage(projectFirestore);
     });
 
-    onUnmounted(()=>{
-unsubscribe();
-    })
-
-
-
-
+    onUnmounted(() => {
+      unsubscribe();
+    });
 
     return { list, message, sendMessage, user, chatsArea };
   },

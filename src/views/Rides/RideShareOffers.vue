@@ -57,7 +57,7 @@
 
           <ShowRideSharingRequest
             :key="rideSharingRequestComponentkey"
-            class="mb-4"
+            class="mb-4 z-10"
             :avaliableSeats="currentRideShareOffer.ride.numberofPassenger"
             :rideId="currentRideShareOffer.ride.id"
             :startLat="null"
@@ -80,20 +80,15 @@
           />
 
           <RideRequestResponse
-        v-if="dataLoaded && currentRideShareOffer != null"
-        :key="rideSharingRequestComponentkey"
-        :RideShareRequest="currentRideShareOffer"
-        :reRender="reRender"
-      />
-        <ChatBox
-      
-      :rideShareRequestId="currentRideShareOffer.id"
-       />
-    
+            v-if="dataLoaded && currentRideShareOffer != null"
+            :key="rideSharingRequestComponentkey"
+            :RideShareRequest="currentRideShareOffer"
+            :reRender="reRender"
+          />
+          <!-- <ChatBox :rideShareRequestId="currentRideShareOffer.id" /> -->
         </div>
-        
       </div>
-      
+
       <!-- <div v-for="ridesharerequest in list" :key="ridesharerequest.id">
         <CreateRideSharingRequest
           :key="CreateRideSharingRequestComponentkey"
@@ -119,6 +114,68 @@
         />
       </div> -->
     </div>
+    <div
+      class="flex flex-col fixed bottom-0 right-0 bg-white z-50 h-fit"
+     :key="currentIndex"
+      v-if="showchatBox && dataLoaded && currentRideShareOffer != null"
+    >
+      <div class="flex flex-row-reverse w-full">
+        <div>
+          <svg
+            v-on:click="showchatBox = !showchatBox"
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-x-circle-fill text-gray-500"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"
+            />
+          </svg>
+        </div>
+      </div>
+      <ChatBox
+        class="h-fit"
+        :key="rideSharingRequestComponentkey"
+        :rideShareRequestId="currentRideShareOffer.id"
+      />
+    </div>
+
+    <div
+      v-if="!showchatBox"
+      class="
+        w-16
+        h-16
+        bg-blue-500
+        hover:blue-600
+        rounded-full
+        p-0
+        pl-2
+        pt-2
+        fixed
+        mb-8
+        mr-4
+        bottom-0
+        right-0
+        z-20
+      "
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="48"
+        height="48"
+        fill="currentColor"
+        class="text-white text-center bi bi-messenger hover:text-gray-200"
+        viewBox="0 0 16 16"
+        v-on:click="showchatBox = !showchatBox"
+      >
+        <path
+          d="M0 7.76C0 3.301 3.493 0 8 0s8 3.301 8 7.76-3.493 7.76-8 7.76c-.81 0-1.586-.107-2.316-.307a.639.639 0 0 0-.427.03l-1.588.702a.64.64 0 0 1-.898-.566l-.044-1.423a.639.639 0 0 0-.215-.456C.956 12.108 0 10.092 0 7.76zm5.546-1.459-2.35 3.728c-.225.358.214.761.551.506l2.525-1.916a.48.48 0 0 1 .578-.002l1.869 1.402a1.2 1.2 0 0 0 1.735-.32l2.35-3.728c.226-.358-.214-.761-.551-.506L9.728 7.381a.48.48 0 0 1-.578.002L7.281 5.98a1.2 1.2 0 0 0-1.735.32z"
+        />
+      </svg>
+    </div>
   </div>
 </template>
 
@@ -137,14 +194,14 @@ import {
 import ShowRideSharingRequest from "@/components/Rides/Ride/ShowRideSharingRequest.vue";
 import RideSummaryBox from "@/components/Rides/Ride/RideSummaryBox.vue";
 import RideRequestResponse from "@/components/Rides/Ride/RideRequestResponse.vue";
-import ChatBox from "@/components/Rides/RideShare/ChatBox"
+import ChatBox from "@/components/Rides/RideShare/ChatBox";
 
 export default {
   components: {
     ShowRideSharingRequest,
     RideSummaryBox,
     RideRequestResponse,
-    ChatBox
+    ChatBox,
   },
 
   props: [],
@@ -152,6 +209,7 @@ export default {
   setup(porps) {
     const list = ref([]);
     const dataLoaded = ref(false);
+    const showchatBox = ref(false);
     const currentIndex = ref(0);
     const isNextPossible = computed(() => {
       return currentIndex.value < list.value.length - 1;
@@ -232,6 +290,7 @@ export default {
       dataLoaded,
       days,
       months,
+      showchatBox,
     };
   },
 };
