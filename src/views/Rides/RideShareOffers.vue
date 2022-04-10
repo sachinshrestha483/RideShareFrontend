@@ -85,7 +85,13 @@
         :RideShareRequest="currentRideShareOffer"
         :reRender="reRender"
       />
+        <ChatBox
+      
+      :rideShareRequestId="currentRideShareOffer.id"
+       />
+    
         </div>
+        
       </div>
       
       <!-- <div v-for="ridesharerequest in list" :key="ridesharerequest.id">
@@ -131,12 +137,14 @@ import {
 import ShowRideSharingRequest from "@/components/Rides/Ride/ShowRideSharingRequest.vue";
 import RideSummaryBox from "@/components/Rides/Ride/RideSummaryBox.vue";
 import RideRequestResponse from "@/components/Rides/Ride/RideRequestResponse.vue";
+import ChatBox from "@/components/Rides/RideShare/ChatBox"
 
 export default {
   components: {
     ShowRideSharingRequest,
     RideSummaryBox,
     RideRequestResponse,
+    ChatBox
   },
 
   props: [],

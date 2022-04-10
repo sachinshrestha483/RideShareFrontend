@@ -77,7 +77,14 @@
             :overLappingPath="currentRideShareOffer.overlappingPath"
             :ride="currentRideShareOffer.ride"
           />
+          <ChatBox
+      
+      :rideShareRequestId="currentRideShareOffer.id"
+       />
+    
         </div>
+
+    
       </div>
 
       <!-- <div v-for="ridesharerequest in list" :key="ridesharerequest.id">
@@ -112,6 +119,8 @@
 import { ref, computed, onMounted } from "vue";
 import Store from "@/store/index";
 import GeoCordinatesFunction from "@/composables/GeoCordinatesFunctions.js";
+import ChatBox from "@/components/Rides/RideShare/ChatBox"
+
 import {
   SaveRideShareOffer,
   getRideShareOffer,
@@ -127,6 +136,7 @@ export default {
   components: {
     CreateRideSharingRequest,
     RideSummaryBox,
+    ChatBox
   },
 
   props: [],
