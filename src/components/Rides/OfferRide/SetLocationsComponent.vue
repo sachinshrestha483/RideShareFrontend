@@ -65,10 +65,12 @@
         @hit="SelectFinalPosition($event)"
       />
 
-      <label class="secondaryText" v-if="isEditView==false">Select Vehicle</label>
+      <label class="secondaryText" v-if="isEditView == false"
+        >Select Vehicle</label
+      >
 
       <select
-      v-if="isEditView==false"
+        v-if="isEditView == false"
         v-model="selectedVehicleId"
         required
         class="
@@ -93,26 +95,46 @@
         </option>
       </select>
 
-      <label class="secondaryText" v-if="isEditView==false">Number of Passengers</label>
+      <label class="secondaryText" v-if="isEditView == false"
+        >Number of Passengers</label
+      >
 
-      <input type="number" required class="inputBox mb-8" v-if="isEditView==false"  v-model="numberOfPassengers" />
+      <input
+        type="number"
+        required
+        class="inputBox mb-8"
+        v-if="isEditView == false"
+        v-model="numberOfPassengers"
+      />
 
       <br />
-      <label class="secondaryText" v-if="isEditView==false" >Ride Date Time</label>
+      <label class="secondaryText" v-if="isEditView == false"
+        >Ride Date Time</label
+      >
       <input
-      v-if="isEditView==false"
+        v-if="isEditView == false"
         type="datetime-local"
         class="inputBox mb-8"
         v-model="rideDateTime"
       />
 
-      <label class="secondaryText" v-if="isEditView==false">Price</label>
+      <label class="secondaryText" v-if="isEditView == false">Price</label>
 
-      <input type="number" class="inputBox mb-8" v-if="isEditView==false" v-model="price" />
+      <input
+        type="number"
+        class="inputBox mb-8"
+        v-if="isEditView == false"
+        v-model="price"
+      />
 
-      <label class="secondaryText" v-if="isEditView==false">Notes</label>
+      <label class="secondaryText" v-if="isEditView == false">Notes</label>
 
-      <textarea type="text" class="inputBox mb-8" v-if="isEditView==false" v-model="note" />
+      <textarea
+        type="text"
+        class="inputBox mb-8"
+        v-if="isEditView == false"
+        v-model="note"
+      />
     </div>
 
     <div class="container" v-if="resultRoutes.length > 0">
@@ -174,18 +196,19 @@
         <p>Route Intermediate Posotion :{{ intermediatePositions }}</p>
         <p>Selected Route Index : {{ selectedRouteIndex }}</p>
 
-
-        <div class="flex flex-row justify-center mb-4 mt-2" v-if="isEditView==false"  >
+        <div
+          class="flex flex-row justify-center mb-4 mt-2"
+          v-if="isEditView == false"
+        >
           <button class="primaryButton" v-on:click="publishRoute">
             Publish Ride
           </button>
         </div>
-         <div class="flex flex-row justify-center mb-4 mt-2" v-else>
+        <div class="flex flex-row justify-center mb-4 mt-2" v-else>
           <button class="primaryButton" v-on:click="EditRoute">
             Edit Ride
           </button>
         </div>
-
       </div>
     </div>
   </div>
@@ -198,9 +221,16 @@ import { useStore } from "vuex";
 import VehicleFunctions from "@/composables/VehicleFunctions";
 import { computed, ref } from "vue";
 import { Ride } from "@/Models/Ride";
-import { PublishRide, EditRide ,AdvanceEditRide} from "@/composables/RideFunctions";
+import Swal from "sweetalert2";
+import { successAlert ,errorAlert} from "@/composables/Notifications.js";
+import {
+  PublishRide,
+  EditRide,
+  AdvanceEditRide,
+} from "@/composables/RideFunctions";
 import Store from "@/store/index";
 import UtilityFunctions from "@/utility/UtilityFunctions.js";
+import { useRoute, useRouter } from "vue-router";
 
 export default {
   components: {
@@ -217,10 +247,12 @@ export default {
     "createRouteFun",
     "isEditView",
     "EditViewSavedRideId",
-    "getSetIntermediatePosFun"
+    "getSetIntermediatePosFun",
   ],
 
   setup(props) {
+    const router = useRouter();
+
     const initialPSearchBox = ref(null);
     const finalPSearchBox = ref(null);
     const IntermediateSearchBox = ref(null);
@@ -240,17 +272,7 @@ export default {
     const finalPosition = ref({ name: null, lat: null, lon: null });
     const intermediatePositions = ref([]);
 
-    let rideLocalDateTime = ref(null);
-
-    const rideDateTime = computed({
-      get() {
-        return new Date(rideLocalDateTime.value);
-      },
-      set(val) {
-        console.log("Setting The Values of Local Date Time:" + val);
-        rideLocalDateTime.value = val;
-      },
-    });
+    const rideDateTime = ref(null);
 
     console.log(VehicleFunctions);
     const { GetUserVehicles } = VehicleFunctions();
@@ -321,17 +343,14 @@ export default {
       console.log("----------------------------");
       console.log("----------------------------");
 
-
-      console.log("the Type of Latitude is :"+ typeof(nameObject.lat));
-      console.log("the Type of Longitude is :"+ typeof(nameObject.lon));
+      console.log("the Type of Latitude is :" + typeof nameObject.lat);
+      console.log("the Type of Longitude is :" + typeof nameObject.lon);
       console.log("----------------------------");
       console.log("----------------------------");
       console.log("----------------------------");
       console.log("----------------------------");
       console.log("----------------------------");
       console.log("----------------------------");
-
-
 
       props.initialPosition.lat = nameObject.lat;
       props.initialPosition.lon = nameObject.lon;
@@ -370,9 +389,8 @@ export default {
       finalPosition.value.lon = nameObject.lon;
     };
 
-
-const setIntermediatePositionValue=async (name,lat,lon)=>{
-  props.intermediatePoints.push({
+    const setIntermediatePositionValue = async (name, lat, lon) => {
+      props.intermediatePoints.push({
         name: name,
         lat: lat,
         lon: lon,
@@ -381,21 +399,24 @@ const setIntermediatePositionValue=async (name,lat,lon)=>{
 
       props.intermediatePositionMarkerFun();
       // props.SetIntermediatePosMarker();
-      intermediatePositions.value.push({
+
+       intermediatePositions.value.push({
         name: name,
-        lat: nameObject.lat,
-        lon: nameObject.lon,
+        lat: lat,
+        lon: lon,
       });
+      // intermediatePositions.value.push({
+      //   name: name,
+      //   lat: nameObject.lat,
+      //   lon: nameObject.lon,
+      // });
 
       await calcuteRoute();
-}
+    };
 
-try{
-props.getSetIntermediatePosFun(setIntermediatePositionValue);
-}
-catch(e){
-
-}
+    try {
+      props.getSetIntermediatePosFun(setIntermediatePositionValue);
+    } catch (e) {}
     const setIntermediatePosition = async (index, val) => {
       console.log("Index" + index);
       console.log("Val" + val);
@@ -585,7 +606,7 @@ catch(e){
       rideObject.IntermediatePositions = intermediatePositions.value;
       rideObject.RideDistance =
         resultRoutes.value[selectedRouteIndex.value].distance;
-      rideObject.RideDatetime =  GetUtcDateTime(rideDateTime.value);
+      rideObject.RideDatetime = GetUtcDateTime(new Date(rideDateTime.value));
       rideObject.VehicleId = parseInt(selectedVehicleId.value);
       rideObject.NumberofPassenger = parseInt(numberOfPassengers.value);
       rideObject.Price = parseInt(price.value);
@@ -603,17 +624,48 @@ catch(e){
 
       // rideObject.RouteVia=
 
+      if (
+        initialPosition.value.name == null ||
+        initialPosition.value.lat == null ||
+        initialPosition.value.lon == null ||
+        finalPosition.value.name == null ||
+        finalPosition.value.lat == null ||
+        finalPosition.value.lon == null ||
+        selectedVehicleId.value == null ||
+        numberOfPassengers.value == 0 ||
+        price.value == null ||
+        rideDateTime.value == null
+      ) {
+        alert("Validation Error in Form");
+
+        return;
+      }
+
       console.log("-----Ride Object-------");
       console.log("-----Ride Object-------");
       console.log("-----Ride Object-------");
       console.log("-----Ride Object-------");
 
       let response = await PublishRide(rideObject);
+
+      if (!response.haveError) {
+        Swal.fire(" Ride Sucessfully Submitted", "success");
+        router.push({ name: "YourRide" });
+      } else {
+        //   router.push({ name: "Home" });
+        //    alert("Error in Submitting Form");
+        Swal.fire({
+          title: "Error in Submitting The Form!",
+          text: "Please Try Again Later",
+          icon: "error",
+          confirmButtonText: "Cool",
+        });
+      }
+
       //    console.log(response);
     };
 
-
-   const EditRoute = async () => {
+    const EditRoute = async () => {
       let user = Store.state.user;
 
       if (user == null) {
@@ -626,7 +678,7 @@ catch(e){
       console.log(resultRoutes.value[selectedRouteIndex.value]);
 
       const rideObject = new Ride();
-      rideObject.Id=props.EditViewSavedRideId
+      rideObject.Id = props.EditViewSavedRideId;
       rideObject.RidePath =
         resultRoutes.value[selectedRouteIndex.value].geoJson;
       rideObject.StartPosition = initialPosition.value;
@@ -652,22 +704,31 @@ catch(e){
       console.log("-----Ride Object-------");
       console.log("-----Ride Object-------");
 
+      if (
+        initialPosition.value.name == null ||
+        initialPosition.value.lat == null ||
+        initialPosition.value.lon == null ||
+        finalPosition.value.name == null ||
+        finalPosition.value.lat == null ||
+        finalPosition.value.lon == null
+      ) {
+       errorAlert("Validation Error in Form")
+        return;
+      }
+
       let response = await AdvanceEditRide(rideObject);
+      console.log(response)
+
+      if(!response.haveError){
+successAlert("Sucessfully Udated ")
+      }
+      else{
+       errorAlert("Error While Submitting the  Form")
+      }
+      //
+      router.go();
       //   console.log(response);
     };
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     return {
       initialPSearchBox,
@@ -695,7 +756,7 @@ catch(e){
       numberOfPassengers,
       price,
       note,
-      EditRoute
+      EditRoute,
     };
   },
 };

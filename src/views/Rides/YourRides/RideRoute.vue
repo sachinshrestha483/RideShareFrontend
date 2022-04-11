@@ -544,6 +544,7 @@ import MapComponent from "@/components/Rides/OfferRide/MapComponent";
 import { EditRide } from "@/composables/RideFunctions";
 import UtilityFunctions from "@/utility/UtilityFunctions.js";
 import { Ride } from "@/Models/Ride";
+import { successAlert,errorAlert } from "@/composables/Notifications.js";
 
 export default {
   components: {
@@ -561,6 +562,7 @@ export default {
     const showMapEditBar = ref(false);
     const showEditRideForm = ref(false);
     const userVehicles = ref([]);
+    const navrouter = useRouter();
 
     const editedride = {
       id: 0,
@@ -658,7 +660,34 @@ export default {
       rideObject.Price = parseInt(editedride.price);
       rideObject.Note = editedride.note;
       rideObject.RideVia = editedride.via;
-      await EditRide(rideObject);
+
+
+if(
+rideObject.StartPosition.Name==""
+||rideObject.StartPosition.Name==null
+||rideObject.EndPosition.Name==""
+||rideObject.EndPosition.Name==null
+||rideObject.VehicleId ==0
+||  rideObject.NumberofPassenger ==0
+||  rideObject.Price ==0
+)
+{
+  errorAlert("Validation Error in Form")
+  return;
+}
+
+
+
+     var response=  await EditRide(rideObject);
+      if(!response.haveError){
+         successAlert("Updated Sucessfully")
+         navrouter.go();
+
+      }
+      else{
+        errorAlert("Error While Submitting Form")
+      }
+
     };
 
     let rideId = router.params.id;

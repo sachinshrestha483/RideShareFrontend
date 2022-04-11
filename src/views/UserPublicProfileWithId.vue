@@ -1,4 +1,5 @@
 <template>
+{{user}}
   <div
     v-if="loading == false && user == null"
     class="text-center primaryHeading mt-4"
@@ -36,12 +37,12 @@
         </div>
 
         <div class="flex flex-row primaryHeading mt-2 justify-center">
-          Sachin
+          {{user.firstName}}
         </div>
         <div
           class="flex text-gray-400 font-semibold flex-row secondaryText mt-4 justify-center"
         >
-          19 y/o
+          <!-- 19 y/o -->
         </div>
 
         <div class="mt-8 border-gray-300 border-b-2 p-4">
@@ -132,14 +133,6 @@
               ? "Email Verified"
               : "Email Not Verified"
           }}
-        </div>
-
-        <div class="mt-2 text-gray-400 font-semibold p-4">
-          2 Rides Published
-        </div>
-
-        <div class="mt-2 text-gray-400 font-semibold px-4">
-          Member since March 2021
         </div>
       </div>
     </div>

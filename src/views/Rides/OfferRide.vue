@@ -4,7 +4,7 @@
 
     <div class="flex flex-row justify-between">
       <div>
-        <SetLocationsComponent
+        <SetLocationsComponent  
           :addMarkerFun="addMarker"
           :initialPosition="initialPosition"
           :intermediatePoints="intermediatePoints"

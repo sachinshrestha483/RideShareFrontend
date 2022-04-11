@@ -334,7 +334,7 @@ const EditRide = async (ride) => {
       console.log("data");
     })
     .catch(function (error) {
-      httpResponseObject.objSubmitted = false;
+      httpResponseObject.haveError = true;
       console.log("Error is Here");
       console.log(error.response);
       try {
@@ -344,9 +344,6 @@ const EditRide = async (ride) => {
         httpResponseObject.errorMessage = null;
       }
     });
-  httpResponseObject.haveError = !httpResponseObject.objSubmitted;
-  httpResponseObject.responseObject;
-
   return httpResponseObject;
 }
 
@@ -360,7 +357,7 @@ const AdvanceEditRide = async (ride) => {
       console.log("data");
     })
     .catch(function (error) {
-      httpResponseObject.objSubmitted = false;
+      httpResponseObject.haveError = true;
       console.log("Error is Here");
       console.log(error.response);
       try {
@@ -370,8 +367,8 @@ const AdvanceEditRide = async (ride) => {
         httpResponseObject.errorMessage = null;
       }
     });
-  httpResponseObject.haveError = !httpResponseObject.objSubmitted;
-  httpResponseObject.responseObject;
+  // httpResponseObject.haveError = !httpResponseObject.objSubmitted;
+  // httpResponseObject.responseObject;
 
   return httpResponseObject;
 }
@@ -388,6 +385,7 @@ const PublishRide = async (ride) => {
       httpResponseObject.objSubmitted = false;
       console.log("Error is Here");
       console.log(error.response);
+        httpResponseObject.haveError = !httpResponseObject.objSubmitted;
       try {
         httpResponseObject.errorMessage = error.response.data.message;
       }
@@ -395,9 +393,7 @@ const PublishRide = async (ride) => {
         httpResponseObject.errorMessage = null;
       }
     });
-  httpResponseObject.haveError = !httpResponseObject.objSubmitted;
-  httpResponseObject.responseObject;
-
+ 
   return httpResponseObject;
 }
 
