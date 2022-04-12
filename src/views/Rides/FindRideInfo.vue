@@ -2,7 +2,7 @@
   <div class="pageMargin1">
     {{ $route.params }}
 
-    <!-- {{$store.state.user }} -->
+    {{$store.state.user }}
     <!-- {{ $route.params.id }}
     {{ $route.params }} -->
     <!-- Store  {{ $store}} -->
@@ -47,10 +47,10 @@
         "
       />
       <!-- v-if="ride.responseObject.userId!= $store.state.user.id " -->
-
+<!-- && $store.state.user.id!= ride.responseObject.userId -->
       <CreateRideSharingRequest
        :key="CreateRideSharingRequestComponentkey"
-        v-if="showCreateRideSharingRequestComponent"
+        v-if="showCreateRideSharingRequestComponent && $store.state.user.id!= ride.responseObject.userId"
         class="mb-4"
         :avaliableSeats="ride.responseObject.numberofPassenger"
         :rideId="$route.params.id"

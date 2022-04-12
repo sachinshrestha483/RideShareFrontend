@@ -22,6 +22,7 @@
         <button
           type="button"
           class="
+            w-full
             text-white
             bg-blue-700
             hover:bg-blue-800
@@ -37,12 +38,12 @@
             focus:outline-none
             dark:focus:ring-blue-800
           "
-          v-on:click="drawInitialPositionMarker(false)"
+          v-on:click="drawInitialPositionMarker(false);drawFinalPositionMarker(false)"
         >
-          Draw Initial Position
-        </button>
+          Draw Initial and Final Position Markers
+         </button>
 
-        <button
+        <!-- <button
           type="button"
           class="
             text-white
@@ -63,7 +64,7 @@
           v-on:click="drawFinalPositionMarker(false)"
         >
           Draw Final Position
-        </button>
+        </button> -->
 
         <!-- <button
           class="primaryButton mb-4"

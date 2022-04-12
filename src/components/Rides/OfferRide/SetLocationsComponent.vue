@@ -231,7 +231,8 @@ import {
 import Store from "@/store/index";
 import UtilityFunctions from "@/utility/UtilityFunctions.js";
 import { useRoute, useRouter } from "vue-router";
-
+import Debouncing from "@/utility/Debouncing.js"
+ 
 export default {
   components: {
     VueBootstrapTypeahead,
@@ -252,6 +253,7 @@ export default {
 
   setup(props) {
     const router = useRouter();
+    const debouncer= new Debouncing();
 
     const initialPSearchBox = ref(null);
     const finalPSearchBox = ref(null);
@@ -309,14 +311,16 @@ export default {
       console.log("-------Change it------");
       console.log(initialPSearchBox.value.inputValue);
       console.log(initialPSearchBox.value.inputValue);
-      getPlaceNames(initialPSearchBox.value.inputValue);
+      debouncer.setdebouncingFunction(getPlaceNames,[initialPSearchBox.value.inputValue])
+     // getPlaceNames(initialPSearchBox.value.inputValue);
     };
 
     const FinalPchange = () => {
       console.log("-------Change it------");
       console.log(finalPSearchBox.value.inputValue);
       console.log(finalPSearchBox.value.inputValue);
-      getPlaceNames(finalPSearchBox.value.inputValue);
+      debouncer.setdebouncingFunction(getPlaceNames,[finalPSearchBox.value.inputValue])
+    //  getPlaceNames(finalPSearchBox.value.inputValue);
     };
 
     const intermediateChange = (index) => {
@@ -326,7 +330,8 @@ export default {
       console.log(index);
       console.log(IntermediateSearchBox.value.inputValue);
       console.log("--- Here is----");
-      getPlaceNames(IntermediateSearchBox.value.inputValue);
+      debouncer.setdebouncingFunction(getPlaceNames,[IntermediateSearchBox.value.inputValue])
+//      getPlaceNames(IntermediateSearchBox.value.inputValue);
     };
 
     const SelectInitialPosition = (val) => {

@@ -26,6 +26,7 @@ import YourRidePath from "@/views/Rides/YourRides/RideRoute"
 import FindRideInfo from "@/views/Rides/FindRideInfo.vue"
 import RideShareRequests from "@/views/Rides/RideShareRequests.vue"
 import RideShareOffers from "@/views/Rides/RideShareOffers.vue"
+import TestPage from "@/views/TestPage.vue"
 
 
 const requireAuth =(to,from,next)=>{
@@ -182,7 +183,14 @@ const routes = [
     name:"RideShareOffers",
     props: true,
     component:RideShareOffers,
+  },
+  {
+    path:"/TestPage/",
+    name:"TestPage",
+    props: true,
+    component:TestPage,
   }
+
 
 ] 
 

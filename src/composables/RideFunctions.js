@@ -158,6 +158,7 @@ const DeleteRideShareOffer = async (id) => {
       console.log("Returning the object");
     })
     .catch(function (error) {
+      httpResponseObject.haveError = true;
       httpResponseObject.objSubmitted = false;
       console.log("Error is Here");
       console.log(error.response);
@@ -302,6 +303,7 @@ const SaveRideShareOffer = async (rideshareOffer) => {
     })
     .catch(function (error) {
       httpResponseObject.objSubmitted = false;
+      httpResponseObject.haveError=true;
       console.log("Error is Here");
       console.log(error.response);
       try {

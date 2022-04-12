@@ -55,7 +55,7 @@
           <!-- {{rideDto.rideId}} -->
           <router-link
             :to="{
-              name: 'YourRidepath',
+              name: 'FindRides',
               params: {
                 id: rideDto.rideId,
                 startLocationName: searchedInitialPosition.name,
