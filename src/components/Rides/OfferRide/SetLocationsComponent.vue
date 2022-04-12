@@ -3,12 +3,13 @@
     <div class="flex flex-col">
       <label class="secondaryText">Initial Position</label>
       <vue-bootstrap-typeahead
-        class=""
+        class="mb-0"
         ref="initialPSearchBox"
         v-on:keyup="InitialPchange"
         :data="filteredNames"
         @hit="SelectInitialPosition($event)"
       />
+      <span class="pt-0 text-sm text-red-500  mt-0 font-medium">{{formErrors.initialPosition}}</span>
 
       <br />
       <label class="secondaryText">Intermediate Position</label>
@@ -20,6 +21,7 @@
         placeholder="Add Intermediate"
         @hit="setIntermediatePosition(intermediatePoints.length, $event)"
       />
+      <span class="pt-0 text-sm text-red-500  mt-0 font-medium">{{formErrors.intermediatePositions}}</span>
 
       <div v-for="(item, index) in intermediatePoints" :key="item">
         <div
@@ -64,6 +66,7 @@
         ref="finalPSearchBox"
         @hit="SelectFinalPosition($event)"
       />
+      <span class="pt-0 text-sm text-red-500  mt-0   mb-4 font-medium">{{formErrors.finalPosition}}</span>
 
       <label class="secondaryText" v-if="isEditView == false"
         >Select Vehicle</label
@@ -74,6 +77,7 @@
         v-model="selectedVehicleId"
         required
         class="
+        mb-0
           focus:outline-none
           my-4
           text-gray-500
@@ -95,6 +99,9 @@
         </option>
       </select>
 
+      <span class="pt-0 text-sm text-red-500  mt-2 font-medium mb-2 ">{{formErrors.selectedVehicleId }}</span>
+
+
       <label class="secondaryText" v-if="isEditView == false"
         >Number of Passengers</label
       >
@@ -102,10 +109,12 @@
       <input
         type="number"
         required
-        class="inputBox mb-8"
+        class="inputBox mb-0"
         v-if="isEditView == false"
         v-model="numberOfPassengers"
       />
+
+      <span class="pt-0 text-sm text-red-500  mt-2 font-medium mb-1 ">{{formErrors.numberOfPassengers}}</span>
 
       <br />
       <label class="secondaryText" v-if="isEditView == false"
@@ -114,18 +123,24 @@
       <input
         v-if="isEditView == false"
         type="datetime-local"
-        class="inputBox mb-8"
+        class="inputBox mb-0"
         v-model="rideDateTime"
       />
+
+      <span class="pt-0 text-sm text-red-500  mt-2 font-medium mb-4 ">{{formErrors.rideDateTime}}</span>
+
 
       <label class="secondaryText" v-if="isEditView == false">Price</label>
 
       <input
         type="number"
-        class="inputBox mb-8"
+        class="inputBox mb-1"
         v-if="isEditView == false"
         v-model="price"
       />
+
+      <span class="pt-0 text-sm text-red-500  mt-2 font-medium mb-4 ">{{formErrors.price}}</span>
+
 
       <label class="secondaryText" v-if="isEditView == false">Notes</label>
 
@@ -135,6 +150,8 @@
         v-if="isEditView == false"
         v-model="note"
       />
+      <span class="pt-0 text-sm text-red-500  mt-2 font-medium mb-4 ">{{formErrors.note}}</span>
+
     </div>
 
     <div class="container" v-if="resultRoutes.length > 0">
@@ -222,7 +239,7 @@ import VehicleFunctions from "@/composables/VehicleFunctions";
 import { computed, ref } from "vue";
 import { Ride } from "@/Models/Ride";
 import Swal from "sweetalert2";
-import { successAlert ,errorAlert} from "@/composables/Notifications.js";
+import { successAlert, errorAlert } from "@/composables/Notifications.js";
 import {
   PublishRide,
   EditRide,
@@ -231,8 +248,8 @@ import {
 import Store from "@/store/index";
 import UtilityFunctions from "@/utility/UtilityFunctions.js";
 import { useRoute, useRouter } from "vue-router";
-import Debouncing from "@/utility/Debouncing.js"
- 
+import Debouncing from "@/utility/Debouncing.js";
+
 export default {
   components: {
     VueBootstrapTypeahead,
@@ -253,7 +270,7 @@ export default {
 
   setup(props) {
     const router = useRouter();
-    const debouncer= new Debouncing();
+    const debouncer = new Debouncing();
 
     const initialPSearchBox = ref(null);
     const finalPSearchBox = ref(null);
@@ -275,6 +292,25 @@ export default {
     const intermediatePositions = ref([]);
 
     const rideDateTime = ref(null);
+
+    const formErrors = ref({
+      initialPosition: null,
+      intermediatePositions: null,
+      finalPosition: null,
+      selectedVehicleId: null,
+      price: null,
+      numberOfPassengers: null,
+      rideDateTime: null,
+      note: null,
+    });
+
+    const clearFormErors = () => {
+      const keys = Object.keys(formErrors.value);
+      keys.forEach((key, index) => {
+        console.log(`${key}: ${formErrors.value[key]}`);
+        formErrors.value[key] = null;
+      });
+    };
 
     console.log(VehicleFunctions);
     const { GetUserVehicles } = VehicleFunctions();
@@ -311,16 +347,20 @@ export default {
       console.log("-------Change it------");
       console.log(initialPSearchBox.value.inputValue);
       console.log(initialPSearchBox.value.inputValue);
-      debouncer.setdebouncingFunction(getPlaceNames,[initialPSearchBox.value.inputValue])
-     // getPlaceNames(initialPSearchBox.value.inputValue);
+      debouncer.setdebouncingFunction(getPlaceNames, [
+        initialPSearchBox.value.inputValue,
+      ]);
+      // getPlaceNames(initialPSearchBox.value.inputValue);
     };
 
     const FinalPchange = () => {
       console.log("-------Change it------");
       console.log(finalPSearchBox.value.inputValue);
       console.log(finalPSearchBox.value.inputValue);
-      debouncer.setdebouncingFunction(getPlaceNames,[finalPSearchBox.value.inputValue])
-    //  getPlaceNames(finalPSearchBox.value.inputValue);
+      debouncer.setdebouncingFunction(getPlaceNames, [
+        finalPSearchBox.value.inputValue,
+      ]);
+      //  getPlaceNames(finalPSearchBox.value.inputValue);
     };
 
     const intermediateChange = (index) => {
@@ -330,8 +370,10 @@ export default {
       console.log(index);
       console.log(IntermediateSearchBox.value.inputValue);
       console.log("--- Here is----");
-      debouncer.setdebouncingFunction(getPlaceNames,[IntermediateSearchBox.value.inputValue])
-//      getPlaceNames(IntermediateSearchBox.value.inputValue);
+      debouncer.setdebouncingFunction(getPlaceNames, [
+        IntermediateSearchBox.value.inputValue,
+      ]);
+      //      getPlaceNames(IntermediateSearchBox.value.inputValue);
     };
 
     const SelectInitialPosition = (val) => {
@@ -405,7 +447,7 @@ export default {
       props.intermediatePositionMarkerFun();
       // props.SetIntermediatePosMarker();
 
-       intermediatePositions.value.push({
+      intermediatePositions.value.push({
         name: name,
         lat: lat,
         lon: lon,
@@ -628,21 +670,63 @@ export default {
       console.log(resultRoutes.value[selectedRouteIndex.value].via.join());
 
       // rideObject.RouteVia=
+      clearFormErors()
 
       if (
         initialPosition.value.name == null ||
-        initialPosition.value.lat == null ||
-        initialPosition.value.lon == null ||
-        finalPosition.value.name == null ||
-        finalPosition.value.lat == null ||
-        finalPosition.value.lon == null ||
-        selectedVehicleId.value == null ||
-        numberOfPassengers.value == 0 ||
-        price.value == null ||
-        rideDateTime.value == null
+        initialPosition.value.name.toString().trim() == ""
       ) {
-        alert("Validation Error in Form");
+        formErrors.value.initialPosition =
+          "Initial Position Name Cannot Be Null";
+        return;
+      }
 
+      if (
+        initialPosition.value.lat == null ||
+        initialPosition.value.lat.toString().trim() == "" ||
+        initialPosition.value.lon == null ||
+        initialPosition.value.lon.toString().trim() == ""
+      ) {
+        formErrors.value.initialPosition = "Initial Position Not Valid";
+        return;
+      }
+
+      if (
+        finalPosition.value.lat == null ||
+        finalPosition.value.lat.toString().trim() == "" ||
+        finalPosition.value.lon == null ||
+        finalPosition.value.lon.toString().trim() == ""
+      ) {
+        formErrors.value.finalPosition = "Final Position Not Valid";
+        return;
+      }
+
+      if (
+        finalPosition.value.name == null ||
+        finalPosition.value.name.toString().trim() == ""
+      ) {
+        formErrors.value.finalPosition = "Final Position Name Cannot Be Null";
+        return;
+      }
+
+      if (selectedVehicleId.value == null || selectedVehicleId.value == 0) {
+        formErrors.value.selectedVehicleId = "Select Vehicle";
+        return;
+      }
+
+      if (numberOfPassengers.value == null || numberOfPassengers.value == 0|| numberOfPassengers.value < 0) {
+        formErrors.value.numberOfPassengers =
+          "Number of Passengers Cannot Be 0 or Less than 0";
+        return;
+      }
+
+      if (rideDateTime.value == null || rideDateTime.value == 0) {
+        formErrors.value.rideDateTime = "Ride Date Time Cannot Be Null";
+        return;
+      }
+
+      if (price.value == null || price.value == 0|| price.value < 0) {
+        formErrors.value.price = "Price Can 0 Null or Negative";
         return;
       }
 
@@ -709,26 +793,54 @@ export default {
       console.log("-----Ride Object-------");
       console.log("-----Ride Object-------");
 
+
+
+
+
       if (
         initialPosition.value.name == null ||
-        initialPosition.value.lat == null ||
-        initialPosition.value.lon == null ||
-        finalPosition.value.name == null ||
-        finalPosition.value.lat == null ||
-        finalPosition.value.lon == null
+        initialPosition.value.name.toString().trim() == ""
       ) {
-       errorAlert("Validation Error in Form")
+        formErrors.value.initialPosition =
+          "Initial Position Name Cannot Be Null";
+        return;
+      }
+
+      if (
+        initialPosition.value.lat == null ||
+        initialPosition.value.lat.toString().trim() == "" ||
+        initialPosition.value.lon == null ||
+        initialPosition.value.lon.toString().trim() == ""
+      ) {
+        formErrors.value.initialPosition = "Initial Position Not Valid";
+        return;
+      }
+
+      if (
+        finalPosition.value.lat == null ||
+        finalPosition.value.lat.toString().trim() == "" ||
+        finalPosition.value.lon == null ||
+        finalPosition.value.lon.toString().trim() == ""
+      ) {
+        formErrors.value.finalPosition = "Final Position Not Valid";
+        return;
+      }
+
+      if (
+        finalPosition.value.name == null ||
+        finalPosition.value.name.toString().trim() == ""
+      ) {
+        formErrors.value.finalPosition = "Final Position Name Cannot Be Null";
         return;
       }
 
       let response = await AdvanceEditRide(rideObject);
-      console.log(response)
+      console.log(response);
 
-      if(!response.haveError){
-successAlert("Sucessfully Udated ")
-      }
-      else{
-       errorAlert("Error While Submitting the  Form")
+      if (!response.haveError) {
+        successAlert("Sucessfully Udated ");
+      } else {
+        errorAlert("Error While Submitting the  Form");
       }
       //
       router.go();
@@ -762,6 +874,7 @@ successAlert("Sucessfully Udated ")
       price,
       note,
       EditRoute,
+      formErrors
     };
   },
 };

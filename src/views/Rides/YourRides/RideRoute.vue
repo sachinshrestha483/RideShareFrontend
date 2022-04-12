@@ -1,8 +1,8 @@
 <template>
   <div class="mx-4">
     <div class="primaryHeading mb-8 text-center">Ride Route</div>
-
-
+    {{ rideObject }}
+    {{ formErrors }}
     <!-- {{   ride.responseObjectintermediatePositions.map((e) => ({
           name: e.positionName,
           lat: e.positionLatitude,
@@ -237,17 +237,20 @@
         >
           <div class="text-2xl mb-4 ml-1">
             <div class="flex justify-between">
-              <div>
+              <div class="flex flex-col gap-0">
                 <input
                   type="datetime-local"
                   required
-                  class="inputBox"
+                  class="inputBox mb-0"
                   v-model="editedride.RideDateTime"
                 />
+                <span class="pt-0 text-sm text-red-500 mt-0 font-medium">{{
+                  formErrors.RideDatetime
+                }}</span>
               </div>
             </div>
           </div>
-          <div class="flex flex-row items-center">
+          <div class="flex flex-row items-center mb-0">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -259,14 +262,36 @@
               <circle cx="8" cy="8" r="8" />
             </svg>
             &nbsp;
-            <input
-              type="text"
-              required
-              class="inputBox"
-              v-model="editedride.startocationName"
-            />
+            <div class="flex flex-col w-full">
+              <input
+                type="text"
+                required
+                class="inputBox mb-0"
+                v-model="editedride.startocationName"
+              />
+              <span
+                class="pt-0 text-sm text-red-500 mt-0 font-mediumformErrors"
+                >{{ formErrors.StartPosition }}</span
+              >
+            </div>
           </div>
+
           <!-- <div class="h-max border-l-4 border-gray-600 ml-2"></div> -->
+
+          <div class="flex flex-col w-full">
+            <span
+              class="
+                pt-0
+                text-sm text-red-500
+                mt-0
+                text-center
+                w-full
+                font-medium
+              "
+            >
+              {{ formErrors.IntermediatePositions }}</span
+            >
+          </div>
 
           <div
             :class="`flex flex-col
@@ -295,7 +320,7 @@
             </div>
           </div>
 
-          <div class="flex flex-row items-center">
+          <div class="flex flex-row items-center mb-0">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -307,19 +332,24 @@
               <circle cx="8" cy="8" r="8" />
             </svg>
             &nbsp;
-            <input
-              type="text"
-              required
-              class="inputBox"
-              v-model="editedride.endLocationName"
-            />
+            <div class="flex flex-col w-full">
+              <input
+                type="text"
+                required
+                class="inputBox mb-0"
+                v-model="editedride.endLocationName"
+              />
+              <span class="pt-0 text-sm text-red-500 mt-0 font-medium">{{
+                formErrors.EndPosition
+              }}</span>
+            </div>
           </div>
 
           <div class="flex flex-row items-center justify-between mt-2">
             <div class="flex justify-between items-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                class="h-5 w-5"
+                class="h-5 w-5 mt-2"
                 viewBox="0 0 20 20"
                 fill="currentColor"
               >
@@ -327,17 +357,23 @@
                   d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"
                 />
               </svg>
-              <input
-                type="number"
-                required
-                class="inputBox"
-                v-model="editedride.numberOfPassengers"
-              />
+
+              <div class="flex flex-col">
+                <input
+                  type="number"
+                  required
+                  class="inputBox mb-0"
+                  v-model="editedride.numberOfPassengers"
+                />
+                <span class="pt-0 text-sm text-red-500 mt-0 mb-0 font-medium">{{
+                  formErrors.NumberofPassenger
+                }}</span>
+              </div>
             </div>
-            <div class="flex justify-between items-center">
+            <div class="flex justify-between items-center mb-0 pb-0">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                class="h-6 w-6"
+                class="h-6 w-6 mt-2"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -350,14 +386,20 @@
                 />
               </svg>
 
-              <input
-                type="number"
-                required
-                class="inputBox"
-                v-model="editedride.price"
-              />
+              <div class="flex flex-col">
+                <input
+                  type="number"
+                  required
+                  class="inputBox mb-0"
+                  v-model="editedride.price"
+                />
+                <span class="pt-0 text-sm text-red-500 mt-0 mb-0 font-medium">{{
+                  formErrors.Price
+                }}</span>
+              </div>
             </div>
-            <div class="flex justify-between items-center">
+
+            <div class="flex justify-between items-center mt-4">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 class="h-6 w-6"
@@ -387,28 +429,35 @@
           </div>
 
           <div class="mt-2">
-            <div class="text-center">
+            <div class="text-center flex flex-col">
               <input
                 type="text"
                 required
-                class="inputBox"
+                class="inputBox mb-0"
                 v-model="editedride.via"
               />
+              <span class="pt-0 text-sm text-red-500 mt-0 text-left font-medium"
+                >{{ formErrors.RideVia }}
+              </span>
             </div>
           </div>
           <div class="mt-2">
-            <div class="text-center">
+            <div class="text-center flex flex-col">
               <input
                 type="text"
                 required
-                class="inputBox"
+                class="inputBox mb-0"
                 placeholder="Notes"
                 v-model="editedride.note"
               />
+              <span
+                class="pt-0 text-sm text-red-500 mt-0 text-left font-medium"
+                >{{ formErrors.Note }}</span
+              >
             </div>
           </div>
           <div
-            class="mt-2 text-center flex justify-center items-center"
+            class="mt-2 text-center flex justify-center mb-0 items-center"
             v-if="rideVehicle != null"
           >
             <svg
@@ -445,6 +494,7 @@
                 focus:border-blue-500
                 font-medium
                 text-gray-500;
+                mb-0
               "
               id="cars"
             >
@@ -454,6 +504,9 @@
               </option>
             </select>
           </div>
+          <span class="pt-0 text-sm text-red-500 mt-0 ml-9 font-medium">{{
+            formErrors.VehicleId
+          }}</span>
 
           <div class="flex flex-row justify-center mb-4 mt-2">
             <button class="primaryButton" v-on:click="postEditRide">
@@ -503,8 +556,9 @@
             />
           </svg>
           <div>
-    <button v-on:click="freeMarkerFun" class="primaryButton"  >Get Free Marker</button>
-
+            <button v-on:click="freeMarkerFun" class="primaryButton">
+              Get Free Marker
+            </button>
           </div>
         </div>
         <MapComponent
@@ -544,7 +598,7 @@ import MapComponent from "@/components/Rides/OfferRide/MapComponent";
 import { EditRide } from "@/composables/RideFunctions";
 import UtilityFunctions from "@/utility/UtilityFunctions.js";
 import { Ride } from "@/Models/Ride";
-import { successAlert,errorAlert } from "@/composables/Notifications.js";
+import { successAlert, errorAlert } from "@/composables/Notifications.js";
 
 export default {
   components: {
@@ -563,6 +617,18 @@ export default {
     const showEditRideForm = ref(false);
     const userVehicles = ref([]);
     const navrouter = useRouter();
+
+    const formErrors = ref({
+      StartPosition: null,
+      EndPosition: null,
+      IntermediatePositions: null,
+      RideDatetime: null,
+      VehicleId: null,
+      NumberofPassenger: null,
+      Price: null,
+      Note: null,
+      RideVia: null,
+    });
 
     const editedride = {
       id: 0,
@@ -661,33 +727,83 @@ export default {
       rideObject.Note = editedride.note;
       rideObject.RideVia = editedride.via;
 
+      // if(
+      // rideObject.StartPosition.Name==""
+      // ||rideObject.StartPosition.Name==null
+      // ||rideObject.EndPosition.Name==""
+      // ||rideObject.EndPosition.Name==null
+      // ||rideObject.VehicleId ==0
+      // ||  rideObject.NumberofPassenger ==0
+      // ||  rideObject.Price ==0
+      // )
+      // {
+      //   errorAlert("Validation Error in Form")
+      //   return;
+      // }
 
-if(
-rideObject.StartPosition.Name==""
-||rideObject.StartPosition.Name==null
-||rideObject.EndPosition.Name==""
-||rideObject.EndPosition.Name==null
-||rideObject.VehicleId ==0
-||  rideObject.NumberofPassenger ==0
-||  rideObject.Price ==0
-)
-{
-  errorAlert("Validation Error in Form")
-  return;
-}
+      clearFormErors();
 
-
-
-     var response=  await EditRide(rideObject);
-      if(!response.haveError){
-         successAlert("Updated Sucessfully")
-         navrouter.go();
-
-      }
-      else{
-        errorAlert("Error While Submitting Form")
+      if (
+        rideObject.StartPosition.Name == "" ||
+        rideObject.StartPosition.Name == null
+      ) {
+        formErrors.value.StartPosition = "Initial Position Name Cannot Be Null";
+        return;
       }
 
+      if (
+        rideObject.EndPosition.Name == "" ||
+        rideObject.EndPosition.Name == null
+      ) {
+        formErrors.value.EndPosition = "End Position Name Cannot Be Null";
+        return;
+      }
+      console.log("rideObject.VehicleId");
+      console.log("rideObject.VehicleId");
+      console.log("rideObject.VehicleId");
+      console.log("rideObject.VehicleId");
+      console.log("rideObject.VehicleId");
+      console.log("rideObject.VehicleId");
+      console.log("rideObject.VehicleId");
+      console.log(rideObject.VehicleId);
+      console.log(rideObject.VehicleId);
+      console.log(rideObject.VehicleId);
+      console.log(rideObject.VehicleId);
+      console.log(rideObject.VehicleId);
+      console.log("rideObject.VehicleId");
+      console.log("rideObject.VehicleId");
+      console.log("rideObject.VehicleId");
+      console.log("rideObject.VehicleId");
+      console.log("rideObject.VehicleId");
+      console.log("rideObject.VehicleId");
+      console.log("rideObject.VehicleId");
+
+      if (rideObject.VehicleId != typeof Number) {
+        formErrors.value.VehicleId = "Vehicle  Cannot Be Null";
+        return;
+      }
+
+      if (rideObject.Price <= 0 || rideObject.Price == null) {
+        formErrors.value.Price = "Price Cannot Be Null, Zero Or Negative";
+        return;
+      }
+
+      if (
+        rideObject.NumberofPassenger <= 0 ||
+        rideObject.NumberofPassenger == null
+      ) {
+        formErrors.value.NumberofPassenger =
+          "Number of Passengers Cannot Be Null, Zero or  Negative";
+        return;
+      }
+
+      var response = await EditRide(rideObject);
+      if (!response.haveError) {
+        successAlert("Updated Sucessfully");
+        navrouter.go();
+      } else {
+        errorAlert("Error While Submitting Form");
+      }
     };
 
     let rideId = router.params.id;
@@ -698,6 +814,14 @@ rideObject.StartPosition.Name==""
     // console.log("longitude:" + router.params.lon);
     zoomedLat.value = router.params.zoomlat;
     zoomedLon.value = router.params.zoomlon;
+
+    const clearFormErors = () => {
+      const keys = Object.keys(formErrors.value);
+      keys.forEach((key, index) => {
+        console.log(`${key}: ${formErrors.value[key]}`);
+        formErrors.value[key] = null;
+      });
+    };
 
     const loadData = async () => {
       let rideObj = await getMyRide(rideId);
@@ -916,7 +1040,7 @@ rideObject.StartPosition.Name==""
 
     const getFreeMarkerFun = (fun) => {
       freeMarkerFun.value = fun;
-    //  freeMarkerFun.value();
+      //  freeMarkerFun.value();
     };
 
     const getDrawRouteFun = (fun) => {
@@ -1005,7 +1129,8 @@ rideObject.StartPosition.Name==""
       postEditRide,
       getSetIntermediatePosFun,
       getFreeMarkerFun,
-      freeMarkerFun
+      freeMarkerFun,
+      formErrors,
     };
   },
 };
