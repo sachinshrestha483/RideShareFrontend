@@ -16,27 +16,25 @@ const register = async (firstName, lastName, email, phone, password) => {
 
   await axios
     .post(Urls.Login, post)
-    .then(function(response) {
+    .then(function (response) {
       console.log(response);
+      httpResponseObject.responseObject = response;
       console.log("data");
     })
-    .catch(function(error) {
+    .catch(function (error) {
+      httpResponseObject.haveError = true;
       objSubmitted = false;
       console.log("Error is Here");
       console.log(error.response);
-      try{
+      try {
         httpResponseObject.errorMessage = error.response.data.message;
-
       }
-      catch{
+      catch {
         httpResponseObject.errorMessage = null;
-
       }
       // error.response is where we got oir response
     });
 
-  httpResponseObject.haveError = !objSubmitted;
-  httpResponseObject.responseObject;
 
   return httpResponseObject;
 };

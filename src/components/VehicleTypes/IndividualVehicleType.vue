@@ -24,7 +24,11 @@
   <div v-if="editVehicleType" class="p-4 shadow-md">
     <div class="flex flex-col">
       <form @submit.prevent="updateVehicleTypeFun">
-        <input class="inputBox" v-model="VehicleTypeObject.name" />
+        <input class="inputBox mb-0" v-model="VehicleTypeObject.name" />
+                    <span class="text-sm text-red-500 mr-2 font-medium">{{
+              formErrors.vehicleTypeName
+            }}</span>
+
         <div class="flex flex-row items-center">
           <input
             type="checkbox"
@@ -35,8 +39,19 @@
         </div>
 
         <div class="flex flex-row">
-          <button type="submit" class="primaryButton text-center">
+          <button
+            type="submit"
+            v-if="!submittingForm"
+            class="primaryButton text-center"
+          >
             Update
+          </button>
+          <button
+            type="submit"
+            v-if="submittingForm"
+            class="primaryButton text-center"
+          >
+            Updating
           </button>
         </div>
       </form>
@@ -47,38 +62,76 @@
 <script>
 import { ref } from "vue";
 import VehicleTypeFunctions from "@/composables/VehicleTypeFunctions";
+import { successAlert, errorAlert } from "@/composables/Notifications.js";
 
 export default {
-props:['VehicleTypeObject'],
+  props: ["VehicleTypeObject"],
 
+  setup(props) {
+    const { UpdateVehicleType, GetVehicleTypeById } = VehicleTypeFunctions();
 
-setup(props){
+    const editVehicleType = ref(false);
+    const submittingForm = ref(false);
 
-const {UpdateVehicleType,GetVehicleTypeById}=VehicleTypeFunctions();
+    const clearFormErors = () => {
+      const keys = Object.keys(formErrors.value);
+      keys.forEach((key, index) => {
+        console.log(`${key}: ${formErrors.value[key]}`);
+        formErrors.value[key] = null;
+      });
+    };
 
-const editVehicleType= ref(false);
+    const formErrors = ref({
+      vehicleTypeName: null,
+    });
 
+    const updateVehicleTypeFun = async () => {
+      clearFormErors();
+      if (
+        props.VehicleTypeObject.name == null ||
+        props.VehicleTypeObject.name.toString().trim() == ""
+      ) {
+        console.log("1");
+        formErrors.value.vehicleTypeName = "Name Cannot Be Null";
+        return;
+      }
 
-const updateVehicleTypeFun=async()=>{
-   await  UpdateVehicleType(props.VehicleTypeObject.id, props.VehicleTypeObject.name, props.VehicleTypeObject.show);
-// load the object Too....
-let res= await GetVehicleTypeById(props.VehicleTypeObject.id);
-console.log("Update it ")
-console.log(res);
-//props.VehicleTypeObject=res;
-//console.log(props.VehicleTypeObject);
+      if (props.VehicleTypeObject.name.toString().trim().length < 2) {
+        console.log("2");
+        formErrors.value.vehicleTypeName =
+          "Name Length Should Be Greater Than 2";
+        return;
+      }
 
- props.VehicleTypeObject.name=res.name;
+      submittingForm.value = true;
+      var response = await UpdateVehicleType(
+        props.VehicleTypeObject.id,
+        props.VehicleTypeObject.name,
+        props.VehicleTypeObject.show
+      );
+      submittingForm.value = false;
 
- props.VehicleTypeObject.show=res.show;
+      if (response) {
+        successAlert("Updated Sucessfully");
+      } else {
+        errorAlert("Failed To Update");
+      }
 
-}
+      // load the object Too....
+      let res = await GetVehicleTypeById(props.VehicleTypeObject.id);
+      console.log("Update it ");
+      console.log(res);
 
+      //props.VehicleTypeObject=res;
+      //console.log(props.VehicleTypeObject);
 
-return {editVehicleType,updateVehicleTypeFun};
-}
+      props.VehicleTypeObject.name = res.name;
 
+      props.VehicleTypeObject.show = res.show;
+    };
 
+    return { editVehicleType, updateVehicleTypeFun, submittingForm,formErrors };
+  },
 };
 </script>
 

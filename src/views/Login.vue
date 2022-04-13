@@ -16,16 +16,17 @@
           class="inputBox"
         />
         <input
-        required
+          required
           type="password"
           v-model="password"
-          
           placeholder="Password"
           class="inputBox"
         />
 
         <div class="text-center">
-          <button class="primaryButton" type="submit">Login</button>
+          <button class="primaryButton" v-if="!isSubmittingForm"  type="submit">Login</button>
+          <button class="primaryButton"  disabled  v-else  type="submit">Loging In</button>
+
         </div>
       </form>
     </div>
@@ -35,30 +36,29 @@
 <script>
 import Login from "@/composables/Login";
 import { ref } from "vue";
-import { useRouter } from 'vue-router';
+import { useRouter } from "vue-router";
 export default {
   setup() {
     const email = ref("");
     const password = ref("");
     const formError = ref(null);
-    const router= new useRouter();
-    
+    const router = new useRouter();
+    const isSubmittingForm= ref(false);
+
     const login = Login;
 
     const submitForm = async () => {
-    const res = await login(email.value, password.value);
+      isSubmittingForm.value=true;
+      const res = await login(email.value, password.value);
+      isSubmittingForm.value=false;
 
-if(!res.haveError){
-// push to home page
-   router.push({name:"Home"});
-
-}
-else{
-//
-formError.value=res.errorMessage;
-
-}
-
+      if (!res.haveError) {
+        // push to home page
+        router.push({ name: "Home" });
+      } else {
+        //
+        formError.value = res.errorMessage;
+      }
     };
 
     return {
@@ -66,6 +66,7 @@ formError.value=res.errorMessage;
       password,
       submitForm,
       formError,
+      isSubmittingForm
     };
   },
 };

@@ -153,7 +153,7 @@ const CarSharePrefrence = () => {
   const UpdateSubCarSharePrefrences = async (id, name, travelPrefrenceId,show) => {
     // UpdateSubTravelPrefrences;
 
-    let updated = null;
+    let isUpdated = false;
 
     var updatedObject = {
       subTravelPrefrenceDtoObj: {
@@ -169,13 +169,15 @@ const CarSharePrefrence = () => {
       .post(Urls.UpdateSubTravelPrefrences, updatedObject)
       .then(function(response) {
         console.log(response);
-        updated = response.data;
+        isUpdated = true;
       })
       .catch(function(error) {
         console.log(error);
+        isUpdated = false;
+
       });
 
-    return updated;
+    return isUpdated;
   };
 
 

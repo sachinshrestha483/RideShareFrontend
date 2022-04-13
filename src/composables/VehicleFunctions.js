@@ -1,11 +1,14 @@
 import Urls from "@/utility/IdentitySection/Urls";
 import axios from "axios";
 import Store from "../store/index";
+import HttpResponseObject from "@/utility/objects/HttpResponseObject";
 
 const VehicleFunctions = () => {
 
   const AddVehicle = async (obj) => {
     const formData = new FormData();
+    const httpResponseObject = new HttpResponseObject();
+
     if (obj.file != null) {
       formData.append("VehiclePhoto", obj.file, obj.file.name);
 
@@ -21,17 +24,25 @@ const VehicleFunctions = () => {
     await axios
       .post(Urls.AddVehicle, formData)
       .then(function (response) {
+        httpResponseObject.haveError= false;
+
         console.log(response);
       })
       .catch(function (error) {
+        httpResponseObject.haveError= true;
         console.log(error);
       });
+      return httpResponseObject
   };
 
 
   const UpdateVehicle = async (obj) => {
 
     const formData = new FormData();
+
+    const httpResponseObject = new HttpResponseObject();
+
+
 
     formData.append("Id", obj.id);
 
@@ -50,11 +61,15 @@ const VehicleFunctions = () => {
     await axios
       .post(Urls.UpdateVehicle, formData)
       .then(function (response) {
+        httpResponseObject.haveError= false;
         console.log(response);
       })
       .catch(function (error) {
         console.log(error);
+        httpResponseObject.haveError= true;
       });
+
+      return httpResponseObject;
   };
 
 

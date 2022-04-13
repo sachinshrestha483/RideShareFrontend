@@ -4,6 +4,7 @@ import Store from "../store/index";
 
 const VehicleTypeFunctions = () => {
   const AddVehicleType = async (name) => {
+    let isSucessful= false;
     const vehicleTypeObj = {
       name: name,
       show: true,
@@ -13,10 +14,14 @@ const VehicleTypeFunctions = () => {
       .post(Urls.AddVehicleType, vehicleTypeObj)
       .then(function(response) {
         console.log(response);
+        isSucessful=true;
+        
       })
       .catch(function(error) {
         console.log(error);
       });
+
+      return isSucessful;
   };
 
   const UpdateVehicleType = async (id, name, show) => {
@@ -25,15 +30,17 @@ const VehicleTypeFunctions = () => {
       name: name,
       show: show,
     };
-
+    var isSucessfull= false;
     await axios
       .post(Urls.UpdateVehicleType, updateVehicleTypeObject)
       .then(function(response) {
         console.log(response);
+        isSucessfull=true;
       })
       .catch(function(error) {
         console.log(error);
       });
+      return isSucessfull;
   };
 
   const GetVehicleTypes = async () => {

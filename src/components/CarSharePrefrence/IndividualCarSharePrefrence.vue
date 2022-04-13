@@ -24,17 +24,25 @@
   <div v-if="editCarSharePrefrence" class="p-4 shadow-md">
     <div class="flex flex-col">
       <form @submit.prevent="updateCarSharePrefrence">
-        <input class="inputBox" v-model="carSharePrefrenceObject.name" />
-<div class="flex flex-row items-center">
-<input type="checkbox"   class="mb-2" v-model="carSharePrefrenceObject.show" >
-<label class="ml-2  py-0 secondaryText text-lg">Show/Hide</label>
-</div>
+        <input class="inputBox mb-0" v-model="carSharePrefrenceObject.name" />
+        <span class="text-sm text-red-500 mr-2 font-medium">{{
+          formErrors.carSharePrefrenceName
+        }}</span>
 
+        <div class="flex flex-row items-center mt-4">
+          <input
+            type="checkbox"
+            class="mb-2"
+            v-model="carSharePrefrenceObject.show"
+          />
+          <label class="ml-2 py-0 secondaryText text-lg">Show/Hide</label>
+        </div>
 
-<div class="flex flex-row">
-        <button type="submit" class="primaryButton text-center">Update</button>
-
-</div>
+        <div class="flex flex-row">
+          <button type="submit" class="primaryButton text-center">
+            Update
+          </button>
+        </div>
       </form>
     </div>
   </div>
@@ -43,26 +51,62 @@
 <script>
 import { ref } from "vue";
 import CarSharePrefrenceFunctions from "@/composables/CarSharePrefrenceFunctions";
+import { successAlert, errorAlert } from "@/composables/Notifications.js";
+
 export default {
   props: ["carSharePrefrenceObject"],
 
   setup(props) {
-    const {
-      UpdateCarSharePrefrence,
-      getTravelPrefrenceById,
-      
-    } = CarSharePrefrenceFunctions();
+    const { UpdateCarSharePrefrence, getTravelPrefrenceById } =
+      CarSharePrefrenceFunctions();
     const carSharePrefrence = props.carSharePrefrenceObject;
     console.log("-----------Car Share Prefrence----------");
     console.log(carSharePrefrence);
     const editCarSharePrefrence = ref(false);
 
+    const clearFormErors = () => {
+      const keys = Object.keys(formErrors.value);
+      keys.forEach((key, index) => {
+        console.log(`${key}: ${formErrors.value[key]}`);
+        formErrors.value[key] = null;
+      });
+    };
+
+    const formErrors = ref({
+      carSharePrefrenceName: null,
+    });
+
     const updateCarSharePrefrence = async () => {
+      clearFormErors();
+
+      if (
+        props.carSharePrefrenceObject.name == null ||
+        props.carSharePrefrenceObject.name.toString().trim() == ""
+      ) {
+        console.log("1");
+        formErrors.value.carSharePrefrenceName = "Name Cannot Be Null";
+        return;
+      }
+
+      if (props.carSharePrefrenceObject.name.toString().trim().length < 2) {
+        console.log("2");
+        formErrors.value.carSharePrefrenceName =
+          "Name Length Should Be Greater Than 2";
+        return;
+      }
+
       let res = await UpdateCarSharePrefrence(
         props.carSharePrefrenceObject.id,
         props.carSharePrefrenceObject.name,
-        true
+        props.carSharePrefrenceObject.show
       );
+
+      if (res) {
+        successAlert("Updated Sucessfully");
+      } else {
+       // errorAlert("Failed To Update");
+      }
+
       let updatedObj = await getTravelPrefrenceById(
         props.carSharePrefrenceObject.id
       );
@@ -73,7 +117,7 @@ export default {
       console.log("Update it");
     };
 
-    return { editCarSharePrefrence, updateCarSharePrefrence };
+    return { editCarSharePrefrence, updateCarSharePrefrence, formErrors };
   },
 };
 </script>

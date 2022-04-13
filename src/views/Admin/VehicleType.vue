@@ -4,22 +4,34 @@
 
     <div>
       <div
-        class="md:grid md:gap-4 md:grid-cols-3 md:justify-between flex flex-col md:mt-10 mt-8"
+        class="
+          md:grid md:gap-4 md:grid-cols-3 md:justify-between
+          flex flex-col
+          md:mt-10
+          mt-8
+        "
       >
-        <form @submit.prevent="AddVehicleTypeFun" >
-          <div class="flex flex-col  ">
+        <form @submit.prevent="AddVehicleTypeFun">
+          <div class="flex flex-col">
             <div>
               <input
                 required
-                class="inputBox"
+                class="inputBox mb-0"
                 v-model="vehicleTypeName"
-                placeholder="Add Travel Prefrence"
+                placeholder=" Vehicle Type "
               />
             </div>
 
-            <div class="text-center">
-              <button type="submit" class="primaryButton">
+            <span class="text-sm text-red-500 mr-2 font-medium">{{
+              formErrors.vehicleTypeName
+            }}</span>
+
+            <div class="text-center mt-4">
+              <button type="submit" v-if="!isSubmitting" class="primaryButton">
                 Add Vehicle Type
+              </button>
+              <button disabled v-else class="primaryButton">
+                Adding Vehicle Type
               </button>
             </div>
           </div>
@@ -38,30 +50,69 @@
 <script>
 import VehicleTypeList from "@/components/VehicleTypes/VehicleTypeList";
 import VehicleTypeFunctions from "@/composables/VehicleTypeFunctions";
-import { ref } from 'vue';
+import { successAlert, errorAlert } from "@/composables/Notifications.js";
+
+import { ref } from "vue";
 export default {
   components: {
     VehicleTypeList,
   },
 
   setup() {
-    const {
-      AddVehicleType,
-      GetVehicleTypes,
-    } = VehicleTypeFunctions();
+    const { AddVehicleType, GetVehicleTypes } = VehicleTypeFunctions();
     const vehicleTypesList = ref(null);
     const vehicleTypeName = ref("");
+
+    const isSubmitting= ref(false);
+
+    const clearFormErors = () => {
+      const keys = Object.keys(formErrors.value);
+      keys.forEach((key, index) => {
+        console.log(`${key}: ${formErrors.value[key]}`);
+        formErrors.value[key] = null;
+      });
+    };
+
+    const formErrors = ref({
+      vehicleTypeName: null,
+    });
+
     const getData = async () => {
       vehicleTypesList.value = await GetVehicleTypes();
     };
     getData();
     const AddVehicleTypeFun = async () => {
+      clearFormErors();
 
-       await  AddVehicleType(vehicleTypeName.value)
-       getData();
+      if (
+        vehicleTypeName.value == null ||
+        vehicleTypeName.value.toString().trim() == ""
+      ) {
+        console.log("1");
+        formErrors.value.vehicleTypeName = "Name Cannot Be Null";
+        return;
+      }
+
+      if (vehicleTypeName.value.toString().trim().length < 2) {
+        console.log("2");
+        formErrors.value.vehicleTypeName =
+          "Name Length Should Be Greater Than 2";
+        return;
+      }
+isSubmitting.value=true;
+      let result = await AddVehicleType(vehicleTypeName.value);
+isSubmitting.value=false;
+
+      if (result) {
+        successAlert("Data Added Sucessfully");
+      } else {
+        errorAlert("Cant Add Data");
+      }
+
+      getData();
     };
 
-    return { vehicleTypesList, AddVehicleTypeFun, vehicleTypeName };
+    return { vehicleTypesList, AddVehicleTypeFun, vehicleTypeName, formErrors, isSubmitting };
   },
 };
 </script>
