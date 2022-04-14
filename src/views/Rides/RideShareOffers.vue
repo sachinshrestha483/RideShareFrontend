@@ -51,9 +51,18 @@
       <div v-if="dataLoaded && currentRideShareOffer != null">
         <div :key="currentIndex">
           Id- {{ currentRideShareOffer.id }}
-          <!-- {{currentRideShareOffer}} -->
+          <!-- {{ currentRideShareOffer }} -->
 
           <RideSummaryBox :ride="currentRideShareOffer.ride" />
+
+          <div class="my-4"></div>
+
+          <UserInfo  
+          :userId="currentRideShareOffer.userId"  :title="`User Info`" />
+          <div class="my-4"></div>
+          <NotesForRideCreator
+             :bodyText="currentRideShareOffer.notesForRideCreater"  :title="`Nodes For Ride Publisher`" />
+
 
           <ShowRideSharingRequest
             :key="rideSharingRequestComponentkey"
@@ -116,7 +125,7 @@
     </div>
     <div
       class="flex flex-col fixed bottom-0 right-0 bg-white z-50 h-fit"
-     :key="currentIndex"
+      :key="currentIndex"
       v-if="showchatBox && dataLoaded && currentRideShareOffer != null"
     >
       <div class="flex flex-row-reverse w-full">
@@ -195,13 +204,16 @@ import ShowRideSharingRequest from "@/components/Rides/Ride/ShowRideSharingReque
 import RideSummaryBox from "@/components/Rides/Ride/RideSummaryBox.vue";
 import RideRequestResponse from "@/components/Rides/Ride/RideRequestResponse.vue";
 import ChatBox from "@/components/Rides/RideShare/ChatBox";
-
+import UserInfo from "@/components/User/UserInfo.vue";
+import NotesForRideCreator from "@/components/Rides/Ride/NotesForRideCreator"
 export default {
   components: {
     ShowRideSharingRequest,
     RideSummaryBox,
     RideRequestResponse,
     ChatBox,
+    UserInfo,
+    NotesForRideCreator
   },
 
   props: [],

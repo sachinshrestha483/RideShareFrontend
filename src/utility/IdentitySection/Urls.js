@@ -69,6 +69,7 @@ class Urls {
   static SetResponseForRideShareOffer ="/RideShareOffer/SetResponseForRideShareOffer"
   static GetRideShareOfferById ="/RideShareOffer/GetById?id="
 
+  static GetAllApprovedRideShareOfferids ="/RideShareOffer/GetAllApprovedRideShareOfferids?id="
 
 
 

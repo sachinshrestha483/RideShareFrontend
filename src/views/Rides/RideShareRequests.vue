@@ -51,9 +51,15 @@
       <div v-if="dataLoaded && currentRideShareOffer != null">
         <div :key="currentIndex">
           Id- {{ currentRideShareOffer.id }}
-          <!-- {{currentRideShareOffer}} -->
+           <!-- {{currentRideShareOffer}}  -->
 
           <RideSummaryBox :ride="currentRideShareOffer.ride" />
+
+          <UserInfo  :userId="currentRideShareOffer.ride.userId"  :title="`Driver Info`" class="mt-8"/>
+         
+          <NotesForOfferCreator  :title="`Notes For Offer Creator`" :bodyText="currentRideShareOffer.notesForOfferCreator" class="mt-8"  />
+         
+          <VehicleInfo :vehicleId="currentRideShareOffer.ride.vehicleId" class="mt-8"  />
 
           <CreateRideSharingRequest
             :key="rideSharingRequestComponentkey"
@@ -188,14 +194,19 @@ import {
   getAllRideShareOffers,
 } from "@/composables/RideFunctions";
 import CreateRideSharingRequest from "@/components/Rides/Ride/CreateRideSharingRequest.vue";
-
+import UserInfo from "@/components/User/UserInfo.vue";
+import NotesForOfferCreator from "@/components/Rides/Ride/NotesForRideCreator"
 import RideSummaryBox from "@/components/Rides/Ride/RideSummaryBox.vue";
+import VehicleInfo from "@/components/Vehicle/VehicleInfo"
 
 export default {
   components: {
     CreateRideSharingRequest,
     RideSummaryBox,
-    ChatBox
+    ChatBox,
+    UserInfo,
+    NotesForOfferCreator,
+    VehicleInfo
   },
 
   props: [],

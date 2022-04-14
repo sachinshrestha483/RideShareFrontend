@@ -3,6 +3,7 @@
     <div class="primaryHeading mb-8 text-center">Ride Route</div>
     {{ rideObject }}
     {{ formErrors }}
+    
     <!-- {{   ride.responseObjectintermediatePositions.map((e) => ({
           name: e.positionName,
           lat: e.positionLatitude,
@@ -574,6 +575,12 @@
           :getDrawRouteFun="getDrawRouteFun"
           :getFreeMarkerFun="getFreeMarkerFun"
         />
+
+    <!-- <CotravellerList 
+    :RideId="ride.responseObject.id"
+    /> -->
+
+
       </div>
     </div>
 
@@ -599,12 +606,14 @@ import { EditRide } from "@/composables/RideFunctions";
 import UtilityFunctions from "@/utility/UtilityFunctions.js";
 import { Ride } from "@/Models/Ride";
 import { successAlert, errorAlert } from "@/composables/Notifications.js";
+import CotravellerList from "@/components/Rides/Ride/CotravellerList"
 
 export default {
   components: {
     //RideMapComponentMapComponent,
     SetLocationsComponent,
     MapComponent,
+    CotravellerList
   },
   setup(props) {
     console.log("Here is The Ride Info Page ");

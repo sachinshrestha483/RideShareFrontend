@@ -114,6 +114,31 @@ const VehicleFunctions = () => {
     return res;
   }
 
+const getVehicleById=async ()=>{
+  let res = null;
+  await axios.get(Urls.UserVehicleById + id)
+    .then(function (response) {
+      // handle success
+      console.log(response);
+      res = response.data;
+      console.log(res);
+    })
+    .catch(function (error) {
+      // handle error
+      console.log(error);
+    })
+    .then(function () {
+      // always executed
+    });
+  return res;
+
+
+}
+
+
+
+
+
 
 
   return { AddVehicle, UpdateVehicle, GetUserVehicles, GetUserVehicleById };
