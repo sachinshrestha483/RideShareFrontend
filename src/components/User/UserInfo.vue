@@ -22,7 +22,7 @@
           <!-- sdsd -->
           <!-- {{ user }} -->
 
-          <div class="flex flex-row gap-4">
+          <div class="flex flex-row gap-4 justify-around items-center">
             <div>
               <img
                 class="object-fill h-32 w-32 rounded-full ..."

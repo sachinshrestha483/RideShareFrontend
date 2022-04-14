@@ -517,6 +517,10 @@
         </div>
       </div>
     </div>
+     <CotravellerList 
+     v-if="ride != null"
+    :RideId="ride.responseObject.id"
+    /> 
 
     <p>Initial Position -> {{ initialPosition }}</p>
     <p>Final Position -> {{ finalPosition }}</p>
@@ -576,9 +580,6 @@
           :getFreeMarkerFun="getFreeMarkerFun"
         />
 
-    <!-- <CotravellerList 
-    :RideId="ride.responseObject.id"
-    /> -->
 
 
       </div>

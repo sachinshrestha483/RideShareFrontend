@@ -1,9 +1,9 @@
 <template>
-  sgks lskl k;slk smg
-  {{ rideShareOfferIds }}
-
-  <div v-for="item in rideShareOfferIds" :key="item">
-    <CoTraveller :RideShareOfferId="item" />
+  <div class=" mt-4  ">
+    <div class="secondaryText text-center">Co-Passengers</div>
+    <div v-for="item in rideShareOfferIds" :key="item">
+      <CoTraveller :RideShareOfferId="item" class="w-full" />
+    </div>
   </div>
 </template>
 

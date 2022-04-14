@@ -19,19 +19,17 @@
         "
       >
         <div class="text-2xl mb-4 ml-1">
-          <div class="flex justify-between">Vehicle Info</div>
+          <div class="flex justify-around items-center">Vehicle Info</div>
         </div>
         <div class="text-lg">
           <!-- sdsd -->
           <!-- {{ user }} -->
 <!-- h-32 w-32 rounded-full -->
-          <div class="flex flex-row gap-8">
-            <div>
+          <div class="flex flex-row gap-8 justify-around items-center">
               <img
                 class="object-fill h-64 w-64 ..."
                 :src="vehicle.vehiclePhotoUrl"
               />
-            </div>
             <div class="flex flex-col">
               <div>Company : {{ vehicle.companyName}} </div>
               <div>Model : {{ vehicle.modelName }} </div>
