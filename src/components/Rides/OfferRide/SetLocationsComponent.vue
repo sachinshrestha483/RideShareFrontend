@@ -834,6 +834,14 @@ export default {
         return;
       }
 
+
+rideObject.IntermediatePositions.forEach((item)=>{
+  item.lat=item.lat.toString();
+  item.lon=item.lon.toString();
+
+})
+
+
       let response = await AdvanceEditRide(rideObject);
       console.log(response);
 
@@ -843,7 +851,7 @@ export default {
         errorAlert("Error While Submitting the  Form");
       }
       //
-      router.go();
+      //router.go();
       //   console.log(response);
     };
 

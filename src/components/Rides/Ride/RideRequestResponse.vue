@@ -3,6 +3,8 @@
     class="flex flex-row justify-center w-full"
     v-if="savedRideShareOffer != null"
   >
+{{savedRideShareOffer.id}}
+
     <div class="flex flex-col md:w-6/12 w-10/12">
       <div
         class="

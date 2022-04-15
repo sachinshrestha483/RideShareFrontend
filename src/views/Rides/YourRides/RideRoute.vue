@@ -574,11 +574,19 @@
     <p>Final Position -> {{ finalPosition }}</p>
     <p>Intermediate Positions -> {{ intermediatePoints }}</p>
 
-    <div v-if="isRidePathEditable">
-      <div class="w-10/12">
-        <div class="flex flex-row gap-4 justify-end items-center">
+
+    <div v-if="ride != null">
+      <div class="flex flex-row-reverse pageMargin1 mb-0 pb-0 mb-1">
+        <router-link
+          v-if="isRidePathEditable"
+          :to="{
+            name: 'EditPath',
+            params: {
+              id: ride.responseObject.id,
+            },
+          }"
+        >
           <svg
-            v-on:click="showMapEditBar = !showMapEditBar"
             xmlns="http://www.w3.org/2000/svg"
             class="h-6 w-6 text-blue-500"
             viewBox="0 0 20 20"
@@ -588,71 +596,9 @@
               d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"
             />
           </svg>
-          <svg
-            v-on:click="freeMarkerFun"
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-6 w-6 text-blue-500"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
-              clip-rule="evenodd"
-            />
-          </svg>
-          <!-- <div>
-            <button v-on:click="freeMarkerFun" class="primaryButton">
-              Get Free Marker
-            </button>
-          </div> -->
-        </div>
+        </router-link>
       </div>
-      <div class="flex flex-row justify-center mt-2">
-        <div class="flex flex-row justify-center w-8/12" v-if="ride != null">
-          <div v-if="showMapEditBar">
-            <SetLocationsComponent
-              :addMarkerFun="addMarker"
-              :initialPosition="initialPosition"
-              :intermediatePoints="intermediatePoints"
-              :finalPosition="finalPosition"
-              :setFinalPosMarker="setFinalPosMarker"
-              :setInitialPosMarker="setInitialPosMarker"
-              :SetIntermediatePosMarker="SetIntermediatePosMarker"
-              :initialPositionMarkerFun="initialPositionMarkerFun"
-              :finalPositionMarkerFun="finalPositionMarkerFun"
-              :intermediatePositionMarkerFun="intermediatePositionMarkerFun"
-              :getCalculateRouteFun="getCalculateRouteFun"
-              :createRouteFun="createRouteFun"
-              :drawRouteFun="drawRouteFun"
-              :getDrawRouteFun="getDrawRouteFun"
-              :isEditView="true"
-              :EditViewSavedRideId="ride.responseObject.id"
-              :getSetIntermediatePosFun="getSetIntermediatePosFun"
-            />
-          </div>
-          <div class="w-full">
-            <MapComponent
-              :initialPosition="initialPosition"
-              :finalPosition="finalPosition"
-              :intermediatePoints="intermediatePoints"
-              :getInitialPositionMarkerFun="getInitialPositionMarkerFun"
-              :getFinalPositionMarkerFun="getFinalPositionMarkerFun"
-              :getIntermediatePositionsMarkerFun="
-                getIntermediatePositionsMarkerFun
-              "
-              :getCreateRouteFun="getCreateRouteFun"
-              :calculateRouteFun="calculateRouteFun"
-              :drawRouteFun="drawRouteFun"
-              :getDrawRouteFun="getDrawRouteFun"
-              :getFreeMarkerFun="getFreeMarkerFun"
-            />
-          </div>
-        </div>
-      </div>
-    </div>
-    <div v-if="!isRidePathEditable">
-      <div class="flex flex-row pageMargin1">
+      <div class="flex flex-row pageMargin1 mt-0 pt-0">
         <div class="w-full h-96 w-8/12" v-if="mapObject != null">
           <RidePathMap
             class="w-64 h-64"
@@ -970,42 +916,9 @@ export default {
         console.log("Length of the List ");
 
         isRidePathEditable.value = true;
-        LoadDataForEditRidePath();
       } else {
         isRidePathEditable.value = false;
       }
-    };
-
-    const LoadDataForEditRidePath = () => {
-      initialPositionMarkerFun.value(
-        initialPosition.value.lat,
-        initialPosition.value.lon
-      );
-      finalPositionMarkerFun.value(
-        finalPosition.value.lat,
-        finalPosition.value.lon
-      );
-      var intps = [];
-
-      ride.value.responseObject.intermediatePositions.forEach((element) => {
-        console.log(element);
-        intps.push({
-          name: element.positionName,
-          lat: element.positionLatitude,
-          lon: element.positionLongitude,
-        });
-        IntermediatePosFun.value(
-          element.positionName,
-          element.positionLatitude,
-          element.positionLongitude
-        );
-      });
-      console.log(drawRouteFun);
-      console.log(drawRouteFun);
-      console.log(ride.value.responseObject.path);
-      console.log(typeof ride.value.responseObject.path);
-      var deserializedPath = JSON.parse(ride.value.responseObject.path);
-      drawRouteFun.value(deserializedPath);
     };
 
     onMounted(async () => {
@@ -1022,12 +935,6 @@ export default {
       finalPosition.value.lon = ride.value.responseObject.endLocationLongitude;
 
       finalPosition.value.name = ride.value.responseObject.endLocationName;
-
-      //      isEditPathShowable();
-      // if (isRidePathEditable.value) {
-      //   LoadDataForEditRidePath();
-      // }
-
       const { GetUserVehicleById } = VehicleFunctions();
       rideVehicle.value = await GetUserVehicleById(
         ride.value.responseObject.vehicleId
@@ -1164,18 +1071,18 @@ export default {
 
     const getIntermediatePositionsMarkerFun = (fun) => {
       intermediatePositionMarkerFun.value = fun;
-      console.log("✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ")
-      console.log("✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ")
-      console.log("✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ")
-      console.log("✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ")
-      console.log("Intermediate Position Marker Fun"+ fun);
-      console.log(fun)
-      console.log("✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ")
-      console.log("✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ")
-      console.log("✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ")
-      console.log("✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ")
-      console.log("✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ")
-};
+      console.log("✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ");
+      console.log("✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ");
+      console.log("✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ");
+      console.log("✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ");
+      console.log("Intermediate Position Marker Fun" + fun);
+      console.log(fun);
+      console.log("✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ");
+      console.log("✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ");
+      console.log("✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ");
+      console.log("✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ");
+      console.log("✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ");
+    };
 
     let days = [
       "Monday",
