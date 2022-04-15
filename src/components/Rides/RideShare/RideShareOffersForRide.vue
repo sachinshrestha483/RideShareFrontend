@@ -151,11 +151,14 @@
           </svg>
         </div>
       </div>
-      <ChatBox
+      <div :key="currentRideShareOffer">
+   <ChatBox
         class="h-fit"
         :key="rideSharingRequestComponentkey"
         :rideShareRequestId="currentRideShareOffer.id"
       />
+      </div>
+   
     </div>
 
     <div

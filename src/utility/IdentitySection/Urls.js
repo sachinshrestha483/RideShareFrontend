@@ -72,6 +72,7 @@ class Urls {
   static GetAllApprovedRideShareOfferids ="/RideShareOffer/GetAllApprovedRideShareOfferids?id="
 
   static GetAllDisApprovedRideShareOfferids="/RideShareOffer/GetAllDisApprovedRideShareOfferids?id="
+  static GetPathDistance="/Ride/CalculatePathDistance"
 
 }
 

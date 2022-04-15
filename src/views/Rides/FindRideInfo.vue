@@ -1,17 +1,7 @@
 <template>
   <div class="pageMargin1">
     {{ $route.params }}
-
     {{$store.state.user }}
-    <!-- {{ $route.params.id }}
-    {{ $route.params }} -->
-    <!-- Store  {{ $store}} -->
-    <!-- {{$store.state.user}} -->
-    <!-- {{ ride }} -->
-    <!-- {{ ride }}
-    {{ rideOverlappingData }} -->
-
-     <!-- {{ride}}  -->
   </div>
   <div>
     <div
@@ -46,6 +36,14 @@
           rideOverlappingData.responseObject.distanceFromFinalPosition
         "
       />
+
+
+<VehicleInfo  :vehicleId="ride.responseObject.vehicleId"   />
+
+<UserInfo  :userId="ride.responseObject.userId"  :title="`Driver Info`" class="mt-8"/>
+         
+          <NotesForOfferCreator  :title="`Notes For Ride`" :bodyText="ride.responseObject.note" class="mt-8"  />
+
       <!-- v-if="ride.responseObject.userId!= $store.state.user.id " -->
 <!-- && $store.state.user.id!= ride.responseObject.userId -->
       <CreateRideSharingRequest
@@ -80,6 +78,9 @@ import { onMounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import RideDetails from "@/components/Rides/Ride/RideDetails.vue";
 import CreateRideSharingRequest from "@/components/Rides/Ride/CreateRideSharingRequest.vue";
+import VehicleInfo from "@/components/Vehicle/VehicleInfo"
+import UserInfo from "@/components/User/UserInfo.vue";
+import NotesForOfferCreator from "@/components/Rides/Ride/NotesForRideCreator"
 
 import {
   GetRideOverlappingDetails,
@@ -91,6 +92,9 @@ export default {
   components: {
     RideDetails,
     CreateRideSharingRequest,
+    VehicleInfo,
+    UserInfo,
+    NotesForOfferCreator
   },
 
   setup() {
