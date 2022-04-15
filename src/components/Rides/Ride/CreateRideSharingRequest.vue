@@ -94,6 +94,7 @@
             class="h-14 text-blue-500 w-14 hover:text-blue-600 mt-0"
             viewBox="0 0 20 20"
             fill="currentColor"
+            v-if="savedRideShareOffer==null ||  (savedRideShareOffer!=null && savedRideShareOffer.rideShareOfferStatus!=1)"
             v-on:click="increaseNumberofPassenger"
           >
             <path
@@ -121,6 +122,7 @@
             class="h-14 w-14 text-blue-500 hover:text-blue-600 mt-0"
             viewBox="0 0 20 20"
             fill="currentColor"
+            v-if="savedRideShareOffer==null ||  (savedRideShareOffer!=null && savedRideShareOffer.rideShareOfferStatus!=1)"
             v-on:click="decreaseNumberofPassenger"
           >
             <path
@@ -145,6 +147,15 @@
           class="inputBox mb-0 mt-0"
           style="text-align: center"
           v-model="price"
+            v-if="savedRideShareOffer==null ||  (savedRideShareOffer!=null && savedRideShareOffer.rideShareOfferStatus!=1)"
+        />
+                <input
+          type="number"
+          class="inputBox mb-0 mt-0"
+          style="text-align: center"
+          v-model="price"
+          disabled
+          v-else
         />
         <span class="text-sm text-red-500 mr-2 font-medium">{{
           formErrors.price
