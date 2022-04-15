@@ -10,6 +10,7 @@
         md:grid-cols-4
         justify-between
         p-4
+        z-50	
       "
     >
       <div>

@@ -1,5 +1,5 @@
 <template>
-  <div id="mapid" ref="map"></div>
+  <div id="mapid" ref="map" class="z-10"></div>
 </template>
 
 <script>

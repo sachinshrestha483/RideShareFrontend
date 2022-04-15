@@ -3,7 +3,7 @@
     <div class="primaryHeading mb-8 text-center">Ride Route</div>
     {{ rideObject }}
     {{ formErrors }}
-    
+
     <!-- {{   ride.responseObjectintermediatePositions.map((e) => ({
           name: e.positionName,
           lat: e.positionLatitude,
@@ -517,42 +517,70 @@
         </div>
       </div>
     </div>
-     <CotravellerList 
-     v-if="ride != null"
-    :RideId="ride.responseObject.id"
-    /> 
+    <CotravellerList
+      v-if="ride != null"
+      :RideId="ride.responseObject.id"
+      :key="cotravellerListKey"
+      :reloadRideShareOfferForRide="
+        () => {
+          reloadPage();
+          RideShareOfferForRideKey = RideShareOfferForRideKey + 1;
+        }
+      "
+    />
+
+    <div class="flex flex-row justify-center">
+      <button
+        v-on:click="showRideShareOffers = !showRideShareOffers"
+        type="button"
+        class="
+          w-8/12
+          text-white
+          bg-blue-500
+          hover:bg-blue-400
+          focus:ring-4 focus:ring-blue-300
+          font-medium
+          rounded-lg
+          text-sm
+          px-5
+          py-2.5
+          mr-2
+          mb-2
+          dark:bg-blue-600 dark:hover:bg-blue-700
+          focus:outline-none
+          dark:focus:ring-blue-800
+        "
+      >
+        Toggle Offers
+      </button>
+    </div>
+
+    <div class="h-96 overflow-auto" v-if="showRideShareOffers">
+      <RideShareOfferForRide
+        v-if="ride != null"
+        :rideId="ride.responseObject.id"
+        :key="RideShareOfferForRideKey"
+        :reloadCotravelList="
+          () => {
+            reloadPage();
+
+            cotravellerListKey = cotravellerListKey + 1;
+          }
+        "
+      />
+    </div>
 
     <p>Initial Position -> {{ initialPosition }}</p>
     <p>Final Position -> {{ finalPosition }}</p>
     <p>Intermediate Positions -> {{ intermediatePoints }}</p>
-    <div class="flex flex-row justify-between" v-if="ride != null">
-      <div v-show="showMapEditBar">
-        <SetLocationsComponent
-          :addMarkerFun="addMarker"
-          :initialPosition="initialPosition"
-          :intermediatePoints="intermediatePoints"
-          :finalPosition="finalPosition"
-          :setFinalPosMarker="setFinalPosMarker"
-          :setInitialPosMarker="setInitialPosMarker"
-          :SetIntermediatePosMarker="SetIntermediatePosMarker"
-          :initialPositionMarkerFun="initialPositionMarkerFun"
-          :finalPositionMarkerFun="finalPositionMarkerFun"
-          :intermediatePositionMarkerFun="intermediatePositionMarkerFun"
-          :getCalculateRouteFun="getCalculateRouteFun"
-          :createRouteFun="createRouteFun"
-          :drawRouteFun="drawRouteFun"
-          :getDrawRouteFun="getDrawRouteFun"
-          :isEditView="true"
-          :EditViewSavedRideId="ride.responseObject.id"
-          :getSetIntermediatePosFun="getSetIntermediatePosFun"
-        />
-      </div>
-      <div class="w-full">
-        <div class="flex justify-end">
+
+    <div v-if="isRidePathEditable">
+      <div class="w-10/12">
+        <div class="flex flex-row gap-4 justify-end items-center">
           <svg
             v-on:click="showMapEditBar = !showMapEditBar"
             xmlns="http://www.w3.org/2000/svg"
-            class="h-5 w-5"
+            class="h-6 w-6 text-blue-500"
             viewBox="0 0 20 20"
             fill="currentColor"
           >
@@ -560,28 +588,80 @@
               d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"
             />
           </svg>
-          <div>
+          <svg
+            v-on:click="freeMarkerFun"
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6 text-blue-500"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
+              clip-rule="evenodd"
+            />
+          </svg>
+          <!-- <div>
             <button v-on:click="freeMarkerFun" class="primaryButton">
               Get Free Marker
             </button>
+          </div> -->
+        </div>
+      </div>
+      <div class="flex flex-row justify-center mt-2">
+        <div class="flex flex-row justify-center w-8/12" v-if="ride != null">
+          <div v-if="showMapEditBar">
+            <SetLocationsComponent
+              :addMarkerFun="addMarker"
+              :initialPosition="initialPosition"
+              :intermediatePoints="intermediatePoints"
+              :finalPosition="finalPosition"
+              :setFinalPosMarker="setFinalPosMarker"
+              :setInitialPosMarker="setInitialPosMarker"
+              :SetIntermediatePosMarker="SetIntermediatePosMarker"
+              :initialPositionMarkerFun="initialPositionMarkerFun"
+              :finalPositionMarkerFun="finalPositionMarkerFun"
+              :intermediatePositionMarkerFun="intermediatePositionMarkerFun"
+              :getCalculateRouteFun="getCalculateRouteFun"
+              :createRouteFun="createRouteFun"
+              :drawRouteFun="drawRouteFun"
+              :getDrawRouteFun="getDrawRouteFun"
+              :isEditView="true"
+              :EditViewSavedRideId="ride.responseObject.id"
+              :getSetIntermediatePosFun="getSetIntermediatePosFun"
+            />
+          </div>
+          <div class="w-full">
+            <MapComponent
+              :initialPosition="initialPosition"
+              :finalPosition="finalPosition"
+              :intermediatePoints="intermediatePoints"
+              :getInitialPositionMarkerFun="getInitialPositionMarkerFun"
+              :getFinalPositionMarkerFun="getFinalPositionMarkerFun"
+              :getIntermediatePositionsMarkerFun="
+                getIntermediatePositionsMarkerFun
+              "
+              :getCreateRouteFun="getCreateRouteFun"
+              :calculateRouteFun="calculateRouteFun"
+              :drawRouteFun="drawRouteFun"
+              :getDrawRouteFun="getDrawRouteFun"
+              :getFreeMarkerFun="getFreeMarkerFun"
+            />
           </div>
         </div>
-        <MapComponent
-          :initialPosition="initialPosition"
-          :finalPosition="finalPosition"
-          :intermediatePoints="intermediatePoints"
-          :getInitialPositionMarkerFun="getInitialPositionMarkerFun"
-          :getFinalPositionMarkerFun="getFinalPositionMarkerFun"
-          :getIntermediatePositionsMarkerFun="getIntermediatePositionsMarkerFun"
-          :getCreateRouteFun="getCreateRouteFun"
-          :calculateRouteFun="calculateRouteFun"
-          :drawRouteFun="drawRouteFun"
-          :getDrawRouteFun="getDrawRouteFun"
-          :getFreeMarkerFun="getFreeMarkerFun"
-        />
-
-
-
+      </div>
+    </div>
+    <div v-if="!isRidePathEditable">
+      <div class="flex flex-row pageMargin1">
+        <div class="w-full h-96 w-8/12" v-if="mapObject != null">
+          <RidePathMap
+            class="w-64 h-64"
+            :startLocation="mapObject.startLocation"
+            :endLocation="mapObject.endLocation"
+            :path="mapObject.path"
+            :intermediatePoints="mapObject.intermediatePoints"
+          />
+        </div>
       </div>
     </div>
 
@@ -596,28 +676,36 @@
 </template>
 
 <script>
-import { onMounted, ref } from "vue";
+import { onMounted, onUpdated, ref } from "vue";
 import VehicleFunctions from "@/composables/VehicleFunctions";
 import { useRoute, useRouter } from "vue-router";
 import RideMapComponent from "@/components/Map/RideMapComponent";
-import { getMyRide } from "@/composables/RideFunctions.js";
+import {
+  getMyRide,
+  getAllApprovedRideShareOfferIds,
+} from "@/composables/RideFunctions.js";
 import SetLocationsComponent from "@/components/Rides/OfferRide/SetLocationsComponent";
 import MapComponent from "@/components/Rides/OfferRide/MapComponent";
 import { EditRide } from "@/composables/RideFunctions";
 import UtilityFunctions from "@/utility/UtilityFunctions.js";
 import { Ride } from "@/Models/Ride";
 import { successAlert, errorAlert } from "@/composables/Notifications.js";
-import CotravellerList from "@/components/Rides/Ride/CotravellerList"
-
+import CotravellerList from "@/components/Rides/Ride/CotravellerList";
+import RideShareOfferForRide from "@/components/Rides/RideShare/RideShareOffersForRide.vue";
+import RidePathMap from "@/components/Map/RidePathMap.vue";
 export default {
   components: {
     //RideMapComponentMapComponent,
     SetLocationsComponent,
     MapComponent,
-    CotravellerList
+    CotravellerList,
+    RideShareOfferForRide,
+    RidePathMap,
   },
   setup(props) {
     console.log("Here is The Ride Info Page ");
+    const cotravellerListKey = ref(0);
+    const RideShareOfferForRideKey = ref(0);
     const ride = ref(null);
     const zoomedLat = ref(null);
     const zoomedLon = ref(null);
@@ -627,6 +715,9 @@ export default {
     const showEditRideForm = ref(false);
     const userVehicles = ref([]);
     const navrouter = useRouter();
+    const showRideShareOffers = ref(false);
+    const isRidePathEditable = ref(true);
+    const mapObject = ref(null);
 
     const formErrors = ref({
       StartPosition: null,
@@ -788,7 +879,7 @@ export default {
       console.log("rideObject.VehicleId");
       console.log("rideObject.VehicleId");
 
-      if (rideObject.VehicleId != typeof Number) {
+      if (!Number.isInteger(rideObject.VehicleId)) {
         formErrors.value.VehicleId = "Vehicle  Cannot Be Null";
         return;
       }
@@ -840,21 +931,52 @@ export default {
       ride.value = rideObj;
     };
 
-    onMounted(async () => {
-      await loadData();
-      console.log("On Mounted Data" + " -> ");
-      // console.log(ride.value.responseObject.)
-      console.log("On Mounted Data" + " -> ");
-      initialPosition.value.lat =
-        ride.value.responseObject.startLocationLatitude;
-      initialPosition.value.name = ride.value.responseObject.startLocationName;
-      initialPosition.value.lon =
-        ride.value.responseObject.startLocationLongitude;
-      finalPosition.value.lat = ride.value.responseObject.endLocationLatitude;
-      finalPosition.value.lon = ride.value.responseObject.endLocationLongitude;
+    const reloadPage = () => {
+      navrouter.go();
+    };
 
-      finalPosition.value.name = ride.value.responseObject.endLocationName;
+    onUpdated(() => {});
 
+    const isEditPathShowable = async () => {
+      var res = await getAllApprovedRideShareOfferIds(
+        ride.value.responseObject.id
+      );
+      let list = res.responseObject;
+      console.log("Length of the List ");
+      console.log("Length of the List ");
+      console.log("Length of the List ");
+      console.log("Length of the List ");
+      console.log("Length of the List ");
+      console.log(list.length);
+      console.log("Length of the List ");
+      console.log("Length of the List ");
+      console.log("Length of the List ");
+      console.log("Length of the List ");
+      console.log("Length of the List ");
+
+      // list.isArray() &&
+      if (list.length == 0) {
+        // alert( "Length of he List"+list.length)
+        console.log("Length of the List ");
+        console.log("Length of the List ");
+        console.log("Length of the List ");
+        console.log("Length of the List ");
+        console.log("Length of the List ");
+        console.log(list.length);
+        console.log("Length of the List ");
+        console.log("Length of the List ");
+        console.log("Length of the List ");
+        console.log("Length of the List ");
+        console.log("Length of the List ");
+
+        isRidePathEditable.value = true;
+        LoadDataForEditRidePath();
+      } else {
+        isRidePathEditable.value = false;
+      }
+    };
+
+    const LoadDataForEditRidePath = () => {
       initialPositionMarkerFun.value(
         initialPosition.value.lat,
         initialPosition.value.lon
@@ -863,35 +985,6 @@ export default {
         finalPosition.value.lat,
         finalPosition.value.lon
       );
-
-      // intermediatePoints.value =
-      //   ride.value.responseObjectintermediatePositions.map((e) => ({
-      //     name: e.positionName,
-      //     lat: e.positionLatitude,
-      //     lon: e.positionLongitude,
-      //   }));
-
-      // .map((e) => ({
-      //   name: e.positionName,
-      //   lat: e.positionLatitude,
-      //   lon: e.positionLongitude,
-      // }));
-
-      console.log("-------------------@@@@@@@@@@@@@@@@@@-------------------");
-      console.log("-------------------@@@@@@@@@@@@@@@@@@-------------------");
-      console.log("-------------------@@@@@@@@@@@@@@@@@@-------------------");
-      console.log("-------------------@@@@@@@@@@@@@@@@@@-------------------");
-      console.log("-------------------@@@@@@@@@@@@@@@@@@-------------------");
-      console.log("-------------------@@@@@@@@@@@@@@@@@@-------------------");
-      console.log("-------------------@@@@@@@@@@@@@@@@@@-------------------");
-      console.log("-------------------@@@@@@@@@@@@@@@@@@-------------------");
-      console.log("-------------------@@@@@@@@@@@@@@@@@@-------------------");
-      console.log("-------------------@@@@@@@@@@@@@@@@@@-------------------");
-      console.log("-------------------@@@@@@@@@@@@@@@@@@-------------------");
-      console.log("-------------------@@@@@@@@@@@@@@@@@@-------------------");
-      console.log("-------------------@@@@@@@@@@@@@@@@@@-------------------");
-      console.log("-------------------@@@@@@@@@@@@@@@@@@-------------------");
-
       var intps = [];
 
       ride.value.responseObject.intermediatePositions.forEach((element) => {
@@ -907,68 +1000,38 @@ export default {
           element.positionLongitude
         );
       });
-      // intermediatePoints.value= intps;
-      // intermediatePositionMarkerFun.value();
-      console.log("-------------------@@@@@@@@@@@@@@@@@@-------------------");
-      console.log("-------------------@@@@@@@@@@@@@@@@@@-------------------");
-      console.log("-------------------@@@@@@@@@@@@@@@@@@-------------------");
-      console.log("-------------------@@@@@@@@@@@@@@@@@@-------------------");
-      console.log("-------------------@@@@@@@@@@@@@@@@@@-------------------");
-      console.log("-------------------@@@@@@@@@@@@@@@@@@-------------------");
-      console.log("-------------------@@@@@@@@@@@@@@@@@@-------------------");
-      console.log("-------------------@@@@@@@@@@@@@@@@@@-------------------");
-      console.log("-------------------@@@@@@@@@@@@@@@@@@-------------------");
-      console.log("-------------------@@@@@@@@@@@@@@@@@@-------------------");
-      console.log("-------------------@@@@@@@@@@@@@@@@@@-------------------");
-      console.log("-------------------@@@@@@@@@@@@@@@@@@-------------------");
-      console.log("-------------------@@@@@@@@@@@@@@@@@@-------------------");
-      console.log("-------------------@@@@@@@@@@@@@@@@@@-------------------");
-      console.log("-------------------@@@@@@@@@@@@@@@@@@-------------------");
-      console.log("-------------------@@@@@@@@@@@@@@@@@@-------------------");
-      console.log("-------------------@@@@@@@@@@@@@@@@@@-------------------");
-
-      // intermediatePoints.value = ride.value.responseObject.map((e) => ({
-      //   name: e.positionName,
-      //   lat: e.positionLatitude,
-      //   lon: e.positionLongitude,
-      // }));
-
-      //   intermediatePositionMarkerFun.value();
-
-      //intermediatePoints.value
-
-      //  intermediatePositions.value.push({
-      //         name: val,
-      //         lat: nameObject.lat,
-      //         lon: nameObject.lon,
-      //       });
-
-      console.log("This is Draw Route ");
-      console.log("This is Draw Route ");
-      console.log("This is Draw Route ");
-      console.log("This is Draw Route ");
       console.log(drawRouteFun);
       console.log(drawRouteFun);
-      console.log("This is Draw Route ");
-      console.log("This is Draw Route ");
-      console.log("This is Draw Route ");
-      console.log("This is Draw Route ");
-      console.log("This is Draw Route ");
       console.log(ride.value.responseObject.path);
       console.log(typeof ride.value.responseObject.path);
       var deserializedPath = JSON.parse(ride.value.responseObject.path);
       drawRouteFun.value(deserializedPath);
+    };
+
+    onMounted(async () => {
+      await loadData();
+      console.log("On Mounted Data" + " -> ");
+      // console.log(ride.value.responseObject.)
+      console.log("On Mounted Data" + " -> ");
+      initialPosition.value.lat =
+        ride.value.responseObject.startLocationLatitude;
+      initialPosition.value.name = ride.value.responseObject.startLocationName;
+      initialPosition.value.lon =
+        ride.value.responseObject.startLocationLongitude;
+      finalPosition.value.lat = ride.value.responseObject.endLocationLatitude;
+      finalPosition.value.lon = ride.value.responseObject.endLocationLongitude;
+
+      finalPosition.value.name = ride.value.responseObject.endLocationName;
+
+      //      isEditPathShowable();
+      // if (isRidePathEditable.value) {
+      //   LoadDataForEditRidePath();
+      // }
+
       const { GetUserVehicleById } = VehicleFunctions();
       rideVehicle.value = await GetUserVehicleById(
         ride.value.responseObject.vehicleId
       );
-      console.log("------------------------Ride Vehicle--------------------");
-      console.log(rideVehicle.value);
-      console.log(rideVehicle.value);
-      console.log(rideVehicle.value);
-      console.log(rideVehicle.value);
-      console.log(rideVehicle.value);
-      console.log("------------------------Ride Vehicle--------------------");
 
       console.log(VehicleFunctions);
       const { GetUserVehicles } = VehicleFunctions();
@@ -1013,6 +1076,23 @@ export default {
       editedride.note = ride.value.responseObject.note;
 
       // finalPositionMarkerFun.value();
+
+      mapObject.value = {
+        path: ride.value.responseObject.path,
+        startLocation: {
+          name: ride.value.responseObject.startLocationName,
+          lat: ride.value.responseObject.startLocationLatitude,
+          lon: ride.value.responseObject.startLocationLongitude,
+        },
+        endLocation: {
+          name: ride.value.responseObject.endLocationName,
+          lat: ride.value.responseObject.endLocationLatitude,
+          lon: ride.value.responseObject.endLocationLongitude,
+        },
+        intermediatePoints: ride.value.responseObject.intermediatePositions,
+      };
+
+      isEditPathShowable();
     });
 
     const initialPosition = ref({ lat: "", lon: "", name: "" });
@@ -1141,6 +1221,13 @@ export default {
       getFreeMarkerFun,
       freeMarkerFun,
       formErrors,
+      cotravellerListKey,
+      RideShareOfferForRideKey,
+      showRideShareOffers,
+      isRidePathEditable,
+      mapObject,
+      isEditPathShowable,
+      reloadPage,
     };
   },
 };

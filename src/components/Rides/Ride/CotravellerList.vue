@@ -1,8 +1,10 @@
 <template>
-  <div class=" mt-4  ">
+  <div class=" mt-4  "  :key="rideShareOfferIds.length" >
     <div class="secondaryText text-center">Co-Passengers</div>
     <div v-for="item in rideShareOfferIds" :key="item">
-      <CoTraveller :RideShareOfferId="item" class="w-full" />
+      <CoTraveller :RideShareOfferId="item" class="w-full"
+      
+        :reRender="reRender"  />
     </div>
   </div>
 </template>
@@ -19,12 +21,12 @@ export default {
   components: {
     CoTraveller,
   },
-  props: ["RideId"],
-  setup(porps) {
+  props: ["RideId","reloadRideShareOfferForRide"],
+  setup(props) {
     const rideShareOfferIds = ref([]);
 
     const loadData = async () => {
-      var res = await getAllApprovedRideShareOfferIds(porps.RideId);
+      var res = await getAllApprovedRideShareOfferIds(props.RideId);
       rideShareOfferIds.value = res.responseObject;
     };
 
@@ -32,7 +34,12 @@ export default {
       await loadData();
     });
 
-    return { rideShareOfferIds };
+    const reRender=async ()=>{
+    await   loadData();
+    props.reloadRideShareOfferForRide();
+    }
+
+    return { rideShareOfferIds ,reRender};
   },
 };
 </script>
