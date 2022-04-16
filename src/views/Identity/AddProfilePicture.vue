@@ -17,8 +17,10 @@
             alone.
           </div>
           <div class="text-red-600 text-bold">{{ fileError }}</div>
+          <div class="text-blue-500 text-lg  text-bold">{{ uploadingStatus }}</div>
 
-          <div class="primaryButton mt-4 text-xl font-normal px-4">
+
+          <div class="primaryButton mt-4 text-xl font-normal px-4 py-0">
             <div class="text-center flex flex-col">
               <div>Add Photo</div>
               <div>
@@ -26,7 +28,7 @@
                   type="file"
                   multiple
                   v-on:change="handleChange"
-                  class="opacity-0 h-full w-full"
+                  class="opacity-0 h-full w-full py-0 my-0"
                 />
               </div>
             </div>
@@ -40,24 +42,27 @@
 <script>
 import { ref } from "vue";
 import Identity from "@/composables/Identity";
-import { useRouter } from 'vue-router';
+import { useRouter } from "vue-router";
+import { successAlert, errorAlert } from "@/composables/Notifications.js";
+
 export default {
   setup() {
     const { UpdateProfilePicture } = Identity();
 
-const router= useRouter();
+    const router = useRouter();
 
     const file = ref(null);
     const fileError = ref(null);
+    const uploadingStatus= ref(null);
 
     const isuploading = ref(false);
 
     const handleChange = (e) => {
-  fileError.value="";
+      fileError.value = "";
 
-const selected = e.target.files[0];
+      const selected = e.target.files[0];
       console.log(selected);
-    const types = ["image/png", "image/jpeg"];
+      const types = ["image/png", "image/jpeg"];
 
       if (selected && types.includes(selected.type)) {
         file.value = selected;
@@ -69,26 +74,29 @@ const selected = e.target.files[0];
     };
 
     const handleSubmit = async () => {
-
-if (file.value) {
+      if (file.value) {
         isuploading.value = true;
-       let isUploaded= await UpdateProfilePicture(file.value);
+        uploadingStatus.value= "Uploading Photo";
+        let isUploaded = await UpdateProfilePicture(file.value);
+        uploadingStatus.value=null;
         // await uploadImage(file.value);
         isuploading.value = false;
+        console.log(isUploaded);
+        if (isUploaded == false) {
+          fileError.value = "Not Able To Upload Image";
+          errorAlert("Failed in Uploading Photo");
+        } else {
 
-        if(isUploaded==false){
-  fileError.value="Not Able To Upload Image";
+    //  store.state.user.=response.data;
+          successAlert("Photo Uploaded Sucessfully ")
+          router.go();
+          //router.push({ name: "Home" });
         }
-        else{
-          router.push({name:'home'})
-        }
-        file.value=null;
-
-        
-      } 
+        file.value = null;
+      }
     };
 
-    return { handleChange, fileError, isuploading };
+    return { handleChange, fileError, isuploading,uploadingStatus };
   },
 };
 </script>
