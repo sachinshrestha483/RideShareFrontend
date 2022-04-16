@@ -19,7 +19,8 @@
           "
         >
           <div class="text-2xl mb-4 ml-1">
-            {{
+           {{initialDateTimeString}} 
+            <!-- {{
               days[new Date(ride.dateTimeOfRide).getDay()].substring(0, 3)
             }},{{ new Date(ride.dateTimeOfRide).getDate() }}
 
@@ -27,7 +28,7 @@
               months[new Date(ride.dateTimeOfRide).getMonth()].substring(0, 3)
             }},{{ new Date(ride.dateTimeOfRide).getHours() }}:{{
               new Date(ride.dateTimeOfRide).getMinutes()
-            }}
+            }} -->
           </div>
 
          <router-link
@@ -52,7 +53,9 @@
 
             (
 
-            {{
+                         {{initialDateTimeString}} 
+
+            <!-- {{
               days[new Date(ride.dateTimeOfRide).getDay()].substring(0, 3)
             }},{{ new Date(ride.dateTimeOfRide).getDate() }}
 
@@ -60,7 +63,7 @@
               months[new Date(ride.dateTimeOfRide).getMonth()].substring(0, 3)
             }},{{ new Date(ride.dateTimeOfRide).getHours() }}:{{
               new Date(ride.dateTimeOfRide).getMinutes()
-            }}
+            }} -->
 
             )
 
@@ -105,20 +108,23 @@
             {{ ride.endLocationName }}
 
             (
+             {{finalDateTimeString}} 
+              <!-- {{ new Date(ride.destinationReachingDateTime)}}
 
             {{
               days[
                 new Date(ride.destinationReachingDateTime).getDay()
-              ].substring(0, 3)
-            }},{{ new Date(ride.destinationReachingDateTime).getDate() }}
+              ].substring(0, 2)
+            }}, -->
+            <!-- {{ new Date(ride.destinationReachingDateTime).getDate() }} -->
 
-            {{
+            <!-- {{
               months[
                 new Date(ride.destinationReachingDateTime).getMonth()
               ].substring(0, 3)
             }},{{ new Date(ride.destinationReachingDateTime).getHours() }}:{{
               new Date(ride.destinationReachingDateTime).getMinutes()
-            }}
+            }} -->
 
             )
 
@@ -149,6 +155,8 @@ import { ref } from "vue";
 import { getMyRides, getMyRide } from "@/composables/RideFunctions";
 
 import { useRoute, useRouter } from "vue-router";
+import * as moment from "moment";
+
 
 import UtilityData from "@/utility/UtilityData";
 export default {
@@ -194,9 +202,16 @@ export default {
       "December",
     ];
 
+
+
     const router = useRoute();
 
     let rideId = router.params.id;
+
+
+  const initialDateTimeString= ref(null)
+  const finalDateTimeString = ref(null);
+
 
     getMyRide(rideId).then((responseObject) => {
       console.log("Response Object");
@@ -228,6 +243,8 @@ export default {
 
       let localFinalDateTime = localInitialDateTime;
 
+      initialDateTimeString.value= moment(localInitialDateTime).format('MMMM Do YYYY, h:mm a')
+
       localFinalDateTime.setSeconds(
         localFinalDateTime.getSeconds() + timeinSeconds
       );
@@ -235,9 +252,10 @@ export default {
       console.log(localFinalDateTime);
 
       ride.value.destinationReachingDateTime = localFinalDateTime;
+      finalDateTimeString.value= moment(localFinalDateTime).format('MMMM Do YYYY, h:mm a')  
     });
 
-    return { ride, days, months };
+    return { ride, days, months, initialDateTimeString , finalDateTimeString };
   },
 };
 </script>

@@ -19,6 +19,8 @@
           :createRouteFun="createRouteFun"
           :isEditView="false"
           :EditViewSavedRideId="0"
+          :getSetInitialPositionLatLon="getSetInitialPositionLatLon"
+          :getSetFinalPositionLatLon="getSetFinalPositionLatLon"
         />
       </div>
       <div class="w-full ">
@@ -31,6 +33,9 @@
           :getIntermediatePositionsMarkerFun="getIntermediatePositionsMarkerFun"
           :getCreateRouteFun="getCreateRouteFun"
           :calculateRouteFun="calculateRouteFun"
+          :setInitialPosLatlon="setInitialPosLatlon"
+          :setFinalPosLatlon="setFinalPosLatlon"
+          
         />
       </div>
     </div>
@@ -55,6 +60,17 @@ export default {
     const initialPositionMarkerFun = ref(null);
     const finalPositionMarkerFun = ref(null);
     const intermediatePositionMarkerFun = ref(null);
+    
+    const  getSetInitialPositionLatLon= (val)=>{
+      setInitialPosLatlon.value=val;
+    }
+    const getSetFinalPositionLatLon= (val)=>{
+        setFinalPosLatlon.value=val;
+    }
+
+    const setInitialPosLatlon=ref(null);
+    const setFinalPosLatlon=ref(null);
+
 
     const calculateRouteFun = ref(null);
     const createRouteFun = ref(null);
@@ -103,6 +119,10 @@ export default {
       getCreateRouteFun,
       createRouteFun,
       calculateRouteFun,
+      getSetInitialPositionLatLon,
+      getSetFinalPositionLatLon,
+      setInitialPosLatlon,
+      setFinalPosLatlon
     };
   },
 };

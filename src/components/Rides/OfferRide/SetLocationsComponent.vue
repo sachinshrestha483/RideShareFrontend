@@ -1,6 +1,10 @@
 <template>
   <div class="w-96 overflow-y-auto p-2" style="height: 100vh">
     <div class="flex flex-col">
+      {{initialPosition}}
+      {{finalPosition}}
+
+
       <label class="secondaryText">Initial Position</label>
       <vue-bootstrap-typeahead
         class="mb-0"
@@ -266,6 +270,8 @@ export default {
     "isEditView",
     "EditViewSavedRideId",
     "getSetIntermediatePosFun",
+    "getSetInitialPositionLatLon",
+    "getSetFinalPositionLatLon"
   ],
 
   setup(props) {
@@ -311,6 +317,28 @@ export default {
         formErrors.value[key] = null;
       });
     };
+
+    const setInitalPosLatLon=(lat,lon)=>{
+      initialPosition.value.lat= lat;
+      initialPosition.value.lon= lon;
+    }
+
+    
+    const setFinalPosLatLon=(lat,lon)=>{
+      finalPosition.value.lat= lat;
+      finalPosition.value.lon= lon;
+    }
+
+
+    props.getSetInitialPositionLatLon(setInitalPosLatLon);
+    props.getSetFinalPositionLatLon(setFinalPosLatLon)
+
+
+
+
+
+
+
 
     console.log(VehicleFunctions);
     const { GetUserVehicles } = VehicleFunctions();
