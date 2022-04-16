@@ -222,6 +222,9 @@ import Store from "@/store/index";
 import GeoCordinatesFunction from "@/composables/GeoCordinatesFunctions.js";
 import RideSharingRequestMap from "@/components/Rides/Ride/RideSharingRequestMap.vue";
 import { successAlert, errorAlert } from "@/composables/Notifications.js";
+import UtilityData from "@/utility/UtilityData" 
+import { pathDistance } from "@/composables/RideFunctions.js";
+import UtilityFunctions from "@/utility/UtilityFunctions.js";
 
 export default {
   props: [
@@ -243,6 +246,7 @@ export default {
 
   setup(props) {
     const { reverseGeoCode } = GeoCordinatesFunction();
+    const { GetDistanceinKmfromMeter } = UtilityFunctions();
 
     const numberOfPassengers = ref(0);
     const notes = ref("");
@@ -355,6 +359,16 @@ export default {
           ),
         };
       }
+      else{
+        // const {pricePerKm}=   UtilityData;
+        let response= await pathDistance( { "Path": JSON.stringify( props.overLappingPath)});
+        let distance=  response.responseObject.distance;
+        let assumedPriceofOverlappingTrip= UtilityData.pricePerKm* Math.round( GetDistanceinKmfromMeter(Math.round(distance)))
+        price.value= Math.round(assumedPriceofOverlappingTrip); 
+      }
+
+
+
     });
 
     const increaseNumberofPassenger = () => {

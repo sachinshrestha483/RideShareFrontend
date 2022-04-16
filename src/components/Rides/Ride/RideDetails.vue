@@ -25,7 +25,6 @@
             shadow-xl
           "
         >
-        
           <div class="text-2xl mb-4 ml-1">
             <div class="flex justify-between">
               <div>
@@ -128,7 +127,7 @@
                   d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"
                 />
               </svg>
-
+              &nbsp;
               {{ ride.responseObject.numberofPassenger }}
             </div>
 
@@ -147,7 +146,7 @@
                   d="M9 8h6m-5 0a3 3 0 110 6H9l3 3m-3-6h6m6 1a9 9 0 11-18 0 9 9 0 0118 0z"
                 />
               </svg>
-
+              &nbsp;
               {{ ride.responseObject.price }}
             </div>
 
@@ -172,7 +171,7 @@
                   d="M12 19h4.5a3.5 3.5 0 0 0 0 -7h-8a3.5 3.5 0 0 1 0 -7h3.5"
                 />
               </svg>
-
+              &nbsp;
               {{
                 ride.responseObject.distanceinMeter > 0 &&
                 typeof ride.responseObject.distanceinMeter == "number"
@@ -224,7 +223,10 @@
                   />
                 </svg>
               </div>
-              <div>{{   GetDistanceinKmfromMeter(distanceFromInitialPosition) }} km</div>
+              &nbsp;
+              <div>
+                {{ GetDistanceinKmfromMeter(distanceFromInitialPosition) }} km
+              </div>
             </div>
             <div class="flex flex-row items-center">
               <div>
@@ -247,7 +249,77 @@
                   />
                 </svg>
               </div>
-              <div>{{ GetDistanceinKmfromMeter(distanceFromFinalPosition) }} km</div>
+              &nbsp;
+              <div>
+                {{ GetDistanceinKmfromMeter(distanceFromFinalPosition) }} km
+              </div>
+            </div>
+          </div>
+
+          <div
+            v-if="overlappingRouteDistance != null"
+            class="
+              mt-2
+              text-center
+              flex
+              justify-center
+              items-center
+              gap-x-2
+              items-center
+            "
+          >
+            <div class="flex flex-row items-center">
+              <div>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  title="Distance From Expected Initial Point"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  class="bi bi-pin-map-fill"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M3.1 11.2a.5.5 0 0 1 .4-.2H6a.5.5 0 0 1 0 1H3.75L1.5 15h13l-2.25-3H10a.5.5 0 0 1 0-1h2.5a.5.5 0 0 1 .4.2l3 4a.5.5 0 0 1-.4.8H.5a.5.5 0 0 1-.4-.8l3-4z"
+                  />
+                  <path
+                    fill-rule="evenodd"
+                    d="M4 4a4 4 0 1 1 4.5 3.969V13.5a.5.5 0 0 1-1 0V7.97A4 4 0 0 1 4 3.999z"
+                  />
+                </svg>
+              </div>
+              &nbsp;
+              <div>
+                Overlapping Path Distance :{{
+                  Math.round(GetDistanceinKmfromMeter(overlappingRouteDistance))
+                }}
+                km
+              </div>
+            </div>
+
+            <div
+              class="flex flex-row items-center"
+              v-if="overlappingRoutePrice != null"
+            >
+              <div>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M9 8h6m-5 0a3 3 0 110 6H9l3 3m-3-6h6m6 1a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+              </div>
+              &nbsp;
+              <div>Overlapping Path Price :{{ overlappingRoutePrice }}</div>
             </div>
           </div>
 
@@ -299,6 +371,9 @@ import VehicleFunctions from "@/composables/VehicleFunctions";
 import { useRoute, useRouter } from "vue-router";
 import { getMyRide } from "@/composables/RideFunctions.js";
 import UtilityFunctions from "@/utility/UtilityFunctions.js";
+import { pathDistance } from "@/composables/RideFunctions.js";
+import UtilityData from "@/utility/UtilityData";
+
 export default {
   props: [
     "rideId",
@@ -319,6 +394,9 @@ export default {
       console.log(rideObj);
       ride.value = rideObj;
     };
+
+    const overlappingRouteDistance = ref(null);
+    const overlappingRoutePrice = ref(null);
 
     var mymap;
 
@@ -427,6 +505,34 @@ export default {
       }
     };
 
+    const getOverLappingRouteDistance = async () => {
+      console.log("❤️❤️❤️❤️❤️❤️❤️❤️ ❤️❤️❤️❤️❤️❤️❤️❤️");
+      console.log("❤️❤️❤️❤️❤️❤️❤️❤️  Data is Loaded Use it ❤️❤️❤️❤️❤️❤️❤️❤️");
+      console.log("❤️❤️❤️❤️❤️❤️❤️❤️  Data is Loaded Use it ❤️❤️❤️❤️❤️❤️❤️❤️");
+      console.log("❤️❤️❤️❤️❤️❤️❤️❤️  Data is Loaded Use it ❤️❤️❤️❤️❤️❤️❤️❤️");
+      console.log("❤️❤️❤️❤️❤️❤️❤️❤️  Data is Loaded Use it ❤️❤️❤️❤️❤️❤️❤️❤️");
+      console.log("❤️❤️❤️❤️❤️❤️❤️❤️  Data is Loaded Use it ❤️❤️❤️❤️❤️❤️❤️❤️");
+      console.log("❤️❤️❤️❤️❤️❤️❤️❤️  Data is Loaded Use it ❤️❤️❤️❤️❤️❤️❤️❤️");
+      console.log("❤️❤️❤️❤️❤️❤️❤️❤️  Data is Loaded Use it ❤️❤️❤️❤️❤️❤️❤️❤️");
+      console.log("❤️❤️❤️❤️❤️❤️❤️❤️  Data is Loaded Use it ❤️❤️❤️❤️❤️❤️❤️❤️");
+      let response = await pathDistance({
+        Path: JSON.stringify(props.overLappingPath),
+      });
+      console.log(response);
+      console.log("❤️❤️❤️❤️❤️❤️❤️❤️  Data is Loaded Use it ❤️❤️❤️❤️❤️❤️❤️❤️");
+      console.log("❤️❤️❤️❤️❤️❤️❤️❤️  Data is Loaded Use it ❤️❤️❤️❤️❤️❤️❤️❤️");
+      console.log("❤️❤️❤️❤️❤️❤️❤️❤️  Data is Loaded Use it ❤️❤️❤️❤️❤️❤️❤️❤️");
+      console.log("❤️❤️❤️❤️❤️❤️❤️❤️  Data is Loaded Use it ❤️❤️❤️❤️❤️❤️❤️❤️");
+      console.log("❤️❤️❤️❤️❤️❤️❤️❤️  Data is Loaded Use it ❤️❤️❤️❤️❤️❤️❤️❤️");
+      console.log("❤️❤️❤️❤️❤️❤️❤️❤️  Data is Loaded Use it ❤️❤️❤️❤️❤️❤️❤️❤️");
+
+      let distance = response.responseObject.distance;
+      overlappingRouteDistance.value = distance;
+      overlappingRoutePrice.value =
+        Math.round(GetDistanceinKmfromMeter(Math.round(distance))) *
+        UtilityData.pricePerKm;
+    };
+
     onMounted(async () => {
       await loadData();
       console.log(map);
@@ -460,6 +566,7 @@ export default {
       console.log("Overlapping Path");
       console.log("Overlapping Path");
       DrawMarkers();
+      getOverLappingRouteDistance();
     });
 
     let days = [
@@ -486,7 +593,15 @@ export default {
     ];
     const { GetDistanceinKmfromMeter } = UtilityFunctions();
 
-    return { ride, days, months, map, GetDistanceinKmfromMeter };
+    return {
+      ride,
+      days,
+      months,
+      map,
+      GetDistanceinKmfromMeter,
+      overlappingRouteDistance,
+      overlappingRoutePrice,
+    };
   },
 };
 </script>
