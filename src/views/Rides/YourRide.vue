@@ -29,7 +29,11 @@
             }"
           >
             <div class="text-2xl mb-4 ml-1">
-              {{
+
+
+              {{GetHumanReadabledate(new Date(ride.dateTimeOfRide))}}
+             
+              <!-- {{
                 days[new Date(ride.dateTimeOfRide).getDay()].substring(0, 3)
               }},{{ new Date(ride.dateTimeOfRide).getDate() }}
               {{
@@ -39,7 +43,7 @@
                 )
               }},{{ new Date(ride.dateTimeOfRide).getHours() }}:{{
                 new Date(ride.dateTimeOfRide).getMinutes()
-              }}
+              }} -->
             </div>
 
             <div class="flex flex-row items-center">
@@ -81,6 +85,10 @@
 <script>
 import { ref } from "vue";
 import { getMyRides } from "@/composables/RideFunctions";
+import UtilityData from "@/utility/UtilityData";
+import * as moment from "moment";
+import UtilityFunctions from "@/utility/UtilityFunctions"
+
 export default {
   components: {},
   setup() {
@@ -114,7 +122,12 @@ export default {
       }
       rides.value = responseObject.responseObject;
     });
-    return { rides, days, months };
+
+    const {GetHumanReadabledate}= UtilityFunctions();
+
+
+
+    return { rides, days, months ,GetHumanReadabledate};
   },
 };
 </script>

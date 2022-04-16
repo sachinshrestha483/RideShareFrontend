@@ -29,6 +29,12 @@
             <div class="flex justify-between">
               <div>
                 {{
+                  GetHumanReadabledate(
+                    new Date(ride.responseObject.dateTimeOfRide)
+                  )
+                }}
+                <!-- 
+                {{
                   days[
                     new Date(ride.responseObject.dateTimeOfRide).getDay()
                   ].substring(0, 3)
@@ -42,7 +48,7 @@
                   new Date(ride.responseObject.dateTimeOfRide).getHours()
                 }}:{{
                   new Date(ride.responseObject.dateTimeOfRide).getMinutes()
-                }}
+                }} -->
               </div>
             </div>
           </div>
@@ -591,7 +597,8 @@ export default {
       "November",
       "December",
     ];
-    const { GetDistanceinKmfromMeter } = UtilityFunctions();
+    const { GetDistanceinKmfromMeter, GetHumanReadabledate } =
+      UtilityFunctions();
 
     return {
       ride,
@@ -601,6 +608,7 @@ export default {
       GetDistanceinKmfromMeter,
       overlappingRouteDistance,
       overlappingRoutePrice,
+      GetHumanReadabledate,
     };
   },
 };

@@ -37,7 +37,8 @@
           <div class="text-2xl mb-4 ml-1">
             <div class="flex justify-between">
               <div>
-                {{
+                {{initialDateTimeString}}
+                <!-- {{
                   days[
                     new Date(ride.responseObject.dateTimeOfRide).getDay()
                   ].substring(0, 3)
@@ -50,7 +51,7 @@
                   new Date(ride.responseObject.dateTimeOfRide).getHours()
                 }}:{{
                   new Date(ride.responseObject.dateTimeOfRide).getMinutes()
-                }}
+                }} -->
               </div>
 
               <div class="flex justify-end">
@@ -639,6 +640,9 @@ import { successAlert, errorAlert } from "@/composables/Notifications.js";
 import CotravellerList from "@/components/Rides/Ride/CotravellerList";
 import RideShareOfferForRide from "@/components/Rides/RideShare/RideShareOffersForRide.vue";
 import RidePathMap from "@/components/Map/RidePathMap.vue";
+import UtilityData from "@/utility/UtilityData";
+import * as moment from "moment";
+
 export default {
   components: {
     //RideMapComponentMapComponent,
@@ -664,6 +668,11 @@ export default {
     const showRideShareOffers = ref(false);
     const isRidePathEditable = ref(true);
     const mapObject = ref(null);
+
+
+  const initialDateTimeString= ref(null)
+
+
 
     const formErrors = ref({
       StartPosition: null,
@@ -923,6 +932,7 @@ export default {
 
     onMounted(async () => {
       await loadData();
+      initialDateTimeString.value= moment(new Date(ride.value.responseObject.dateTimeOfRide)).format('MMMM Do YYYY, h:mm a')
       console.log("On Mounted Data" + " -> ");
       // console.log(ride.value.responseObject.)
       console.log("On Mounted Data" + " -> ");
@@ -1146,6 +1156,7 @@ export default {
       mapObject,
       isEditPathShowable,
       reloadPage,
+      initialDateTimeString
     };
   },
 };

@@ -18,7 +18,8 @@
           <div class="text-2xl mb-4 ml-1">
             <div class="flex justify-between">
               <div>
-                {{
+                {{GetHumanReadabledate( new Date(ride.dateTimeOfRide))}}
+                <!-- {{
                   days[
                     new Date(ride.dateTimeOfRide).getDay()
                   ].substring(0, 3)
@@ -31,7 +32,7 @@
                   new Date(ride.dateTimeOfRide).getHours()
                 }}:{{
                   new Date(ride.dateTimeOfRide).getMinutes()
-                }}
+                }} -->
               </div>
             </div>
           </div>
@@ -189,6 +190,8 @@
 
 <script>
 import { onMounted, ref } from "vue";
+import UtilityFunctions from "@/utility/UtilityFunctions.js";
+
 
 export default {
  props:["ride"],
@@ -215,7 +218,12 @@ let days = [
       "November",
       "December",
     ];
-    return {days, months}
+
+    const {  GetHumanReadabledate } =
+      UtilityFunctions();
+
+
+    return {days, months,GetHumanReadabledate}
 }
 }
 </script>

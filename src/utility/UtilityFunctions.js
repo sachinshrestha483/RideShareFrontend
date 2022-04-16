@@ -1,6 +1,8 @@
 import Urls from "@/utility/IdentitySection/Urls";
 import axios from "axios";
 import Store from "../store/index";
+import * as moment from "moment";
+
 
 const UtilityFunctions = () => {
 
@@ -18,9 +20,13 @@ const UtilityFunctions = () => {
         return (val/1000);
     }
 
+    const GetHumanReadabledate=(date)=>{
+        return moment(new Date(date)).format('MMMM Do YYYY, h:mm a')
+    }
 
 
-    return { GetDateString, GetDateTimeString,GetUtcDateTime,GetDistanceinKmfromMeter };
+
+    return { GetDateString, GetDateTimeString,GetUtcDateTime,GetDistanceinKmfromMeter,GetHumanReadabledate };
 };
 
 // 2018-06-12T19:30
