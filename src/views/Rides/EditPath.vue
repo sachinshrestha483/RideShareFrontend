@@ -19,19 +19,6 @@
           d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"
         />
       </svg>
-      <svg
-        v-on:click="freeMarkerFun"
-        xmlns="http://www.w3.org/2000/svg"
-        class="h-6 w-6 text-blue-500"
-        viewBox="0 0 20 20"
-        fill="currentColor"
-      >
-        <path
-          fill-rule="evenodd"
-          d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
-          clip-rule="evenodd"
-        />
-      </svg>
       <!-- <div>
             <button v-on:click="freeMarkerFun" class="primaryButton">
               Get Free Marker
@@ -59,6 +46,10 @@
           :isEditView="true"
           :EditViewSavedRideId="ride.responseObject.id"
           :getSetIntermediatePosFun="getSetIntermediatePosFun"
+
+           :getSetInitialPositionLatLon="getSetInitialPositionLatLon"
+          :getSetFinalPositionLatLon="getSetFinalPositionLatLon"
+          :getSetIntermediatePositionLatLon="getSetIntermediatePositionLatLon"
         />
       </div>
       <div class="w-full">
@@ -74,6 +65,9 @@
           :drawRouteFun="drawRouteFun"
           :getDrawRouteFun="getDrawRouteFun"
           :getFreeMarkerFun="getFreeMarkerFun"
+           :setInitialPosLatlon="setInitialPosLatlon"
+          :setFinalPosLatlon="setFinalPosLatlon"
+          :setIntermediatePositionsLatlon="setIntermediatePositionsLatlon"
         />
       </div>
     </div>
@@ -112,6 +106,35 @@ export default {
     const showEditRideForm = ref(false);
     const userVehicles = ref([]);
     const navrouter = useRouter();
+
+
+
+    const  getSetInitialPositionLatLon= (val)=>{
+      setInitialPosLatlon.value=val;
+    }
+    const getSetFinalPositionLatLon= (val)=>{
+        setFinalPosLatlon.value=val;
+    }
+    const getSetIntermediatePositionLatLon=(val)=>{
+       setIntermediatePositionsLatlon.value= val;
+    }
+
+
+
+
+
+    const setInitialPosLatlon=ref(null);
+    const setFinalPosLatlon=ref(null);
+    const setIntermediatePositionsLatlon=ref(null);
+
+
+
+
+
+
+
+
+
 
     const formErrors = ref({
       StartPosition: null,
@@ -624,6 +647,12 @@ export default {
       getFreeMarkerFun,
       freeMarkerFun,
       formErrors,
+      setInitialPosLatlon,
+      setFinalPosLatlon,
+      setIntermediatePositionsLatlon,
+      getSetInitialPositionLatLon,
+      getSetFinalPositionLatLon,
+      getSetIntermediatePositionLatLon
     };
   },
 };

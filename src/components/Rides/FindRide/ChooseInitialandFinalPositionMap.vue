@@ -18,7 +18,32 @@
   {{ finalPosition }}
   <div class="flex flex-row">
     <div class="flex flex-col w-4/12 p-4 pr-8">
-      <div class="flex flex-row">
+      <div class="flex flex-col">
+
+<button
+          type="button"
+          class="
+            w-full
+            text-white
+            bg-blue-700
+            hover:bg-blue-800
+            focus:ring-4 focus:ring-blue-300
+            font-medium
+            rounded-lg
+            text-sm
+            px-5
+            py-2.5
+            mr-2
+            mb-2
+            dark:bg-blue-600 dark:hover:bg-blue-700
+            focus:outline-none
+            dark:focus:ring-blue-800
+          "
+          v-on:click="getCurrentLocation"
+        >
+         Draw Pin Current Location on Map
+         </button>
+
         <button
           type="button"
           class="
@@ -141,6 +166,63 @@ export default {
     var mymap;
     let initialPositionmarker = null;
     let finalPositionmarker = null;
+    var currentLocationPointer = null;
+
+
+
+
+const getCurrentLocation=()=>{
+  try{
+if (navigator.geolocation) {
+  console.log("Getting The Current Location")
+  console.log("Getting The Current Location")
+  console.log("Getting The Current Location")
+  console.log("Getting The Current Location")
+  console.log("Getting The Current Location")
+
+    navigator.geolocation.getCurrentPosition(drawAndZoomOnCurrentLocation);
+
+
+  console.log("Getting The Current Location")
+  console.log("Getting The Current Location")
+  console.log("Getting The Current Location")
+  console.log("Getting The Current Location")
+  console.log("Getting The Current Location")
+
+  }
+  }
+  catch(e)
+  {
+
+  }
+  
+}
+
+const drawAndZoomOnCurrentLocation= (position)=>{
+    if (currentLocationPointer != null) {
+        mymap.removeLayer(currentLocationPointer);
+      }
+
+      var markerOptions = {
+        title: "Initial Position marker",
+        icon: L.icon({
+          iconUrl:
+            "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-black.png",
+          shadowUrl:
+            "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
+          iconSize: [25, 41],
+          iconAnchor: [12, 41],
+          popupAnchor: [1, -34],
+          shadowSize: [41, 41],
+        }),
+      };
+      console.log(position)
+             currentLocationPointer = L.marker([position.coords.latitude, position.coords.longitude], markerOptions);
+      currentLocationPointer.addTo(mymap);
+
+
+}
+
 
     const markersForm = ref({
       initialPositionLatitude: "",
@@ -346,6 +428,7 @@ export default {
       finalPosition,
       markersForm,
       submitForm,
+      getCurrentLocation
     };
   },
 };

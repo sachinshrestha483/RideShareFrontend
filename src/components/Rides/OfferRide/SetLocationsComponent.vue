@@ -3,6 +3,7 @@
     <div class="flex flex-col">
       {{initialPosition}}
       {{finalPosition}}
+      {{intermediatePositions}}
 
 
       <label class="secondaryText">Initial Position</label>
@@ -271,7 +272,8 @@ export default {
     "EditViewSavedRideId",
     "getSetIntermediatePosFun",
     "getSetInitialPositionLatLon",
-    "getSetFinalPositionLatLon"
+    "getSetFinalPositionLatLon",
+    "getSetIntermediatePositionLatLon"
   ],
 
   setup(props) {
@@ -329,9 +331,20 @@ export default {
       finalPosition.value.lon= lon;
     }
 
+  const setIntermediatePositionsLatLon=(val)=>{
+
+   if(val.index<intermediatePositions.value.length)
+    {
+      intermediatePositions.value[val.index].lat= val.lat;
+      intermediatePositions.value[val.index].lon= val.lon;
+    }
+  }
+
 
     props.getSetInitialPositionLatLon(setInitalPosLatLon);
     props.getSetFinalPositionLatLon(setFinalPosLatLon)
+    props.getSetIntermediatePositionLatLon(setIntermediatePositionsLatLon);
+  
 
 
 
@@ -866,7 +879,6 @@ export default {
 rideObject.IntermediatePositions.forEach((item)=>{
   item.lat=item.lat.toString();
   item.lon=item.lon.toString();
-
 })
 
 

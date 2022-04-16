@@ -21,6 +21,7 @@
           :EditViewSavedRideId="0"
           :getSetInitialPositionLatLon="getSetInitialPositionLatLon"
           :getSetFinalPositionLatLon="getSetFinalPositionLatLon"
+          :getSetIntermediatePositionLatLon="getSetIntermediatePositionLatLon"
         />
       </div>
       <div class="w-full ">
@@ -35,7 +36,7 @@
           :calculateRouteFun="calculateRouteFun"
           :setInitialPosLatlon="setInitialPosLatlon"
           :setFinalPosLatlon="setFinalPosLatlon"
-          
+          :setIntermediatePositionsLatlon="setIntermediatePositionsLatlon"
         />
       </div>
     </div>
@@ -67,9 +68,17 @@ export default {
     const getSetFinalPositionLatLon= (val)=>{
         setFinalPosLatlon.value=val;
     }
+    const getSetIntermediatePositionLatLon=(val)=>{
+       setIntermediatePositionsLatlon.value= val;
+    }
+
+
+
+
 
     const setInitialPosLatlon=ref(null);
     const setFinalPosLatlon=ref(null);
+    const setIntermediatePositionsLatlon=ref(null);
 
 
     const calculateRouteFun = ref(null);
@@ -122,7 +131,9 @@ export default {
       getSetInitialPositionLatLon,
       getSetFinalPositionLatLon,
       setInitialPosLatlon,
-      setFinalPosLatlon
+      setFinalPosLatlon,
+      getSetIntermediatePositionLatLon,
+      setIntermediatePositionsLatlon
     };
   },
 };

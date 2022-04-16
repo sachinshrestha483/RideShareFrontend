@@ -53,8 +53,8 @@ export default {
     "getDrawRouteFun",
     "getFreeMarkerFun",
     "setInitialPosLatlon",
-    "setFinalPosLatlon"
-
+    "setFinalPosLatlon",
+    "setIntermediatePositionsLatlon"
   ],
 
   setup(props) {
@@ -314,6 +314,19 @@ const drawAndZoomOnCurrentLocation= (position)=>{
           var obj = e.target._latlng;
           props.intermediatePoints[index].lat = obj.lat;
           props.intermediatePoints[index].lon = obj.lng;
+
+
+        //  var dd=   {id:index , lat:obj.lat,lon:obj.lng}
+
+         props.setIntermediatePositionsLatlon( {index:index , lat:obj.lat.toString(),lon:obj.lng.toString()})
+
+
+
+
+
+
+
+          
           // if (routeFun.value != null) {
           //   routeFun.value();
           // }
