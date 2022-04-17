@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-4">
+  <div class="mx-4" v-if="isDataLoaded" >
     <div class="primaryHeading mb-8 text-center">Ride Route</div>
     {{ rideObject }}
     {{ formErrors }}
@@ -18,6 +18,7 @@
 
     <!-- Ride: {{ ride }} -->
 
+    
     <div class="flex flex-row justify-center w-full" v-if="ride != null">
       <ToogelRideAcceptingRequestStatus  :rideId="ride.responseObject.id" />
     </div>
@@ -646,6 +647,8 @@ import RidePathMap from "@/components/Map/RidePathMap.vue";
 import UtilityData from "@/utility/UtilityData";
 import * as moment from "moment";
 import ToogelRideAcceptingRequestStatus from "@/components/Rides/Ride/ToogleRideAcceptingRequestStatus";
+import Store from "@/store/index";
+import AuthAndAuthorization from "@/composables/PageAuthentication"
 
 export default {
   components: {
@@ -659,6 +662,12 @@ export default {
   },
   setup(props) {
     console.log("Here is The Ride Info Page ");
+    
+    const  user = Store.state.user;
+    const {Authorize, Authenticate ,ReidrectToHome}= AuthAndAuthorization();
+    Authenticate();
+    const isAuthorizedUser= ref(false);
+    const isDataLoaded= ref(false);
     const cotravellerListKey = ref(0);
     const RideShareOfferForRideKey = ref(0);
     const ride = ref(null);
@@ -673,6 +682,7 @@ export default {
     const showRideShareOffers = ref(false);
     const isRidePathEditable = ref(true);
     const mapObject = ref(null);
+
 
     const initialDateTimeString = ref(null);
 
@@ -934,6 +944,13 @@ export default {
 
     onMounted(async () => {
       await loadData();
+      isDataLoaded.value=true;
+      Authorize({userId:ride.value.responseObject.userId})
+//       if(ride.value.responseObject.userId!=user.id)
+//       {
+//           navrouter.push({ name: "Home" });
+// //        isAuthorizedUser.value=true;
+//       }
       initialDateTimeString.value = moment(
         new Date(ride.value.responseObject.dateTimeOfRide)
       ).format("MMMM Do YYYY, h:mm a");
@@ -1161,6 +1178,8 @@ export default {
       isEditPathShowable,
       reloadPage,
       initialDateTimeString,
+      isAuthorizedUser,
+      isDataLoaded
     };
   },
 };

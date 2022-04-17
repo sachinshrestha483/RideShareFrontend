@@ -82,11 +82,14 @@ import RideMapComponent from "@/components/Map/RideMapComponent";
 import { getMyRide } from "@/composables/RideFunctions.js";
 import SetLocationsComponent from "@/components/Rides/OfferRide/SetLocationsComponent";
 import MapComponent from "@/components/Rides/OfferRide/MapComponent";
-import { EditRide } from "@/composables/RideFunctions";
+import { EditRide ,getAllApprovedRideShareOfferIds} from "@/composables/RideFunctions";
 import UtilityFunctions from "@/utility/UtilityFunctions.js";
 import { Ride } from "@/Models/Ride";
 import { successAlert, errorAlert } from "@/composables/Notifications.js";
 import CotravellerList from "@/components/Rides/Ride/CotravellerList";
+import Store from "@/store/index";
+import AuthAndAuthorization from "@/composables/PageAuthentication"
+
 
 export default {
   components: {
@@ -97,6 +100,19 @@ export default {
   },
   setup(props) {
     console.log("Here is The Ride Info Page ");
+    // const user = Store.state.user;
+    
+const {Authorize, Authenticate ,ReidrectToHome}= AuthAndAuthorization();
+
+
+
+
+    Authenticate();
+
+    // if(user==null)
+    // {
+    //   navrouter.push({ name: "Home" });
+    // }
     const ride = ref(null);
     const zoomedLat = ref(null);
     const zoomedLon = ref(null);
@@ -106,6 +122,7 @@ export default {
     const showEditRideForm = ref(false);
     const userVehicles = ref([]);
     const navrouter = useRouter();
+
 
 
 
@@ -344,10 +361,31 @@ export default {
       console.log("Here is the Ride Object");
       console.log(rideObj);
       ride.value = rideObj;
+      //Authorize(userId=ride.value.responseObject.userId)
+//        if(ride.value.responseObject.userId!=user.id)
+//       {
+//           navrouter.push({ name: "Home" });
+// //        isAuthorizedUser.value=true;
+//       }
     };
+
+    const authorize= async ()=>{
+
+      Authorize({userId:ride.value.responseObject.userId});
+      var res = await getAllApprovedRideShareOfferIds(rideId);
+      if(res.responseObject==null || res.responseObject.length>0)
+      {
+        errorAlert("Cant Edit Ride Whith Existing Ride Share Offers")
+       ReidrectToHome();
+      }
+
+    }
+
+  
 
     onMounted(async () => {
       await loadData();
+     await authorize();
       console.log("On Mounted Data" + " -> ");
       // console.log(ride.value.responseObject.)
       console.log("On Mounted Data" + " -> ");

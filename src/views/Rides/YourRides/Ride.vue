@@ -152,7 +152,7 @@
 <script>
 import { ref } from "vue";
 
-import { getMyRides, getMyRide } from "@/composables/RideFunctions";
+import {  getMyRide } from "@/composables/RideFunctions";
 
 import { useRoute, useRouter } from "vue-router";
 import * as moment from "moment";
