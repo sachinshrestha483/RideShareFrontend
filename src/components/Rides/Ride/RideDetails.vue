@@ -234,6 +234,7 @@
                 {{ GetDistanceinKmfromMeter(distanceFromInitialPosition) }} km
               </div>
             </div>
+
             <div class="flex flex-row items-center">
               <div>
                 <svg
@@ -330,6 +331,72 @@
           </div>
 
           <div
+            class="
+              mt-2
+              text-center
+              flex
+              justify-center
+              items-center
+              gap-x-2
+              items-center
+            "
+          >
+            <div class="flex flex-row items-center">
+              <div>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  title="Distance From Expected Initial Point"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  class="bi bi-pin-map-fill"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M3.1 11.2a.5.5 0 0 1 .4-.2H6a.5.5 0 0 1 0 1H3.75L1.5 15h13l-2.25-3H10a.5.5 0 0 1 0-1h2.5a.5.5 0 0 1 .4.2l3 4a.5.5 0 0 1-.4.8H.5a.5.5 0 0 1-.4-.8l3-4z"
+                  />
+                  <path
+                    fill-rule="evenodd"
+                    d="M4 4a4 4 0 1 1 4.5 3.969V13.5a.5.5 0 0 1-1 0V7.97A4 4 0 0 1 4 3.999z"
+                  />
+                </svg>
+              </div>
+              &nbsp;
+              <div>
+                {{  GetHumanReadabledate( overlappingInitialPointArrivalTime) }}
+              </div>
+            </div>
+
+            <div class="flex flex-row items-center">
+              <div>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  title="Distance From Expected Initial Point"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  class="bi bi-pin-map-fill"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M3.1 11.2a.5.5 0 0 1 .4-.2H6a.5.5 0 0 1 0 1H3.75L1.5 15h13l-2.25-3H10a.5.5 0 0 1 0-1h2.5a.5.5 0 0 1 .4.2l3 4a.5.5 0 0 1-.4.8H.5a.5.5 0 0 1-.4-.8l3-4z"
+                  />
+                  <path
+                    fill-rule="evenodd"
+                    d="M4 4a4 4 0 1 1 4.5 3.969V13.5a.5.5 0 0 1-1 0V7.97A4 4 0 0 1 4 3.999z"
+                  />
+                </svg>
+              </div>
+              &nbsp;
+              <div>
+                {{  GetHumanReadabledate( overlappingFinalPointArrivalTime) }}
+              </div>
+            </div>
+          </div>
+
+          <div
             class="mt-2 text-center flex justify-center items-center"
             v-if="ride.responseObject.vehicle != null"
           >
@@ -379,6 +446,7 @@ import { getMyRide } from "@/composables/RideFunctions.js";
 import UtilityFunctions from "@/utility/UtilityFunctions.js";
 import { pathDistance } from "@/composables/RideFunctions.js";
 import UtilityData from "@/utility/UtilityData";
+import { getDateForReachingOverlappingRideInitalAndFinalPoint } from "@/composables/RideRepo.js";
 
 export default {
   props: [
@@ -403,6 +471,44 @@ export default {
 
     const overlappingRouteDistance = ref(null);
     const overlappingRoutePrice = ref(null);
+
+    const overlappingInitialPointArrivalTime = ref(null);
+    const overlappingFinalPointArrivalTime = ref(null);
+
+    const setDateTimeForOverlappingInitialAndFinalPoint = async (
+      dateTime,
+      latlngList,
+      OverlappingStatIndex,
+      OverlappingEndIndex
+    ) => {
+      let response =
+        await getDateForReachingOverlappingRideInitalAndFinalPoint(dateTime,latlngList,OverlappingStatIndex,OverlappingEndIndex);
+      console.log("Response for  the value is ");
+       console.log(" 😊 😊 😊 😊 😊 😊 😊 It is Here as it is Present Here  😊 😊 😊 😊 😊 ")
+        console.log(" 😊 😊 😊 😊 😊 😊 😊 It is Here as it is Present Here  😊 😊 😊 😊 😊 ")
+        console.log(" 😊 😊 😊 😊 😊 😊 😊 It is Here as it is Present Here  😊 😊 😊 😊 😊 ")
+        console.log(" 😊 😊 😊 😊 😊 😊 😊 It is Here as it is Present Here  😊 😊 😊 😊 😊 ")
+      console.log(response);
+         console.log(" 😊 😊 😊 😊 😊 😊 😊 It is Here as it is Present Here  😊 😊 😊 😊 😊 ")
+        console.log(" 😊 😊 😊 😊 😊 😊 😊 It is Here as it is Present Here  😊 😊 😊 😊 😊 ")
+        console.log(" 😊 😊 😊 😊 😊 😊 😊 It is Here as it is Present Here  😊 😊 😊 😊 😊 ")
+        console.log(" 😊 😊 😊 😊 😊 😊 😊 It is Here as it is Present Here  😊 😊 😊 😊 😊 ")
+      if (response.isCalculated) {
+        console.log(" 😊 😊 😊 😊 😊 😊 😊 It is Here as it is Present Here  😊 😊 😊 😊 😊 ")
+        console.log(" 😊 😊 😊 😊 😊 😊 😊 It is Here as it is Present Here  😊 😊 😊 😊 😊 ")
+        console.log(" 😊 😊 😊 😊 😊 😊 😊 It is Here as it is Present Here  😊 😊 😊 😊 😊 ")
+        console.log(" 😊 😊 😊 😊 😊 😊 😊 It is Here as it is Present Here  😊 😊 😊 😊 😊 ")
+
+        overlappingInitialPointArrivalTime.value = response.intialPointDateTime;
+        overlappingFinalPointArrivalTime.value = response.finalPointDateTime;
+
+        console.log(" 😊 😊 😊 😊 😊 😊 😊 It is Here as it is Present Here  😊 😊 😊 😊 😊 ")
+        console.log(" 😊 😊 😊 😊 😊 😊 😊 It is Here as it is Present Here  😊 😊 😊 😊 😊 ")
+        console.log(" 😊 😊 😊 😊 😊 😊 😊 It is Here as it is Present Here  😊 😊 😊 😊 😊 ")
+        console.log(" 😊 😊 😊 😊 😊 😊 😊 It is Here as it is Present Here  😊 😊 😊 😊 😊 ")
+
+      }
+    };
 
     var mymap;
 
@@ -550,7 +656,9 @@ export default {
       const tileLayer = L.tileLayer(tileUrl, { attribution });
       tileLayer.addTo(mymap);
 
-      DrawRoute(JSON.parse(ride.value.responseObject.path), mymap);
+      let parsedPath = JSON.parse(ride.value.responseObject.path);
+
+      DrawRoute(parsedPath, mymap);
 
       console.log("Overlapping Path");
       console.log("Overlapping Path");
@@ -573,6 +681,87 @@ export default {
       console.log("Overlapping Path");
       DrawMarkers();
       getOverLappingRouteDistance();
+
+      if (props.overLappingPath.length > 0) {
+        let startIndex = 0;
+        let finalIndex = 0;
+        parsedPath.forEach((item, index) => {
+          if (
+            item[0] == props.overLappingPath[0][0] &&
+            item[1] == props.overLappingPath[0][1]
+          ) {
+    console.log(" 😊 😊 😊 😊 😊 😊 😊 It is Here as it is Present Here  😊 😊 😊 😊 😊 ")
+    console.log(" 😊 😊 😊 😊 😊 😊 😊 It is Here as it is Present Here  😊 😊 😊 😊 😊 ")
+
+console.log("it is Matched ")
+console.log("it is Matched ")
+console.log("it is Matched ")
+
+            startIndex = index;
+            
+            console.log("index")
+            console.log(index)
+
+console.log("item")
+console.log(item)
+console.log("Overlapping path")
+
+console.log(props.overLappingPath[0])
+
+console.log("it is Matched ")
+console.log("it is Matched ")
+
+    console.log(" 😊 😊 😊 😊 😊 😊 😊 It is Here as it is Present Here  😊 😊 😊 😊 😊 ")
+    console.log(" 😊 😊 😊 😊 😊 😊 😊 It is Here as it is Present Here  😊 😊 😊 😊 😊 ")
+
+          }
+
+          if (
+            item[0] ==
+              props.overLappingPath[props.overLappingPath.length - 1][0] &&
+            item[1] ==
+              props.overLappingPath[props.overLappingPath.length - 1][1]
+          ) {
+
+                console.log(" 😊 😊 😊 😊 😊 😊 😊 It is Here as it is Present Here  😊 😊 😊 😊 😊 ")
+    console.log(" 😊 😊 😊 😊 😊 😊 😊 It is Here as it is Present Here  😊 😊 😊 😊 😊 ")
+
+            finalIndex = index;
+            console.log("Index "+ index);
+            console.log("item ")
+
+            console.log(item);
+            console.log("overlapping path")
+
+            console.log(props.overLappingPath[props.overLappingPath.length - 1])
+
+
+
+
+
+    console.log(" 😊 😊 😊 😊 😊 😊 😊 It is Here as it is Present Here  😊 😊 😊 😊 😊 ")
+    console.log(" 😊 😊 😊 😊 😊 😊 😊 It is Here as it is Present Here  😊 😊 😊 😊 😊 ")
+
+
+          }
+        });
+
+    console.log(" 😊 😊 😊 😊 😊 😊 😊 It is Here as it is Present Here  😊 😊 😊 😊 😊 ")
+    console.log(" 😊 😊 😊 😊 😊 😊 😊 It is Here as it is Present Here  😊 😊 😊 😊 😊 ")
+
+console.log("Start Index")
+console.log("Final Index")
+
+console.log(startIndex)
+console.log(finalIndex)
+
+
+console.log("Start Index")
+console.log("Final Index")
+
+
+        setDateTimeForOverlappingInitialAndFinalPoint(ride.value.responseObject.dateTimeOfRide,parsedPath,startIndex,finalIndex);
+      }
     });
 
     let days = [
@@ -609,6 +798,8 @@ export default {
       overlappingRouteDistance,
       overlappingRoutePrice,
       GetHumanReadabledate,
+      overlappingInitialPointArrivalTime,
+      overlappingFinalPointArrivalTime,
     };
   },
 };

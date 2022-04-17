@@ -25,8 +25,8 @@ const UtilityFunctions = () => {
     }
 
 
-
-    return { GetDateString, GetDateTimeString,GetUtcDateTime,GetDistanceinKmfromMeter,GetHumanReadabledate };
+    
+ return { GetDateString, GetDateTimeString,GetUtcDateTime,GetDistanceinKmfromMeter,GetHumanReadabledate };
 };
 
 // 2018-06-12T19:30
