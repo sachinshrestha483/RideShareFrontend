@@ -181,7 +181,7 @@ const DeleteRideShareOffer = async (id) => {
 
 
 
-const getRideShareOfferById= async(id)=>{
+const getRideShareOfferById = async (id) => {
 
   const httpResponseObject = new HttpResponseObject();
   console.log("Finding The Ride inside The Function");
@@ -217,12 +217,12 @@ const getRideShareOfferById= async(id)=>{
 }
 
 
-const getAllDisApprovedRideShareOfferids=async (id)=>{
+const getAllDisApprovedRideShareOfferids = async (id) => {
   const httpResponseObject = new HttpResponseObject();
   console.log("Finding The Ride inside The Function");
   //ride
   await axios
-    .get(Urls.GetAllDisApprovedRideShareOfferids+id)
+    .get(Urls.GetAllDisApprovedRideShareOfferids + id)
     .then(function (response) {
       console.log(response);
       console.log("data inside  the Ride Functions");
@@ -256,12 +256,12 @@ const getAllDisApprovedRideShareOfferids=async (id)=>{
 
 
 
-const getAllApprovedRideShareOfferIds=async (id)=>{
+const getAllApprovedRideShareOfferIds = async (id) => {
   const httpResponseObject = new HttpResponseObject();
   console.log("Finding The Ride inside The Function");
   //ride
   await axios
-    .get(Urls.GetAllApprovedRideShareOfferids+id)
+    .get(Urls.GetAllApprovedRideShareOfferids + id)
     .then(function (response) {
       console.log(response);
       console.log("data inside  the Ride Functions");
@@ -359,30 +359,59 @@ const FindRide = async (ride) => {
   return httpResponseObject;
 }
 
-const pathDistance= async(val)=>{
-  const httpResponseObject = new HttpResponseObject();
-  
+const toogleIsAcceptingRideRequest = async (val) => {
+  let isSucessfull= false;
   await axios
-  .post(Urls.GetPathDistance, val)
-  .then(function (response) {
-    console.log(response);
-    console.log("data inside  the Ride Functions");
-    httpResponseObject.responseObject = response.data;
-    console.log(httpResponseObject);
-    console.log("Returning the object");
-  }).catch(function (error) {
-    httpResponseObject.objSubmitted = false;
-    httpResponseObject.haveError=true;
-    console.log("Error is Here");
-    console.log(error.response);
-    try {
-      httpResponseObject.errorMessage = error.response.data.message;
-    }
-    catch {
-      httpResponseObject.errorMessage = null;
-    }
-    // error.response is where we got oir response
-  });
+    .post(Urls.ToogleRideAcceptingRequestStatus, val)
+    .then(function (response) {
+      isSucessfull=true;
+    }).catch(function (error) {
+       isSucessfull=false
+    });
+
+    return isSucessfull;
+ // return true;
+}
+
+const getIsAcceptingRideRequestStatus = async (val) => {
+  const httpResponseObject = new HttpResponseObject();
+  await axios
+    .post(Urls.GetRideAcceptingRequestStatus, val)
+    .then(function (response) {
+      httpResponseObject.responseObject = response.data;
+    }).catch(function (error) {
+      httpResponseObject.haveError = true;
+    });
+  return httpResponseObject;
+}
+
+
+
+
+const pathDistance = async (val) => {
+  const httpResponseObject = new HttpResponseObject();
+
+  await axios
+    .post(Urls.GetPathDistance, val)
+    .then(function (response) {
+      console.log(response);
+      console.log("data inside  the Ride Functions");
+      httpResponseObject.responseObject = response.data;
+      console.log(httpResponseObject);
+      console.log("Returning the object");
+    }).catch(function (error) {
+      httpResponseObject.objSubmitted = false;
+      httpResponseObject.haveError = true;
+      console.log("Error is Here");
+      console.log(error.response);
+      try {
+        httpResponseObject.errorMessage = error.response.data.message;
+      }
+      catch {
+        httpResponseObject.errorMessage = null;
+      }
+      // error.response is where we got oir response
+    });
   return httpResponseObject
 }
 
@@ -400,7 +429,7 @@ const SaveRideShareOffer = async (rideshareOffer) => {
     })
     .catch(function (error) {
       httpResponseObject.objSubmitted = false;
-      httpResponseObject.haveError=true;
+      httpResponseObject.haveError = true;
       console.log("Error is Here");
       console.log(error.response);
       try {
@@ -484,7 +513,7 @@ const PublishRide = async (ride) => {
       httpResponseObject.objSubmitted = false;
       console.log("Error is Here");
       console.log(error.response);
-        httpResponseObject.haveError = !httpResponseObject.objSubmitted;
+      httpResponseObject.haveError = !httpResponseObject.objSubmitted;
       try {
         httpResponseObject.errorMessage = error.response.data.message;
       }
@@ -492,7 +521,7 @@ const PublishRide = async (ride) => {
         httpResponseObject.errorMessage = null;
       }
     });
- 
+
   return httpResponseObject;
 }
 
@@ -522,7 +551,7 @@ const setRideSharerequestForReview = async (ride) => {
 }
 //SetResponseForRideShareOffer
 
-const SetResponseToRideShareOffer=async (ride)=>{
+const SetResponseToRideShareOffer = async (ride) => {
   const httpResponseObject = new HttpResponseObject();
   await axios
     .post(Urls.SetResponseForRideShareOffer, ride)
@@ -588,4 +617,4 @@ const GetRideOverlappingDetails = async (ride) => {
 }
 
 
-export { PublishRide, FindRide, getMyRides, getMyRide, EditRide, AdvanceEditRide, GetRideOverlappingDetails, SaveRideShareOffer, getRideShareOffer, DeleteRideShareOffer, getRideShareOfferStatusText, getAllRideShareOffers, getAllRideShareOfferForUserRide ,setRideSharerequestForReview,SetResponseToRideShareOffer,getRideShareOfferById,getAllApprovedRideShareOfferIds,getAllDisApprovedRideShareOfferids,pathDistance};
+export { PublishRide, FindRide, getMyRides, getMyRide, EditRide, AdvanceEditRide, GetRideOverlappingDetails, SaveRideShareOffer, getRideShareOffer, DeleteRideShareOffer, getRideShareOfferStatusText, getAllRideShareOffers, getAllRideShareOfferForUserRide, setRideSharerequestForReview, SetResponseToRideShareOffer, getRideShareOfferById, getAllApprovedRideShareOfferIds, getAllDisApprovedRideShareOfferids, pathDistance, toogleIsAcceptingRideRequest, getIsAcceptingRideRequestStatus };

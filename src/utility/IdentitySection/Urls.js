@@ -74,6 +74,10 @@ class Urls {
   static GetAllDisApprovedRideShareOfferids="/RideShareOffer/GetAllDisApprovedRideShareOfferids?id="
   static GetPathDistance="/Ride/CalculatePathDistance"
 
+  static GetRideAcceptingRequestStatus="/Ride/GetAcceptingRequestStatus"
+  static ToogleRideAcceptingRequestStatus="/Ride/ToogleIsAcceptingRequest"
+
+
 }
 
 export default Urls;

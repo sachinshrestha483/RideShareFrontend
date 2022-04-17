@@ -19,6 +19,10 @@
     <!-- Ride: {{ ride }} -->
 
     <div class="flex flex-row justify-center w-full" v-if="ride != null">
+      <ToogelRideAcceptingRequestStatus  :rideId="ride.responseObject.id" />
+    </div>
+
+    <div class="flex flex-row justify-center w-full" v-if="ride != null">
       <div class="flex flex-col md:w-6/12 w-10/12">
         <div
           class="
@@ -37,7 +41,7 @@
           <div class="text-2xl mb-4 ml-1">
             <div class="flex justify-between">
               <div>
-                {{initialDateTimeString}}
+                {{ initialDateTimeString }}
                 <!-- {{
                   days[
                     new Date(ride.responseObject.dateTimeOfRide).getDay()
@@ -575,7 +579,6 @@
     <p>Final Position -> {{ finalPosition }}</p>
     <p>Intermediate Positions -> {{ intermediatePoints }}</p>
 
-
     <div v-if="ride != null">
       <div class="flex flex-row-reverse pageMargin1 mb-0 pb-0 mb-1">
         <router-link
@@ -642,6 +645,7 @@ import RideShareOfferForRide from "@/components/Rides/RideShare/RideShareOffersF
 import RidePathMap from "@/components/Map/RidePathMap.vue";
 import UtilityData from "@/utility/UtilityData";
 import * as moment from "moment";
+import ToogelRideAcceptingRequestStatus from "@/components/Rides/Ride/ToogleRideAcceptingRequestStatus";
 
 export default {
   components: {
@@ -651,6 +655,7 @@ export default {
     CotravellerList,
     RideShareOfferForRide,
     RidePathMap,
+    ToogelRideAcceptingRequestStatus,
   },
   setup(props) {
     console.log("Here is The Ride Info Page ");
@@ -669,10 +674,7 @@ export default {
     const isRidePathEditable = ref(true);
     const mapObject = ref(null);
 
-
-  const initialDateTimeString= ref(null)
-
-
+    const initialDateTimeString = ref(null);
 
     const formErrors = ref({
       StartPosition: null,
@@ -932,7 +934,9 @@ export default {
 
     onMounted(async () => {
       await loadData();
-      initialDateTimeString.value= moment(new Date(ride.value.responseObject.dateTimeOfRide)).format('MMMM Do YYYY, h:mm a')
+      initialDateTimeString.value = moment(
+        new Date(ride.value.responseObject.dateTimeOfRide)
+      ).format("MMMM Do YYYY, h:mm a");
       console.log("On Mounted Data" + " -> ");
       // console.log(ride.value.responseObject.)
       console.log("On Mounted Data" + " -> ");
@@ -1156,7 +1160,7 @@ export default {
       mapObject,
       isEditPathShowable,
       reloadPage,
-      initialDateTimeString
+      initialDateTimeString,
     };
   },
 };

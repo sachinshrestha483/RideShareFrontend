@@ -1,7 +1,17 @@
 <template>
+
+Is It Accepting Request 
+
+
   {{ numOfPassengers }}
   <div class="pageMargin1">
-    reverse Geocoded Initial position name
+    <div  v-if="ride.isAcceptingRequest==false && savedRideShareOffer == null">
+      <div class="secondaryText  text-center" >
+        Ride is No Longer Accepting Request
+      </div>
+    </div>
+    <div v-else>
+reverse Geocoded Initial position name
     {{ reverseGeocodedInitialPositionName }} reverse Geocoded Final Positin name
     {{ reverseGeocodedFinalPositionName }}
 
@@ -207,6 +217,12 @@
         />
       </div>
     </div>
+
+    </div>
+
+
+
+    
   </div>
 </template>
 
