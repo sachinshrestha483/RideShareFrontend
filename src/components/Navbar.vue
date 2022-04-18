@@ -347,7 +347,42 @@
             </div>
 
           </router-link>
+   <router-link
+            class="hover:bg-gray-200"
+            v-if="$store.state.user != null"
+            :to="{ name: 'ConformedRideShareRequests' }"
+          >
+            <div class="flex flex-row justify-between mx-4 my-2 items-center">
+              <div class="flex flex-row items-center">
 
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-collection" viewBox="0 0 16 16">
+  <path d="M2.5 3.5a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1h-11zm2-2a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM0 13a1.5 1.5 0 0 0 1.5 1.5h13A1.5 1.5 0 0 0 16 13V6a1.5 1.5 0 0 0-1.5-1.5h-13A1.5 1.5 0 0 0 0 6v7zm1.5.5A.5.5 0 0 1 1 13V6a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-.5.5h-13z"/>
+</svg>
+             
+                <p class="text-md font-bold m-2 text-xl text-gray-500">
+                 Confirmed Rides
+                </p>
+              </div>
+
+              <div>
+
+                
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  class="bi bi-arrow-right m-2 text-gray-500"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"
+                  />
+                </svg>
+              </div>
+            </div>
+          </router-link>
 
 
             <router-link
@@ -386,6 +421,8 @@
               </div>
             </div>
           </router-link>
+
+    
 
 
 

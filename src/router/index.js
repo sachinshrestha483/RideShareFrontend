@@ -28,6 +28,7 @@ import RideShareRequests from "@/views/Rides/RideShareRequests.vue"
 import RideShareOffers from "@/views/Rides/RideShareOffers.vue"
 import TestPage from "@/views/TestPage.vue"
 import EditPath from "@/views/Rides/EditPath"
+import ConformedRideShareRequests from "@/views/Rides/ConformedRides.vue"
 
 
 const requireAuth =(to,from,next)=>{
@@ -196,8 +197,13 @@ const routes = [
     name:"EditPath",
     props: true,
     component:EditPath,
-  }
-
+  },
+  {
+    path:"/ConformedRideShareRequests",
+    name:"ConformedRideShareRequests",
+    props: true,
+    component:ConformedRideShareRequests,
+  },
 
 
 ] 

@@ -2,7 +2,7 @@
   <div class="pageMargin1">
     <div class="flex flex-col">
       <div class="text-center secondaryText mb-2 gap-4">
-        Ride Sharing Requests
+        Confirmed Ride Requests
       </div>
       <div>
         {{ currentIndex }}
@@ -254,7 +254,7 @@ export default {
 
     const getData = async () => {
       const response = await getAllRideShareOffers();
-      list.value = response.responseObject;
+      list.value = response.responseObject.filter(e=>e.rideShareOfferStatus == 1);
     };
 
     onMounted(async () => {

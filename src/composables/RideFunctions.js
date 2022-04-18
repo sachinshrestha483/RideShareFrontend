@@ -579,6 +579,34 @@ const SetResponseToRideShareOffer = async (ride) => {
 
 
 
+const AcceptPayment = async (paymentObject) => {
+  const httpResponseObject = new HttpResponseObject();
+  await axios
+    .post(Urls.AcceptPayment,paymentObject)
+    .then(function (response) {
+      console.log(response);
+      console.log("data");
+    })
+    .catch(function (error) {
+      httpResponseObject.haveError = true;
+      httpResponseObject.objSubmitted = false;
+      console.log("Error is Here");
+      console.log(error.response);
+      try {
+        httpResponseObject.errorMessage = error.response.data.message;
+      }
+      catch {
+        httpResponseObject.errorMessage = null;
+      }
+    });
+
+  return httpResponseObject;
+}
+
+
+
+
+
 
 
 
@@ -617,4 +645,4 @@ const GetRideOverlappingDetails = async (ride) => {
 }
 
 
-export { PublishRide, FindRide, getMyRides, getMyRide, EditRide, AdvanceEditRide, GetRideOverlappingDetails, SaveRideShareOffer, getRideShareOffer, DeleteRideShareOffer, getRideShareOfferStatusText, getAllRideShareOffers, getAllRideShareOfferForUserRide, setRideSharerequestForReview, SetResponseToRideShareOffer, getRideShareOfferById, getAllApprovedRideShareOfferIds, getAllDisApprovedRideShareOfferids, pathDistance, toogleIsAcceptingRideRequest, getIsAcceptingRideRequestStatus };
+export { PublishRide, FindRide, getMyRides, getMyRide, EditRide, AdvanceEditRide, GetRideOverlappingDetails, SaveRideShareOffer, getRideShareOffer, DeleteRideShareOffer, getRideShareOfferStatusText, getAllRideShareOffers, getAllRideShareOfferForUserRide, setRideSharerequestForReview, SetResponseToRideShareOffer, getRideShareOfferById, getAllApprovedRideShareOfferIds, getAllDisApprovedRideShareOfferids, pathDistance, toogleIsAcceptingRideRequest, getIsAcceptingRideRequestStatus,AcceptPayment };

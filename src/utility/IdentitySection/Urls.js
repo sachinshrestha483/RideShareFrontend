@@ -76,6 +76,7 @@ class Urls {
 
   static GetRideAcceptingRequestStatus="/Ride/GetAcceptingRequestStatus"
   static ToogleRideAcceptingRequestStatus="/Ride/ToogleIsAcceptingRequest"
+  static AcceptPayment= "/RideShareOffer/AcceptPayment"
 
 
 }

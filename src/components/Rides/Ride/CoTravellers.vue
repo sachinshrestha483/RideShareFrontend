@@ -30,6 +30,7 @@
               class="text-red-500"
               viewBox="0 0 20 20"
               fill="currentColor"
+              v-if="!rideShareOffer.isPaymentDone"
             >
               <path
                 fill-rule="evenodd"
@@ -101,6 +102,14 @@
               <!-- {{mapObject}} -->
             </div>
           </div>
+                <div class="flex flex-row justify-center items-center gap-4">
+        <div>
+          <!-- savedRideShareOffer.id {{ savedRideShareOffer.id }} -->
+          <!-- Data for Ride Share Payment Box -->
+          <RideSharePaymentBox :rideShareOfferId="rideShareOffer.id" :price="rideShareOffer.price"   :reloadComponentsFun="()=>{    }"  class="my-0 py-0"   />
+        </div>
+      </div>
+
 
           <div class="flex flex-row">
             <div
@@ -140,9 +149,10 @@ import Identity from "@/composables/Identity";
 import { getRideShareOfferById,SetResponseToRideShareOffer } from "@/composables/RideFunctions";
 import RideSharingRequestMap from "@/components/Rides/Ride/RideSharingRequestMap.vue";
 import { successAlert, errorAlert } from "@/composables/Notifications.js";
+import RideSharePaymentBox from "@/components/Rides/RideShare/RideSharePaymentBox";
 
 export default {
-  components: { RideSharingRequestMap },
+  components: { RideSharingRequestMap,RideSharePaymentBox },
   props: ["RideShareOfferId", "reRender"],
   setup(props) {
     const user = ref(null);

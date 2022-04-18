@@ -1,228 +1,249 @@
 <template>
-
-Is It Accepting Request 
-
+  Is It Accepting Request
 
   {{ numOfPassengers }}
   <div class="pageMargin1">
-    <div  v-if="ride.isAcceptingRequest==false && savedRideShareOffer == null">
-      <div class="secondaryText  text-center" >
+    <div v-if="ride.isAcceptingRequest == false && savedRideShareOffer == null">
+      <div class="secondaryText text-center">
         Ride is No Longer Accepting Request
       </div>
     </div>
     <div v-else>
-reverse Geocoded Initial position name
-    {{ reverseGeocodedInitialPositionName }} reverse Geocoded Final Positin name
-    {{ reverseGeocodedFinalPositionName }}
+      reverse Geocoded Initial position name
+      {{ reverseGeocodedInitialPositionName }} reverse Geocoded Final Positin
+      name
+      {{ reverseGeocodedFinalPositionName }}
 
-    <!-- {{savedRideShareOffer}}  -->
-    <div class="flex flex-row justify-center items-center gap-4">
-      <div class="text-center secondaryText mb-2">
-        {{ savedRideShareOffer == null ? "Create" : "Edit" }} Ride Sharing
-        Request
-      </div>
-      <div
-        v-if="savedRideShareOffer != null"
-        class="
-          select-none
-          font-medium
-          bg-blue-500
-          p-2
-          text-white
-          hover:bg-blue-600
-          rounded-lg
-          bold
-        "
-      >
-        Status : {{ rideShareOfferStatusText }}
-      </div>
-      <svg
-        v-if="savedRideShareOffer != null"
-        v-on:click="deleteRideShareOffer"
-        xmlns="http://www.w3.org/2000/svg"
-        width="16"
-        height="16"
-        fill="currentColor"
-        class="bi bi-trash-fill text-red-500"
-        viewBox="0 0 16 16"
-      >
-        <path
-          d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"
-        />
-      </svg>
-    </div>
-
-    <div class="flex flex-row justify-center gap-8">
-      <div class="flex flex-col">
-        <label class="text-md text-gray-600 text-center text-center font-bold"
-          >Offered inital Location Name</label
-        >
-        <input
-          type="text"
-          class="inputBox mb-0 mt-1"
-          style="text-align: center"
-          v-model="reverseGeocodedInitialPositionName"
-        />
-        <span class="text-sm text-red-500 mr-2 font-medium">{{
-          formErrors.reverseGeocodedInitialPositionName
-        }}</span>
-
-        <label
+      <!-- {{savedRideShareOffer}}  -->
+      <div class="flex flex-row justify-center items-center gap-4">
+        <div class="text-center secondaryText mb-2">
+          {{ savedRideShareOffer == null ? "Create" : "Edit" }} Ride Sharing
+          Request
+        </div>
+        <div
+          v-if="savedRideShareOffer != null"
           class="
-            text-md text-gray-600
-            mb-1
-            text-center text-center
-            font-bold
-            mt-4
+            select-none
+            font-medium
+            bg-blue-500
+            p-2
+            text-white
+            hover:bg-blue-600
+            rounded-lg
+            bold
           "
-          >Offered Final Location Name</label
         >
-        <input
-          type="text"
-          class="inputBox mb-0 mt-0"
-          style="text-align: center"
-          v-model="reverseGeocodedFinalPositionName"
-        />
-        <span class="text-sm text-red-500 mr-2 font-medium">{{
-          formErrors.reverseGeocodedFinalPositionName
-        }}</span>
-
-        <label
-          class="
-            text-md text-gray-600
-            mb-0
-            text-center text-center
-            font-bold
-            mt-4
-          "
-          >Number of Passengers</label
+          Status : {{ rideShareOfferStatusText }}
+        </div>
+        <svg
+          v-if="savedRideShareOffer != null && savedRideShareOffer.isPaymentDone==false "
+          v-on:click="deleteRideShareOffer"
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          fill="currentColor"
+          class="bi bi-trash-fill text-red-500"
+          viewBox="0 0 16 16"
         >
+          <path
+            d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"
+          />
+        </svg>
+      </div>
 
-        <div class="flex flex-row items-center px-5 mt-0 pt-0">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-14 text-blue-500 w-14 hover:text-blue-600 mt-0"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            v-if="savedRideShareOffer==null ||  (savedRideShareOffer!=null && savedRideShareOffer.rideShareOfferStatus!=1)"
-            v-on:click="increaseNumberofPassenger"
+      <div class="flex flex-row justify-center items-center gap-4">
+        <div v-if="savedRideShareOffer != null">
+          <!-- savedRideShareOffer.id {{ savedRideShareOffer.id }} -->
+          <RideSharePaymentBox :rideShareOfferId="savedRideShareOffer.id" :price="price"   :reloadComponentsFun="()=>{   getSavedRideSharingRequestInfo();  }"  />
+        </div>
+      </div>
+      
+
+      <div class="flex flex-row justify-center gap-8">
+        <div class="flex flex-col">
+          <label class="text-md text-gray-600 text-center text-center font-bold"
+            >Offered inital Location Name</label
           >
-            <path
-              fill-rule="evenodd"
-              d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z"
-              clip-rule="evenodd"
-            />
-          </svg>
+          <input
+            type="text"
+            class="inputBox mb-0 mt-1"
+            style="text-align: center"
+            v-model="reverseGeocodedInitialPositionName"
+          />
+          <span class="text-sm text-red-500 mr-2 font-medium">{{
+            formErrors.reverseGeocodedInitialPositionName
+          }}</span>
 
-          <div class="flex flex-col mt-0">
-            <input
-              type="number"
-              class="inputBox"
-              style="text-align: center"
-              v-model="numberOfPassengers"
-              disabled
-            />
-            <span class="text-sm text-red-500 mr-2 font-medium">{{
-              formErrors.numberOfPassengers
-            }}</span>
+          <label
+            class="
+              text-md text-gray-600
+              mb-1
+              text-center text-center
+              font-bold
+              mt-4
+            "
+            >Offered Final Location Name</label
+          >
+          <input
+            type="text"
+            class="inputBox mb-0 mt-0"
+            style="text-align: center"
+            v-model="reverseGeocodedFinalPositionName"
+          />
+          <span class="text-sm text-red-500 mr-2 font-medium">{{
+            formErrors.reverseGeocodedFinalPositionName
+          }}</span>
+
+          <label
+            class="
+              text-md text-gray-600
+              mb-0
+              text-center text-center
+              font-bold
+              mt-4
+            "
+            >Number of Passengers</label
+          >
+
+          <div class="flex flex-row items-center px-5 mt-0 pt-0">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-14 text-blue-500 w-14 hover:text-blue-600 mt-0"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              v-if="
+                savedRideShareOffer == null ||
+                (savedRideShareOffer != null &&
+                  savedRideShareOffer.rideShareOfferStatus != 1)
+              "
+              v-on:click="increaseNumberofPassenger"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z"
+                clip-rule="evenodd"
+              />
+            </svg>
+
+            <div class="flex flex-col mt-0">
+              <input
+                type="number"
+                class="inputBox"
+                style="text-align: center"
+                v-model="numberOfPassengers"
+                disabled
+              />
+              <span class="text-sm text-red-500 mr-2 font-medium">{{
+                formErrors.numberOfPassengers
+              }}</span>
+            </div>
+
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-14 w-14 text-blue-500 hover:text-blue-600 mt-0"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              v-if="
+                savedRideShareOffer == null ||
+                (savedRideShareOffer != null &&
+                  savedRideShareOffer.rideShareOfferStatus != 1)
+              "
+              v-on:click="decreaseNumberofPassenger"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 000 2h6a1 1 0 100-2H7z"
+                clip-rule="evenodd"
+              />
+            </svg>
           </div>
-
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-14 w-14 text-blue-500 hover:text-blue-600 mt-0"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            v-if="savedRideShareOffer==null ||  (savedRideShareOffer!=null && savedRideShareOffer.rideShareOfferStatus!=1)"
-            v-on:click="decreaseNumberofPassenger"
+          <label
+            class="
+              text-md text-gray-600
+              mb-1
+              text-center text-center
+              font-bold
+              mt-0
+            "
+            >Price</label
           >
-            <path
-              fill-rule="evenodd"
-              d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 000 2h6a1 1 0 100-2H7z"
-              clip-rule="evenodd"
-            />
-          </svg>
-        </div>
-        <label
-          class="
-            text-md text-gray-600
-            mb-1
-            text-center text-center
-            font-bold
-            mt-0
-          "
-          >Price</label
-        >
-        <input
-          type="number"
-          class="inputBox mb-0 mt-0"
-          style="text-align: center"
-          v-model="price"
-            v-if="savedRideShareOffer==null ||  (savedRideShareOffer!=null && savedRideShareOffer.rideShareOfferStatus!=1)"
-        />
-                <input
-          type="number"
-          class="inputBox mb-0 mt-0"
-          style="text-align: center"
-          v-model="price"
-          disabled
-          v-else
-        />
-        <span class="text-sm text-red-500 mr-2 font-medium">{{
-          formErrors.price
-        }}</span>
-
-        <label class="text-md text-gray-600 mb-1 mt-4 text-center font-bold"
-          >Notes</label
-        >
-
-        <textarea
-          type="text"
-          class="inputBox mt-0"
-          style="text-align: center"
-          v-model="notes"
-        />
-        <div class="flex flex-row justify-center">
-          <button
-            class="primaryButton"
-            v-if="enableFormSubmitButton"
-            v-on:click="createRideShareOffer"
-          >
-            {{ savedRideShareOffer == null ? "Create" : "Edit" }} Ride Sharing
-            Request
-          </button>
-          <button
-            class="primaryDisabledButton"
+          <input
+            type="number"
+            class="inputBox mb-0 mt-0"
+            style="text-align: center"
+            v-model="price"
+            v-if="
+              savedRideShareOffer == null ||
+              (savedRideShareOffer != null &&
+                savedRideShareOffer.rideShareOfferStatus != 1)
+            "
+          />
+          <input
+            type="number"
+            class="inputBox mb-0 mt-0"
+            style="text-align: center"
+            v-model="price"
+            disabled
             v-else
-            v-on:click="createRideShareOffer"
+          />
+          <span class="text-sm text-red-500 mr-2 font-medium">{{
+            formErrors.price
+          }}</span>
+
+          <label class="text-md text-gray-600 mb-1 mt-4 text-center font-bold"
+            >Notes</label
           >
-            {{ savedRideShareOffer == null ? "Create" : "Edit" }} Ride Sharing
-            Request
-          </button>
+
+          <textarea
+            type="text"
+            class="inputBox mt-0"
+            style="text-align: center"
+            v-model="notes"
+          />
+          <!-- <div class="flex flex-row justify-center" v-if="savedRideShareOffer!=null && savedRideShareOffer.rideShareOfferStatus==1">
+          
+          </div> -->
+
+
+          <div class="flex flex-row justify-center"  >
+
+            <button
+              class="primaryButton"
+              v-if="enableFormSubmitButton "
+              v-on:click="createRideShareOffer"
+            >
+              {{ savedRideShareOffer == null ? "Create" : "Edit" }} Ride Sharing
+              Request
+            </button>
+            <button
+              class="primaryDisabledButton"
+              disabled
+              v-else
+              v-on:click="createRideShareOffer"
+            >
+              {{ savedRideShareOffer == null ? "Create" : "Edit" }} Ride Sharing
+              Request
+            </button>
+          </div>
+        </div>
+        <div class="flex flex-col w-full p-4" v-if="mapObject != null">
+          <RideSharingRequestMap
+            v-if="mapObject != null"
+            :searchedStartLocation="mapObject.searchedStartLocation"
+            :searchedEndLocation="mapObject.searchedEndLocation"
+            :startLocation="mapObject.startLocation"
+            :endLocation="mapObject.endLocation"
+            :path="ride.path"
+            :overlappingPath="mapObject.overlappingPath"
+            :intermediatePoints="ride.intermediatePositions"
+            :distanceFromOfferedInitialPoint="distanceFromInitialPosition"
+            :distanceFromOfferedFinalPoint="distanceFromFinalPosition"
+            :overlappingStartIndex="0"
+            :overlappingEndIndex="0"
+          />
         </div>
       </div>
-      <div class="flex flex-col w-full p-4" v-if="mapObject != null">
-        <RideSharingRequestMap
-          v-if="mapObject != null"
-          :searchedStartLocation="mapObject.searchedStartLocation"
-          :searchedEndLocation="mapObject.searchedEndLocation"
-          :startLocation="mapObject.startLocation"
-          :endLocation="mapObject.endLocation"
-          :path="ride.path"
-          :overlappingPath="mapObject.overlappingPath"
-          :intermediatePoints="ride.intermediatePositions"
-          :distanceFromOfferedInitialPoint="distanceFromInitialPosition"
-          :distanceFromOfferedFinalPoint="distanceFromFinalPosition"
-          :overlappingStartIndex="0"
-          :overlappingEndIndex="0"
-        />
-      </div>
     </div>
-
-    </div>
-
-
-
-    
   </div>
 </template>
 
@@ -238,9 +259,11 @@ import Store from "@/store/index";
 import GeoCordinatesFunction from "@/composables/GeoCordinatesFunctions.js";
 import RideSharingRequestMap from "@/components/Rides/Ride/RideSharingRequestMap.vue";
 import { successAlert, errorAlert } from "@/composables/Notifications.js";
-import UtilityData from "@/utility/UtilityData" 
+import UtilityData from "@/utility/UtilityData";
 import { pathDistance } from "@/composables/RideFunctions.js";
 import UtilityFunctions from "@/utility/UtilityFunctions.js";
+import RideSharePaymentBox from "@/components/Rides/RideShare/RideSharePaymentBox";
+import Swal from "sweetalert2";
 
 export default {
   props: [
@@ -259,6 +282,9 @@ export default {
     "distanceFromFinalPosition",
     "overLappingPath",
   ],
+  components:{
+    RideSharePaymentBox
+  },
 
   setup(props) {
     const { reverseGeoCode } = GeoCordinatesFunction();
@@ -374,17 +400,17 @@ export default {
             savedRideShareOffer.value.overlappingPath
           ),
         };
-      }
-      else{
+      } else {
         // const {pricePerKm}=   UtilityData;
-        let response= await pathDistance( { "Path": JSON.stringify( props.overLappingPath)});
-        let distance=  response.responseObject.distance;
-        let assumedPriceofOverlappingTrip= UtilityData.pricePerKm* Math.round( GetDistanceinKmfromMeter(Math.round(distance)))
-        price.value= Math.round(assumedPriceofOverlappingTrip); 
+        let response = await pathDistance({
+          Path: JSON.stringify(props.overLappingPath),
+        });
+        let distance = response.responseObject.distance;
+        let assumedPriceofOverlappingTrip =
+          UtilityData.pricePerKm *
+          Math.round(GetDistanceinKmfromMeter(Math.round(distance)));
+        price.value = Math.round(assumedPriceofOverlappingTrip);
       }
-
-
-
     });
 
     const increaseNumberofPassenger = () => {
@@ -407,13 +433,10 @@ export default {
       console.log("Deleting Ride Share Offer");
       var response = await DeleteRideShareOffer(savedRideShareOffer.value.id);
 
-      if(response.haveError)
-      {
-        errorAlert("Error in Deleting Ride Share offer")
-      }
-      else
-      {
-         successAlert("Deleted Successfullly")
+      if (response.haveError) {
+        errorAlert("Error in Deleting Ride Share offer");
+      } else {
+        successAlert("Deleted Successfullly");
       }
 
       props.reRender();
@@ -545,6 +568,8 @@ export default {
       rideShareOfferStatusText,
       formErrors,
       enableFormSubmitButton,
+      getSavedRideSharingRequestInfo
+
     };
   },
 };
